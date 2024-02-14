@@ -9,7 +9,7 @@ file(GLOB_RECURSE HEADERS_FILES
 
 )
 file(GLOB_RECURSE SOURCES_FILES
-        ${PROJECT_SOURCE_DIR}/src/*.c
+        ${CMAKE_SOURCE_DIR}/src/*.c
         ${PROJECT_SOURCE_DIR}/src/*.cpp
 )
 include_directories( ${CMAKE_SOURCE_DIR}/headers)
