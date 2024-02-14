@@ -6,8 +6,8 @@
 #define COLLECTIONS_COMMONS_RANDOMIZED_SET_TEST_H
 
 
-#include "randomized_set.h"
 #include <gtest/gtest.h>
+#include "randomized_set.h"
 
 class RandomizedSetTest : public ::testing::Test {
 protected:

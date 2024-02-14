@@ -6,6 +6,7 @@
 #define COLLECTIONS_UTILS_RANDOMIZED_SET_H
 
 #include <malloc.h>
+#include <stdbool.h>
 
 typedef struct {
     int* nums; // tableau pour stocker les valeurs du set
