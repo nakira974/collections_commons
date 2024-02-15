@@ -10,10 +10,10 @@
 
 typedef struct {
     int* nums; // tableau pour stocker les valeurs du set
-    int* locs; // tableau pour stocker les emplacements des valeurs dans le tableau nums
-    int size; // taille actuelle du set
-    int capacity; // capacité du tableau nums
+    int numsSize; // taille actuelle du set
+    int capacity;// capacité du tableau nums
 } RandomizedSet;
+
 
 // Crée et retourne une nouvelle instance de RandomizedSet
 RandomizedSet* randomizedSetCreate();

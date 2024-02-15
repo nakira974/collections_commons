@@ -5,52 +5,48 @@
 
 #include "randomized_set.h"
 
+
 RandomizedSet* randomizedSetCreate() {
-    RandomizedSet* set = malloc(sizeof(RandomizedSet));
-    set->nums = malloc(10000 * sizeof(int));
-    set->locs = malloc(10000 * sizeof(int));
-    set->size = 0;
-    set->capacity = 10000;
+    RandomizedSet* set = (RandomizedSet*)malloc(sizeof(RandomizedSet));
+    set->nums = (int*)malloc(1000 * sizeof(int));
+    set->numsSize = 0;
+    set->capacity = 1000;
     return set;
 }
 
 bool randomizedSetInsert(RandomizedSet* obj, int val) {
-    for (int i = 0; i < obj->size; i++) {
+    for (int i = 0; i < obj->numsSize; i++) {
         if (obj->nums[i] == val) {
             return false;
         }
     }
 
-    if (obj->size >= obj->capacity) {
+    if (obj->numsSize == obj->capacity) {
+        obj->nums = (int*)realloc(obj->nums, (2 * obj->capacity) * sizeof(int));
         obj->capacity *= 2;
-        obj->nums = realloc(obj->nums, obj->capacity * sizeof(int));
-        obj->locs = realloc(obj->locs, obj->capacity * sizeof(int));
     }
 
-    obj->nums[obj->size] = val;
-    obj->locs[val] = obj->size;
-    obj->size++;
+    obj->nums[obj->numsSize++] = val;
     return true;
 }
 
 bool randomizedSetRemove(RandomizedSet* obj, int val) {
-    if (val < obj->size && obj->nums[val] != -1) {
-        obj->nums[val] = -1;
-        return true;
+    for (int i = 0; i < obj->numsSize; i++) {
+        if (obj->nums[i] == val) {
+            obj->nums[i] = obj->nums[obj->numsSize - 1];
+            obj->numsSize--;
+            return true;
+        }
     }
     return false;
 }
 
 int randomizedSetGetRandom(RandomizedSet* obj) {
-    int index = rand() % obj->size;
-    while (obj->nums[index] == -1) {
-        index = rand() % obj->size;
-    }
-    return obj->nums[index];
+    int randomIndex = rand() % obj->numsSize;
+    return obj->nums[randomIndex];
 }
 
 void randomizedSetFree(RandomizedSet* obj) {
     free(obj->nums);
-    free(obj->locs);
     free(obj);
 }
