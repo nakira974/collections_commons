@@ -1,3 +1,5 @@
 /cmake-build-debug
 /cmake-build-release
 /bin
+/thrid-party/
+/mingw32_x86_build/

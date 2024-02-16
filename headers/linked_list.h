@@ -1,6 +1,8 @@
 //
 // Created by maxim on 13/02/2024.
 //
+// Implémentation d'une structure de données "LinkedList"
+//
 
 #ifndef DEEP_FIRST_SEARCH_LINKED_LIST_H
 #define DEEP_FIRST_SEARCH_LINKED_LIST_H
