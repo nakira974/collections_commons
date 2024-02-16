@@ -1,6 +1,8 @@
 //
 // Created by maxim on 14/02/2024.
 //
+// Implémentation d'une structure de données "RandomizedSet" permettant d'insérer, supprimer et obtenir un élément aléatoire en O(1).
+//
 
 #ifndef COLLECTIONS_UTILS_RANDOMIZED_SET_H
 #define COLLECTIONS_UTILS_RANDOMIZED_SET_H
@@ -8,6 +10,7 @@
 #include <malloc.h>
 #include <stdbool.h>
 
+// Structure d'un set de données randomisé
 typedef struct {
     int* nums; // tableau pour stocker les valeurs du set
     int numsSize; // taille actuelle du set

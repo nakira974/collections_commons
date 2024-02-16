@@ -1,6 +1,8 @@
 //
 // Created by maxim on 16/02/2024.
 //
+// Implémentation d'une structure de données "TreeNode"
+//
 
 #ifndef COLLECTIONS_COMMONS_BINARY_TREE_NODE_H
 #define COLLECTIONS_COMMONS_BINARY_TREE_NODE_H
