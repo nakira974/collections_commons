@@ -3,9 +3,9 @@
 //
 #include "binary_tree.h"
 
+// Fonction pour obtenir le niveau de l'arbre binaire de manière ordonnée
 int** levelOrder(struct TreeNode* root, int* returnSize,
                  int** returnColumnSizes) {
-
     if (root == NULL) {
         *returnSize = 0;
         return NULL;
@@ -15,42 +15,45 @@ int** levelOrder(struct TreeNode* root, int* returnSize,
     enqueue(queue, root);
 
     // Initialisation des tableaux de résultats
-    int maxLevelNodes = 1024; // Soit Node.val <= 1024
+    int maxLevelNodes = 1000; // Soit  -1000 <= Node.val <= 1000
     int** result = (int**)malloc(maxLevelNodes * sizeof(int*));
     *returnColumnSizes = (int*)malloc(maxLevelNodes * sizeof(int));
 
     int levelIndex = 0;
 
+    // On instancie une autre file pour stocker les noeuds du prochain niveau
+    struct Queue* nextQueue = createQueue();
+
     // Tant qu'il y a des éléments dans la file
     while (queue->front != NULL) {
-        int currentLevelSize = queue->rear - queue->front + 1;
+        int* currentLevel =
+                (int*)malloc(1000 * sizeof(int)); // taille arbitraire
+        int count = 0; // Compteur des nœuds dans chaque niveau
 
-        // Mémoriser la taille du niveau actuel
-        (*returnColumnSizes)[levelIndex] = currentLevelSize;
+        // On compte le niveau actuel jusqu'à ce que la file soit vide
+        while (queue->front != NULL) {
+            struct TreeNode* currNode = dequeue(queue);
+            currentLevel[count++] = currNode->val;
 
-        // Créer un tableau pour stocker les nœuds du niveau actuel
-        int* currentLevelNodes = (int*)malloc(currentLevelSize * sizeof(int));
-
-        // Parcourir les nœuds du niveau actuel et les ajouter au tableau
-        for (int i = 0; i < currentLevelSize; i++) {
-            struct TreeNode* currentNode = dequeue(queue);
-            currentLevelNodes[i] = currentNode->val;
-
-            // Ajouter les enfants du nœud courant à la file du niveau suivant
-            if (currentNode->left != NULL) {
-                enqueue(queue, currentNode->left);
-            }
-
-            if (currentNode->right != NULL) {
-                enqueue(queue, currentNode->right);
-            }
+            // On ajoute les enfants du prochain niveau
+            if (currNode->left != NULL)
+                enqueue(nextQueue, currNode->left);
+            if (currNode->right != NULL)
+                enqueue(nextQueue, currNode->right);
         }
 
-        // Ajouter le tableau des nœuds du niveau actuel dans le résultat
-        result[levelIndex] = currentLevelNodes;
+        // On ajuste la taille du tableau du niveau actuel avant de l'ajouter au résultat
+        currentLevel = (int*)realloc(currentLevel, count * sizeof(int));
+        result[levelIndex] = currentLevel;
+        (*returnColumnSizes)[levelIndex++] = count;
 
-        levelIndex++;
+        // On passe au prochain niveau
+        free(queue);
+        queue = nextQueue;
+        nextQueue = createQueue();
     }
+
+    free(nextQueue);
 
     *returnSize = levelIndex;
 
