@@ -15,7 +15,7 @@ int** levelOrder(struct TreeNode* root, int* returnSize,
     enqueue(queue, root);
 
     // Initialisation des tableaux de résultats
-    int maxLevelNodes = 1000; // Soit Node.val <= 1000
+    int maxLevelNodes = 1024; // Soit Node.val <= 1024
     int** result = (int**)malloc(maxLevelNodes * sizeof(int*));
     *returnColumnSizes = (int*)malloc(maxLevelNodes * sizeof(int));
 
