@@ -3,20 +3,20 @@
 //
 #include "binary_tree.h"
 
-int** levelOrder(struct TreeNode* root, int* returnSize,
-                 int** returnColumnSizes) {
+int **levelOrder(struct TreeNode *root, int *returnSize,
+                 int **returnColumnSizes) {
     if (root == NULL) {
         *returnSize = 0;
         return NULL;
     }
 
-    struct Queue* queue = createQueue();
+    struct Queue *queue = createQueue();
     enqueue(queue, root);
 
     // Initialisation des tableaux de résultats
     int maxLevelNodes = 1000; // Soit Node.val <= 1000
-    int** result = (int**)malloc(maxLevelNodes * sizeof(int*));
-    *returnColumnSizes = (int*)malloc(maxLevelNodes * sizeof(int));
+    int **result = (int **) malloc(maxLevelNodes * sizeof(int *));
+    *returnColumnSizes = (int *) malloc(maxLevelNodes * sizeof(int));
 
     int levelIndex = 0;
 
@@ -28,11 +28,11 @@ int** levelOrder(struct TreeNode* root, int* returnSize,
         (*returnColumnSizes)[levelIndex] = currentLevelSize;
 
         // Créer un tableau pour stocker les nœuds du niveau actuel
-        int* currentLevelNodes = (int*)malloc(currentLevelSize * sizeof(int));
+        int *currentLevelNodes = (int *) malloc(currentLevelSize * sizeof(int));
 
         // Parcourir les nœuds du niveau actuel et les ajouter au tableau
         for (int i = 0; i < currentLevelSize; i++) {
-            struct TreeNode* currentNode = dequeue(queue);
+            struct TreeNode *currentNode = dequeue(queue);
             currentLevelNodes[i] = currentNode->val;
 
             // Ajouter les enfants du nœud courant à la file du niveau suivant

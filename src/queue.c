@@ -3,16 +3,16 @@
 //
 #include "queue.h"
 
-struct Queue* createQueue() {
-    struct Queue* queue = (struct Queue*)malloc(sizeof(struct Queue));
+struct Queue *createQueue() {
+    struct Queue *queue = (struct Queue *) malloc(sizeof(struct Queue));
     queue->front = NULL;
     queue->rear = NULL;
     return queue;
 }
 
-void enqueue(struct Queue* queue, struct TreeNode* node) {
-    struct QueueNode* newNode =
-            (struct QueueNode*)malloc(sizeof(struct QueueNode));
+void enqueue(struct Queue *queue, struct TreeNode *node) {
+    struct QueueNode *newNode =
+            (struct QueueNode *) malloc(sizeof(struct QueueNode));
     newNode->node = node;
     newNode->next = NULL;
 
@@ -25,13 +25,13 @@ void enqueue(struct Queue* queue, struct TreeNode* node) {
     }
 }
 
-struct TreeNode* dequeue(struct Queue* queue) {
+struct TreeNode *dequeue(struct Queue *queue) {
     if (queue->front == NULL) {
         return NULL;
     }
 
-    struct TreeNode* node = queue->front->node;
-    struct QueueNode* temp = queue->front;
+    struct TreeNode *node = queue->front->node;
+    struct QueueNode *temp = queue->front;
 
     queue->front = queue->front->next;
     if (queue->front == NULL) {
