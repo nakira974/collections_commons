@@ -3,7 +3,7 @@
 //
 #include "binary_tree_node.h"
 
-struct TreeNode* newNode(int val) {
+struct TreeNode* create_tree_node(int val) {
     struct TreeNode* node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
     node->val = val;
     node->left = NULL;

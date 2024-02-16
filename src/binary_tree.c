@@ -5,6 +5,7 @@
 
 int** levelOrder(struct TreeNode* root, int* returnSize,
                  int** returnColumnSizes) {
+
     if (root == NULL) {
         *returnSize = 0;
         return NULL;

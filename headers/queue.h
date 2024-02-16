@@ -19,7 +19,8 @@ struct QueueNode {
     struct TreeNode* node; // Valeur courante
     struct QueueNode* next; // Prochain élement
 };
-// Fonction pour créer une nouvelle file vide
+
+// Fonction qui crée une queue vide et renvoie un pointeur vers cette queue
 struct Queue* createQueue();
 
 // Fonction pour ajouter un nœud à la file

@@ -5,15 +5,19 @@
 #include "../headers/linked_list.h"
 
 Node* find_next_to(Node* current, int x) {
+    // Tant qu'on peut défiler
     while (current !=  NULL) {
+        // x est égal à noeud de même valeur le plus proche
         if (current->value == x) {
+            // renvoyer le noeud en question
             return current;
         }
+        // continuer à faire défiler la liste
         current = current->next;
     }
-    return NULL; // Si aucun nœud avec la valeur x n'est trouvé
+    // Si aucun nœud avec la valeur x n'est trouvé
+    return NULL;
 }
-
 
 Node* create_node(int value) {
     Node* newNode = (Node*)malloc(sizeof(Node));
@@ -28,37 +32,39 @@ bool has_next(Node* current) {
 
 void push(Node** head, int value) {
     Node* newNode = create_node(value);
-
     if (*head == NULL) {
+        // Si la liste est vide, le nouveau noeud devient la tête
         *head = newNode;
     } else {
         Node* current = *head;
+        // Trouver le dernier noeud de la liste
         while (has_next(current)) {
             current = current->next;
         }
+        // Ajouter le nouveau noeud à la fin de la liste
         current->next = newNode;
     }
 }
 
 void push_next(Node** head, Node** next){
     if (*head == NULL) {
+        // Si la liste est vide, le nouveau noeud devient la tête
         *head = *next;
     } else {
         Node* current = *head;
+        // Trouver le dernier noeud de la liste
         while (has_next(current)) {
             current = current->next;
         }
+        // Ajouter le nouveau noeud à la fin de la liste
         current->next = *next;
     }
 }
-
 
 Node* set_link(Node* parent, Node* child) {
     parent->next = child;
     return parent;
 }
-
-
 
 int remove_by_index(Node ** head, int n) {
     int i = 0;
@@ -67,9 +73,11 @@ int remove_by_index(Node ** head, int n) {
     Node * temp_node = NULL;
 
     if (n == 0) {
+        // Utilisation de la fonction pop pour supprimer la tête de liste
         return pop(head);
     }
 
+    // Parcourir les noeuds jusqu'à l'index n-1
     for (i = 0; i < n-1; i++) {
         if (current->next == NULL) {
             return -1;
@@ -83,11 +91,11 @@ int remove_by_index(Node ** head, int n) {
 
     temp_node = current->next;
     retval = temp_node->value;
+    // Saute le noeud à l'index n en réassignant les liens
     current->next = temp_node->next;
     free(temp_node);
 
     return retval;
-
 }
 
 int pop(Node ** head) {
@@ -101,8 +109,8 @@ int pop(Node ** head) {
     next_node = (*head)->next;
     retval = (*head)->value;
     free(*head);
+    // Mettre à jour la tête de liste
     *head = next_node;
-
     return retval;
 }
 

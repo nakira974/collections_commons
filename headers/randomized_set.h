@@ -12,9 +12,12 @@
 
 // Structure d'un set de données randomisé
 typedef struct {
-    int* nums; // tableau pour stocker les valeurs du set
-    int numsSize; // taille actuelle du set
-    int capacity;// capacité du tableau nums
+    // tableau pour stocker les valeurs du set
+    int* nums;
+    // taille actuelle du set
+    int numsSize;
+    // capacité du tableau nums
+    int capacity;
 } RandomizedSet;
 
 
