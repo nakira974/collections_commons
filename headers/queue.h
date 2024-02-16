@@ -10,14 +10,18 @@
 
 // Structure de la file
 struct Queue {
-    struct QueueNode* front; // Premier élement
-    struct QueueNode* rear; // Dernier élément
+    // Premier élement
+    struct QueueNode* front;
+    // Dernier élément
+    struct QueueNode* rear;
 };
 
 // Structure d'une file pour stocker les nœuds
 struct QueueNode {
-    struct TreeNode* node; // Valeur courante
-    struct QueueNode* next; // Prochain élement
+    // Valeur courante
+    struct TreeNode* node;
+    // Prochain élement
+    struct QueueNode* next;
 };
 
 // Fonction qui crée une queue vide et renvoie un pointeur vers cette queue
