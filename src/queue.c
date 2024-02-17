@@ -4,9 +4,9 @@
 #include "queue.h"
 
 
-struct Queue* createQueue() {
+struct Queue *createQueue() {
     // Alloue de la mémoire pour la queue
-    struct Queue* queue = (struct Queue*)malloc(sizeof(struct Queue));
+    struct Queue *queue = (struct Queue *) malloc(sizeof(struct Queue));
     // Initialise le front de la queue à NULL
     queue->front = NULL;
     // Initialise le rear de la queue à NULL
@@ -16,10 +16,10 @@ struct Queue* createQueue() {
 }
 
 
-void enqueue(struct Queue* queue, struct TreeNode* node) {
+void enqueue(struct Queue *queue, struct TreeNode *node) {
     // Alloue de la mémoire pour le nouveau noeud
-    struct QueueNode* newNode =
-            (struct QueueNode*)malloc(sizeof(struct QueueNode));
+    struct QueueNode *newNode =
+            (struct QueueNode *) malloc(sizeof(struct QueueNode));
     // Affecte le noeud donné en argument au nouveau noeud
     newNode->node = node;
     // Initialise le prochain noeud du nouveau noeud à NULL
@@ -40,7 +40,7 @@ void enqueue(struct Queue* queue, struct TreeNode* node) {
 }
 
 
-struct TreeNode* dequeue(struct Queue* queue) {
+struct TreeNode *dequeue(struct Queue *queue) {
     // Si la queue est vide
     if (queue->front == NULL) {
         // Renvoie NULL
@@ -48,9 +48,9 @@ struct TreeNode* dequeue(struct Queue* queue) {
     }
 
     // Récupère le noeud du front de la queue
-    struct TreeNode* node = queue->front->node;
+    struct TreeNode *node = queue->front->node;
     // Stocke temporairement le front de la queue
-    struct QueueNode* temp = queue->front;
+    struct QueueNode *temp = queue->front;
 
     // Met à jour le front de la queue avec le prochain noeud
     queue->front = queue->front->next;

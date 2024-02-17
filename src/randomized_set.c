@@ -5,11 +5,11 @@
 #include "randomized_set.h"
 
 
-RandomizedSet* randomizedSetCreate() {
+RandomizedSet *randomizedSetCreate() {
     // Alloue de la mémoire pour la structure RandomizedSet.
-    RandomizedSet* set = (RandomizedSet*)malloc(sizeof(RandomizedSet));
+    RandomizedSet *set = (RandomizedSet *) malloc(sizeof(RandomizedSet));
     // Alloue de la mémoire pour le tableau de nombres avec une capacité initiale de 1000.
-    set->nums = (int*)malloc(1000 * sizeof(int));
+    set->nums = (int *) malloc(1000 * sizeof(int));
     // Initialise la taille actuelle du tableau à 0.
     set->numsSize = 0;
     // Initialise la capacité maximale du tableau à 1000.
@@ -17,7 +17,7 @@ RandomizedSet* randomizedSetCreate() {
     return set;
 }
 
-bool randomizedSetInsert(RandomizedSet* obj, int val) {
+bool randomizedSetInsert(RandomizedSet *obj, int val) {
     for (int i = 0; i < obj->numsSize; i++) {
         // Vérifie si l'élément existe déjà dans le tableau.
         if (obj->nums[i] == val) {
@@ -29,7 +29,7 @@ bool randomizedSetInsert(RandomizedSet* obj, int val) {
     // Vérifie si le tableau est plein.
     if (obj->numsSize == obj->capacity) {
         // Réalloue de la mémoire pour doubler la capacité du tableau.
-        obj->nums = (int*)realloc(obj->nums, (2 * obj->capacity) * sizeof(int));
+        obj->nums = (int *) realloc(obj->nums, (2 * obj->capacity) * sizeof(int));
         // Met à jour la capacité maximale.
         obj->capacity *= 2;
     }
@@ -40,7 +40,7 @@ bool randomizedSetInsert(RandomizedSet* obj, int val) {
     return true;
 }
 
-bool randomizedSetRemove(RandomizedSet* obj, int val) {
+bool randomizedSetRemove(RandomizedSet *obj, int val) {
     for (int i = 0; i < obj->numsSize; i++) {
         // Recherche l'élément dans le tableau.
         if (obj->nums[i] == val) {
@@ -56,14 +56,14 @@ bool randomizedSetRemove(RandomizedSet* obj, int val) {
     return false;
 }
 
-int randomizedSetGetRandom(RandomizedSet* obj) {
+int randomizedSetGetRandom(RandomizedSet *obj) {
     // Génère un index aléatoire dans la plage des indices valides du tableau.
     int randomIndex = rand() % obj->numsSize;
     // Retourne l'élément correspondant à l'index aléatoire.
     return obj->nums[randomIndex];
 }
 
-void randomizedSetFree(RandomizedSet* obj) {
+void randomizedSetFree(RandomizedSet *obj) {
     // Libère la mémoire du tableau de nombres.
     free(obj->nums);
     // Libère la mémoire de la structure RandomizedSet.

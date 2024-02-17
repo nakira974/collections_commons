@@ -11,38 +11,38 @@
 
 class RandomizedSetTest : public ::testing::Test {
 protected:
-void SetUp() override {
+    void SetUp() override {
 // Code exécuté avant chaque test
-obj = randomizedSetCreate();
-}
+        obj = randomizedSetCreate();
+    }
 
-void TearDown() override {
+    void TearDown() override {
 // Code exécuté après chaque test
-randomizedSetFree(obj);
-}
+        randomizedSetFree(obj);
+    }
 
-RandomizedSet* obj;
+    RandomizedSet *obj;
 };
 
 TEST_F(RandomizedSetTest, InsertTest) {
-ASSERT_TRUE(randomizedSetInsert(obj, 1));
-ASSERT_TRUE(randomizedSetInsert(obj, 2));
+    ASSERT_TRUE(randomizedSetInsert(obj, 1));
+    ASSERT_TRUE(randomizedSetInsert(obj, 2));
 }
 
 TEST_F(RandomizedSetTest, RemoveTest) {
-randomizedSetInsert(obj, 1);
-randomizedSetInsert(obj, 2);
+    randomizedSetInsert(obj, 1);
+    randomizedSetInsert(obj, 2);
 
-ASSERT_TRUE(randomizedSetRemove(obj, 1));
-ASSERT_FALSE(randomizedSetRemove(obj, 3));
+    ASSERT_TRUE(randomizedSetRemove(obj, 1));
+    ASSERT_FALSE(randomizedSetRemove(obj, 3));
 }
 
 TEST_F(RandomizedSetTest, GetRandomTest) {
-randomizedSetInsert(obj, 1);
-randomizedSetInsert(obj, 2);
+    randomizedSetInsert(obj, 1);
+    randomizedSetInsert(obj, 2);
 
-int result = randomizedSetGetRandom(obj);
-ASSERT_TRUE(result == 1 || result == 2);
+    int result = randomizedSetGetRandom(obj);
+    ASSERT_TRUE(result == 1 || result == 2);
 }
 
 

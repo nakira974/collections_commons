@@ -1,6 +1,7 @@
 # C Shared Library for Common Collections Algorithm and Structures
 
-This C shared library provides a collection of commonly used data structures and algorithms, including linked lists, hash maps, and array lists. It allows you to efficiently manage and manipulate collections of data in your C projects.
+This C shared library provides a collection of commonly used data structures and algorithms, including linked lists,
+hash maps, and array lists. It allows you to efficiently manage and manipulate collections of data in your C projects.
 
 ## Features
 
@@ -11,7 +12,8 @@ This C shared library provides a collection of commonly used data structures and
 
 ## Usage
 
-To use this library in your C projects, simply include the appropriate header files and link against the shared library during compilation. Detailed usage instructions and examples can be found in the [documentation](link/to/documentation).
+To use this library in your C projects, simply include the appropriate header files and link against the shared library
+during compilation. Detailed usage instructions and examples can be found in the [documentation](link/to/documentation).
 
 ## Installation
 
@@ -23,8 +25,10 @@ To install the library, follow these steps:
 
 ## Contributing
 
-Contributions are welcome! If you encounter any issues or have suggestions for improvements, please open an issue or submit a pull request.
+Contributions are welcome! If you encounter any issues or have suggestions for improvements, please open an issue or
+submit a pull request.
 
 ## License
 
-This library is licensed under the [MIT License](https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt). Feel free to use it in your own projects.
+This library is licensed under the [MIT License](https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt). Feel
+free to use it in your own projects.

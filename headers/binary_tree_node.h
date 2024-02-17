@@ -6,6 +6,7 @@
 
 #ifndef COLLECTIONS_COMMONS_BINARY_TREE_NODE_H
 #define COLLECTIONS_COMMONS_BINARY_TREE_NODE_H
+
 #include <malloc.h>
 
 // Structure de données d'un noeud d'un "BinaryTree"
@@ -20,5 +21,6 @@ struct TreeNode {
 
 
 // Fonction pour créer un nouveau nœud d'arbre binaire
-struct TreeNode* create_tree_node(int val);
+struct TreeNode *create_tree_node(int val);
+
 #endif //COLLECTIONS_COMMONS_BINARY_TREE_NODE_H
