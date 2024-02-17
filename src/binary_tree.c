@@ -3,7 +3,6 @@
 //
 #include "binary_tree.h"
 
-// Fonction pour obtenir le niveau de l'arbre binaire de manière ordonnée
 int** levelOrder(struct TreeNode* root, int* returnSize,
                  int** returnColumnSizes) {
     if (root == NULL) {
