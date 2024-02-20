@@ -4,7 +4,8 @@
 
 #ifndef COLLECTIONS_COMMONS_LIST_H
 #define COLLECTIONS_COMMONS_LIST_H
-#include "stdlib.h"
+#include <stdlib.h>
+#include <stdbool.h>
 
 /**
  * Data structure definition for a simple linked list generic element

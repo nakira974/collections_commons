@@ -5,11 +5,12 @@
 #ifndef COLLECTIONS_COMMONS_DLIST_H
 #define COLLECTIONS_COMMONS_DLIST_H
 
-#include "stdlib.h"
-#include "string.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
 /**
- * Data structure definition for a simple double linked list generic element
+ * Data structure definition for a simplae double linked list generic element
  */
 typedef struct DLinkedElement {
     /**
