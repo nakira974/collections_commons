@@ -56,12 +56,12 @@ typedef struct DLinkedList{
     DLinkedElement *tail;
 } DLinkedList;
 /**
- * Creates a linked list that can be used for other operations
+ * Creates a double linked list that can be used for other operations
  *
  * @param list Reference of the list to create
  * @param destroy Delegate function for later destruction of the current list
  * @complexity O(1)
- * @see void list_destroy(LinkedList * list)
+ * @see void dlist_destroy(DLinkedList * list)
  */
 void dlist_create(DLinkedList * list, void( * destroy)(void * value));
 
