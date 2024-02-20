@@ -8,16 +8,16 @@ void dlist_create(DLinkedList * list, void( * destroy)(void * value)){
     // Default values
     list->size=0;
     list->destroy=destroy;
-    list->tail= nullptr;
-    list->head= nullptr;
+    list->tail= NULL;
+    list->head= NULL;
 }
 
 
 void dlist_destroy(DLinkedList * list){
-    void* value = nullptr;
+    void* value = NULL;
     // While is list is not empty custom user func destroy values
     while(dlist_size(list)>0){
-        if(dlist_remove(list, dlist_last(list), (void **) &value) && list->destroy != nullptr){
+        if(dlist_remove(list, dlist_last(list), (void **) &value) && list->destroy != NULL){
             list->destroy(value);
         }
     }
@@ -27,26 +27,26 @@ void dlist_destroy(DLinkedList * list){
 }
 
 bool dlist_add(DLinkedList *list, DLinkedElement * element, const void *value){
-    DLinkedElement*  new_element = nullptr;
+    DLinkedElement*  new_element = NULL;
     // Reject null elements except if list is empty
-    if(element == nullptr && dlist_size(list) != 0) return false;
+    if(element == NULL && dlist_size(list) != 0) return false;
 
     // Allocate a new memory space for the element
-    if((new_element = (DLinkedElement*) malloc(sizeof (DLinkedElement))) == nullptr)
+    if((new_element = (DLinkedElement*) malloc(sizeof (DLinkedElement))) == NULL)
         return false;
 
     new_element->value = (void*) value;
     if(dlist_size(list) == 0){
         // Empty list case
         list->head=new_element;
-        list->head->previous= nullptr;
-        list->head->next= nullptr;
-        list->tail= nullptr;
+        list->head->previous= NULL;
+        list->head->next= NULL;
+        list->tail= NULL;
     }else{
         // Non-empty list case
         new_element ->next = element->next;
         new_element->previous=element;
-        if(element->next == nullptr) list->tail = new_element;
+        if(element->next == NULL) list->tail = new_element;
         else element->next=new_element;
     }
 
@@ -55,20 +55,20 @@ bool dlist_add(DLinkedList *list, DLinkedElement * element, const void *value){
 }
 
 bool dlist_add_before(DLinkedList *list, DLinkedElement * element, const void *value){
-    DLinkedElement*  new_element = nullptr;
+    DLinkedElement*  new_element = NULL;
     // Reject null elements except if list is empty
-    if(element == nullptr && dlist_size(list) != 0) return false;
+    if(element == NULL && dlist_size(list) != 0) return false;
 
     // Allocate a new memory space for the element
-    if((new_element = (DLinkedElement*) malloc(sizeof (DLinkedElement))) == nullptr)
+    if((new_element = (DLinkedElement*) malloc(sizeof (DLinkedElement))) == NULL)
         return false;
 
     new_element->value = (void*) value;
     if(dlist_size(list)>0){
         // Empty list case
         list->head = new_element;
-        list->head->previous = nullptr;
-        list->head->next = nullptr;
+        list->head->previous = NULL;
+        list->head->next = NULL;
         list->tail = new_element;
     }else{
         // Non-empty list case
@@ -79,7 +79,7 @@ bool dlist_add_before(DLinkedList *list, DLinkedElement * element, const void *v
         new_element->previous = element->previous;
 
         // If we're on top of list then the new element become the head
-        if(element->previous == nullptr)
+        if(element->previous == NULL)
             list->head = new_element;
         // else before replacing the previous element we need to update the current previous element next reference to the new created element
         else element->previous->next = new_element;
@@ -95,7 +95,7 @@ bool dlist_add_before(DLinkedList *list, DLinkedElement * element, const void *v
 
 bool dlist_remove(DLinkedList * list, DLinkedElement * element, void **value){
     // Do not authorize a null element or in an empty list
-    if(dlist_size(list) == 0 || element == nullptr){
+    if(dlist_size(list) == 0 || element == NULL){
         return false;
     }
 
@@ -104,15 +104,15 @@ bool dlist_remove(DLinkedList * list, DLinkedElement * element, void **value){
     if(element == list->head){
         // The list become after deletion empty case
         list->head=element->next;
-        if(list->head== nullptr)
-            list->tail= nullptr;
+        if(list->head== NULL)
+            list->tail= NULL;
         else
-            element->next->previous= nullptr;
+            element->next->previous= NULL;
     }else{
         // The list does not become empty after deletion case
         element->previous->next = element->previous;
 
-        if(element->next == nullptr)
+        if(element->next == NULL)
             list->tail = element->previous;
         else element->next->previous=element->previous;
     }

@@ -9,15 +9,15 @@ void list_create(LinkedList * list, void( * destroy)(void * value)){
     // Init the list
     list->size = 0;
     list->destroy=destroy;
-    list->head=nullptr;
-    list->tail=nullptr;
+    list->head=NULL;
+    list->tail=NULL;
 }
 
 void list_destroy(LinkedList * list){
     // Remove each elements
-    void **value= nullptr;
+    void **value= NULL;
     while (list_size(list)>0) {
-        if(list_remove(list,nullptr,(void **) &value) && list->destroy !=  nullptr){
+        if(list_remove(list,NULL,(void **) &value) && list->destroy !=  NULL){
             list->destroy(value);
         }
     }
@@ -26,15 +26,15 @@ void list_destroy(LinkedList * list){
 }
 
 bool list_add(LinkedList *list, LinkedElement* element, const void *value){
-    LinkedElement * new_element = nullptr;
+    LinkedElement * new_element = NULL;
     // If we can't allocate to create a new element then return false
-    if((new_element =(LinkedElement * ) malloc(sizeof (LinkedElement)))== nullptr){
+    if((new_element =(LinkedElement * ) malloc(sizeof (LinkedElement)))== NULL){
         return false;
     }
 
     new_element->value = (void * )value;
     // Insert the element inside the current list
-    if(element==nullptr){
+    if(element==NULL){
         // Head insertion
         if(list_size(list) == 0) list->tail = new_element;
             new_element->next = list->head;
@@ -42,7 +42,7 @@ bool list_add(LinkedList *list, LinkedElement* element, const void *value){
 
             // Else where than head insertion
         }else{
-            if(element->next == nullptr){
+            if(element->next == NULL){
                 list->tail=new_element;
             }
             new_element->next = element->next;
@@ -54,13 +54,13 @@ bool list_add(LinkedList *list, LinkedElement* element, const void *value){
 }
 
 bool list_remove(LinkedList * list, LinkedElement * element, void **value){
-    LinkedElement * last_element = nullptr;
+    LinkedElement * last_element = NULL;
 
     // return false if the list is empty
     if(list_size(list) == 0)
         return false;
 
-    if(element == nullptr){
+    if(element == NULL){
         *value = list->head->value;
         last_element = list->head;
         list->head = list->head->next;
@@ -68,12 +68,12 @@ bool list_remove(LinkedList * list, LinkedElement * element, void **value){
         if(list_size(list) ==1) list->tail == NULL;
 
     }else{
-        if(element->next == nullptr) return false;
+        if(element->next == NULL) return false;
 
         *value = element->next->value;
         last_element = element->next;
         element->next = element->next->next;
-        if(element->next == nullptr) list->tail = element;
+        if(element->next == NULL) list->tail = element;
     }
     free(last_element);
     list->size--;
