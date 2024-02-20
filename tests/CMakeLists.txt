@@ -2,28 +2,25 @@ cmake_minimum_required(VERSION 3.22.3)
 
 set(PROJECT_NAME collections_tests)
 
-project(${PROJECT_NAME} CXX C)
+project(${PROJECT_NAME} CXX)
 
-file(GLOB_RECURSE HEADERS_FILES
-        ${PROJECT_SOURCE_DIR}/headers/*.h
+file(GLOB_RECURSE TEST_HEADERS_FILES
+        ${PROJECT_SOURCE_DIR}/headers/*.h)
 
-)
-file(GLOB_RECURSE SOURCES_FILES
-        ${CMAKE_SOURCE_DIR}/src/*.c
-        ${PROJECT_SOURCE_DIR}/src/*.cpp
-)
-include_directories(${CMAKE_SOURCE_DIR}/headers)
+file(GLOB_RECURSE TEST_SOURCES_FILES
+        ${PROJECT_SOURCE_DIR}/src/*.c
+        ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
 include_directories(${PROJECT_SOURCE_DIR}/headers)
 
-add_executable(${PROJECT_NAME} ${SOURCES_FILES} ${HEADERS_FILES})
+
+add_executable(${PROJECT_NAME} ${TEST_SOURCES_FILES} ${TEST_HEADERS_FILES})
 
 
 if (WIN32)
-    target_link_libraries(${PROJECT_NAME} gtest gtest_main)
+    target_link_libraries(${PROJECT_NAME} gtest gtest_main ${CMAKE_PROJECT_NAME})
 else ()
-    target_link_libraries(${PROJECT_NAME} gtest gtest_main)
+    target_link_libraries(${PROJECT_NAME} gtest gtest_main ${CMAKE_PROJECT_NAME})
 endif ()
 
 add_test(NAME randomized_set_test COMMAND ${PROJECT_NAME})
-target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src/simple_queue.c)
-target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src/list.c)

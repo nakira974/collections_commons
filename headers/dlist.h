@@ -59,6 +59,8 @@ typedef struct DLinkedList {
     DLinkedElement *tail;
 } DLinkedList;
 
+/* ----- PUBLIC DEFINITIONS ----- */
+
 /**
  * Creates a double linked list that can be used for other operations
  *

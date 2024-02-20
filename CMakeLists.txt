@@ -75,5 +75,5 @@ endif ()
 
 include_directories(${PROJECT_SOURCE_DIR}/headers)
 
-add_library(${CMAKE_PROJECT_NAME} SHARED ${SOURCES_FILES})
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/headers)
+add_library(${CMAKE_PROJECT_NAME} SHARED ${SOURCES_FILES} ${HEADERS_FILES})
+target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/headers)
