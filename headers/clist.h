@@ -54,6 +54,8 @@ typedef struct ClinkedList {
     CLinkedElement *head;
 } ClinkedList;
 
+/* ----- PUBLIC DEFINITIONS ----- */
+
 /**
  * Creates a circular linked list that can be used for other operations
  *

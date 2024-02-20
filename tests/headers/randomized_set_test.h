@@ -7,20 +7,45 @@
 
 
 #include <gtest/gtest.h>
-#include "randomized_set.h"
 
 class RandomizedSetTest : public ::testing::Test {
 protected:
 public:
+
+    typedef struct {
+        /**
+         * Array where are stored set values
+         */
+        int *nums;
+        /**
+         * Current size of the randomized set
+         */
+        int size;
+        /**
+         * Current capacity of the set
+         */
+        int capacity;
+    } RandomizedSet;
+
+    void randomized_set_create(RandomizedSet *set);
+    bool randomized_set_add(RandomizedSetTest::RandomizedSet  *obj, int val);
+    bool randomized_set_remove(RandomizedSetTest::RandomizedSet  *obj, int val);
+    int randomized_set_get_random(RandomizedSetTest::RandomizedSet  *obj);
+
     ~RandomizedSetTest() override {
         free(obj);
     }
 
 protected:
+
+
+
     void SetUp() override {
 // Code exécuté avant chaque test
         randomized_set_create(obj);
     }
+
+    void randomized_set_destroy(RandomizedSet *obj);
 
     void TearDown() override {
 // Code exécuté après chaque test
