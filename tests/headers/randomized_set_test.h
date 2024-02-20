@@ -19,7 +19,7 @@ public:
 protected:
     void SetUp() override {
 // Code exécuté avant chaque test
-         randomized_set_create(obj);
+        randomized_set_create(obj);
     }
 
     void TearDown() override {

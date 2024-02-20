@@ -5,7 +5,7 @@
 #include "randomized_set.h"
 
 
-void randomizedSetCreate( RandomizedSet *set ) {
+void randomizedSetCreate(RandomizedSet *set) {
     // Alloue de la mémoire pour le tableau de nombres avec une capacité initiale de 1000.
     set->nums = (int *) malloc(1000 * sizeof(int));
     // Initialise la taille actuelle du tableau à 0.

@@ -4,32 +4,34 @@
 
 #ifndef COLLECTIONS_COMMONS_CLIST_H
 #define COLLECTIONS_COMMONS_CLIST_H
+
 #include <stdlib.h>
 #include <stdbool.h>
 
 /**
  * Data structure for circular linked list element
  */
-typedef struct CLinkedElement{
+typedef struct CLinkedElement {
     /**
      * Value of the current list element
      */
-    void * value;
+    void *value;
     /**
      * Reference of the next value of the current list element
      */
-    struct CLinkedElement* next;
+    struct CLinkedElement *next;
 } CLinkedElement;
 
 /***
  * Data structure for a circular linked list
  */
 
-typedef struct ClinkedList{
+typedef struct ClinkedList {
     /**
      * Current size of the list
      */
     int size;
+
     /**
     * Match handle
     *
@@ -38,11 +40,13 @@ typedef struct ClinkedList{
     * @return true if left is equals to right, otherwise false
     */
     int (*match)(const void *val1, const void *val2);
+
     /**
      * Destroy handle
      * @param value Reference to value to destroy
      */
     void (*destroy)(void *value);
+
     /**
     * First element of the list
     */
@@ -57,14 +61,14 @@ typedef struct ClinkedList{
  * @complexity O(1)
  * @see void clist_destroy(ClinkedList * list)
  */
-void clist_create(ClinkedList * list);
+void clist_create(ClinkedList *list);
 
 /**
  * Destroy the specified list, after the call no other further operations will be permit
  * @param list Reference of the list to destroy otherwise false
  * @complexity O(n) where n is the number of elements in the current list
  */
-void clist_destroy(ClinkedList * list);
+void clist_destroy(ClinkedList *list);
 
 /**
  * Insert a new element just after element parameter
@@ -75,7 +79,7 @@ void clist_destroy(ClinkedList * list);
  * @return true if the element was added to the current list, otherwise false
  *
  */
-bool clist_add(ClinkedList * list);
+bool clist_add(ClinkedList *list);
 
 /**
  * Remove from an element from the current list, then returns a pointer on the value of the deleted element
@@ -85,7 +89,7 @@ bool clist_add(ClinkedList * list);
  * @complexity O(1)
  * @return true if the element was correctly removed, otherwise false
  */
-bool clist_remove(ClinkedList * list);
+bool clist_remove(ClinkedList *list);
 
 /***
  * Macro that evaluates the number of elements inside the specified list

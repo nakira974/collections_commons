@@ -31,7 +31,7 @@ typedef struct {
  * Creates a randomized set with default values
  * @param set Randomized set to create
  */
-void randomized_set_create(RandomizedSet* set);
+void randomized_set_create(RandomizedSet *set);
 
 /**
  * Insert the value into the set
