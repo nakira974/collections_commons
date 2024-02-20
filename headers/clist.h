@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <memory.h>
 
 /**
  * Data structure for circular linked list element
@@ -61,7 +62,7 @@ typedef struct ClinkedList {
  * @complexity O(1)
  * @see void clist_destroy(ClinkedList * list)
  */
-void clist_create(ClinkedList *list);
+void clist_create(ClinkedList *list, void (*destroy)(void *value));
 
 /**
  * Destroy the specified list, after the call no other further operations will be permit
@@ -79,7 +80,7 @@ void clist_destroy(ClinkedList *list);
  * @return true if the element was added to the current list, otherwise false
  *
  */
-bool clist_add(ClinkedList *list);
+bool clist_add(ClinkedList *list, CLinkedElement *element, const void *value);
 
 /**
  * Remove from an element from the current list, then returns a pointer on the value of the deleted element
@@ -89,7 +90,7 @@ bool clist_add(ClinkedList *list);
  * @complexity O(1)
  * @return true if the element was correctly removed, otherwise false
  */
-bool clist_remove(ClinkedList *list);
+bool clist_remove(ClinkedList *list, CLinkedElement *element, void **value);
 
 /***
  * Macro that evaluates the number of elements inside the specified list
