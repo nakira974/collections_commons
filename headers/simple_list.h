@@ -13,24 +13,19 @@
 #include "node.h"
 
 // Fonction pour récupérer le prochain noeud menant à x depuis le noeud courant
-[[deprecated("Use graph.h instead.")]]
-Node *find_next_to(Node *current, int x);
+Node *find_next_to(Node *current, void* x);
 
 // Fonction pour ajouter un nouvel élément à la linked list
-[[deprecated("Use graph.h instead.")]]
-void push(Node **head, int value);
+void push(Node **head, void * value);
 
 //Fonction qui ajoute un noeud à la fin de la liste
-[[deprecated("Use graph.h instead.")]]
 void push_next(Node **head, Node **next);
 
 // Fonction pour supprimer un noeud à un index donné de la liste
-[[deprecated("Use graph.h instead.")]]
-int remove_by_index(Node **head, int n);
+void* remove_by_index(Node **head, int n);
 
 // Fonction pour supprimer le dernier noeud la liste liée
-[[deprecated("Use graph.h instead.")]]
-int pop(Node **head);
+void * pop(Node **head);
 
 
 [[deprecated("Use graph.h instead.")]]

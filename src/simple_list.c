@@ -4,7 +4,7 @@
 
 #include "../headers/simple_list.h"
 
-Node *find_next_to(Node *current, int x) {
+Node *find_next_to(Node *current, void* x) {
     // Tant qu'on peut défiler
     while (current != NULL) {
         // x est égal à noeud de même valeur le plus proche
@@ -19,7 +19,7 @@ Node *find_next_to(Node *current, int x) {
     return NULL;
 }
 
-Node *create_node(int value) {
+Node *create_node(void * value) {
     Node *newNode = (Node *) malloc(sizeof(Node));
     newNode->value = value;
     newNode->next = NULL;
@@ -27,7 +27,7 @@ Node *create_node(int value) {
 }
 
 
-void push(Node **head, int value) {
+void push(Node **head, void * value) {
     Node *newNode = create_node(value);
     if (*head == NULL) {
         // Si la liste est vide, le nouveau noeud devient la tête
@@ -58,9 +58,9 @@ void push_next(Node **head, Node **next) {
     }
 }
 
-int remove_by_index(Node **head, int n) {
+void * remove_by_index(Node **head, int n) {
     int i = 0;
-    int retval = -1;
+    void* retval = nullptr;
     Node *current = *head;
     Node *temp_node = NULL;
 
@@ -72,13 +72,13 @@ int remove_by_index(Node **head, int n) {
     // Parcourir les noeuds jusqu'à l'index n-1
     for (i = 0; i < n - 1; i++) {
         if (current->next == NULL) {
-            return -1;
+            return nullptr;
         }
         current = current->next;
     }
 
     if (current->next == NULL) {
-        return -1;
+        return nullptr;
     }
 
     temp_node = current->next;
@@ -90,12 +90,12 @@ int remove_by_index(Node **head, int n) {
     return retval;
 }
 
-int pop(Node **head) {
-    int retval = -1;
+void * pop(Node **head) {
+    void *  retval = nullptr;
     Node *next_node = NULL;
 
     if (*head == NULL) {
-        return -1;
+        return nullptr;
     }
 
     next_node = (*head)->next;

@@ -11,7 +11,7 @@
 typedef struct List{
     int size;
     int (*match)(const void *val1, const void *val2);
-    void (*destroy)(const void *value);
+    void (*destroy)(void *value);
 
     Node  *head;
     Node *tail;
@@ -63,42 +63,42 @@ bool remove(List * list, Node * element, void **value);
  * @return The current element count of the current list
  * @complexity O(1)
  */
-#define size(list) ((list)->size);
+#define size(list) ((list)->size)
 
 /***
  * Macro that evaluates the first element of the specified list
  * @return The first element of the current list
  * @complexity O(1)
  */
-#define first(list) ((list)->head);
+#define first(list) ((list)->head)
 
 /***
  * Macro that evaluates the last element of the specified list
  * @return The last element of the current list
  * @complexity O(1)
  */
-#define last(list) ((list)->tail);
+#define last(list) ((list)->tail)
 
 /***
  * Macro that evaluates if the specified element is the first element of the specified list
  * @return true if the element is the first of the current list, otherwise false
  * @complexity O(1)
  */
-#define is_first(list, element) ((element) == (list)->head ? true : false );
+#define is_first(list, element) ((element) == (list)->head ? true : false )
 
 /***
  * Macro that evaluates if the specified element is the last element of the specified list
  * @return true if the element is the last of the current list, otherwise false
  * @complexity O(1)
  */
-#define is_last(list, element) ((element) == (list)->tail ? true : false );
+#define is_last(list, element) ((element) == (list)->tail ? true : false )
 
 /***
  * Macro that evaluates the value of a list element
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-#define value(element) ((element)->value);
+#define value(element) ((element)->value)
 
 
 /***
@@ -106,5 +106,6 @@ bool remove(List * list, Node * element, void **value);
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-#define next(element) ((element)->next);
+#define next(element) ((element)->next)
+
 #endif //COLLECTIONS_COMMONS_LIST_H

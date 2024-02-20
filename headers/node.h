@@ -10,7 +10,7 @@
 // Structure pour représenter un nœud de la linked list
 typedef struct Node {
     // Valeur du noeud
-    int value;
+    void * value;
     // Enfant du noeud
     struct Node *next;
 } Node;
@@ -19,7 +19,7 @@ typedef struct Node {
 Node *set_link(Node *parent, Node *child);
 
 //Create a node
-Node *create_node(int value);
+Node *create_node(void * value);
 
 // Fonction pour vérifier s'il y a un prochain nœud dans la liste
 bool has_next(Node *current);
