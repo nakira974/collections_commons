@@ -12,7 +12,7 @@ int **levelOrder(struct TreeNode *root, int *returnSize,
     }
 
     // Crée une file pour stocker les nœuds
-    struct Queue *queue = createQueue();
+    struct SimpleQueue *queue = createQueue();
     // Ajoute la racine à la file
     enqueue(queue, root);
 
@@ -26,7 +26,7 @@ int **levelOrder(struct TreeNode *root, int *returnSize,
     int levelIndex = 0; // Indice du niveau actuel
 
     // On instancie une autre file pour stocker les noeuds du prochain niveau
-    struct Queue *nextQueue = createQueue();
+    struct SimpleQueue *nextQueue = createQueue();
 
     while (queue->front != NULL) {
         // Taille arbitraire pour le tableau du niveau actuel

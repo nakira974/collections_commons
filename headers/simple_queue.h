@@ -1,16 +1,16 @@
 //
 // Created by maxim on 16/02/2024.
 //
-// Implémentation d'une structure de données "Queue"
+// Implémentation d'une structure de données "SimpleQueue"
 //
 
-#ifndef COLLECTIONS_COMMONS_QUEUE_H
-#define COLLECTIONS_COMMONS_QUEUE_H
+#ifndef COLLECTIONS_COMMONS_SIMPLE_QUEUE_H
+#define COLLECTIONS_COMMONS_SIMPLE_QUEUE_H
 
 #include "binary_tree.h"
 
 // Structure de la file
-struct Queue {
+struct SimpleQueue {
     // Premier élement
     struct QueueNode *front;
     // Dernier élément
@@ -26,12 +26,12 @@ struct QueueNode {
 };
 
 // Fonction qui crée une queue vide et renvoie un pointeur vers cette queue
-struct Queue *createQueue();
+struct SimpleQueue *createQueue();
 
 // Fonction pour ajouter un nœud à la file
-void enqueue(struct Queue *queue, struct TreeNode *node);
+void enqueue(struct SimpleQueue *queue, struct TreeNode *node);
 
 // Fonction pour supprimer le nœud en tête de file et le renvoyer
-struct TreeNode *dequeue(struct Queue *queue);
+struct TreeNode *dequeue(struct SimpleQueue *queue);
 
-#endif //COLLECTIONS_COMMONS_QUEUE_H
+#endif //COLLECTIONS_COMMONS_SIMPLE_QUEUE_H
