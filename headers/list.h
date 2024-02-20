@@ -5,7 +5,14 @@
 #ifndef COLLECTIONS_COMMONS_LIST_H
 #define COLLECTIONS_COMMONS_LIST_H
 #include "stdlib.h"
-#include "node.h"
+
+// Data structure that represent a linked list element
+typedef struct LinkedElement {
+    // Valeur du noeud
+    void * value;
+    // Enfant du noeud
+    struct LinkedElement *next;
+} LinkedElement;
 
 /* Data structure definition for generic linked list type*/
 typedef struct List{
@@ -13,8 +20,8 @@ typedef struct List{
     int (*match)(const void *val1, const void *val2);
     void (*destroy)(void *value);
 
-    Node  *head;
-    Node *tail;
+    LinkedElement  *head;
+    LinkedElement *tail;
 } List;
 
 /* ----- PUBLIC DEFINITIONS ----- */
@@ -46,7 +53,7 @@ void destroy_list(List * list);
  * @return true if the element was added to the current list, otherwise false
  *
  */
-bool add(List *list, Node* element, const void *value);
+bool add(List *list, LinkedElement* element, const void *value);
 
 /**
  * Remove from an element from the current list, then returns a pointer on the value of the deleted element
@@ -56,7 +63,7 @@ bool add(List *list, Node* element, const void *value);
  * @complexity O(1)
  * @return true if the element was correctly removed, otherwise false
  */
-bool remove(List * list, Node * element, void **value);
+bool remove(List * list, LinkedElement * element, void **value);
 
 /***
  * Macro that evaluates the number of elements inside the specified list

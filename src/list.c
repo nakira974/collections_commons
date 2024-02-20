@@ -25,10 +25,10 @@ void destroy_list(List * list){
     memset(list, 0, sizeof(List));
 }
 
-bool add(List *list, Node* element, const void *value){
-    Node * new_element = nullptr;
+bool add(List *list, LinkedElement* element, const void *value){
+    LinkedElement * new_element = nullptr;
     // If we can't allocate to create a new element then return false
-    if((new_element =(Node * ) malloc(sizeof (Node)))== NULL){
+    if((new_element =(LinkedElement * ) malloc(sizeof (LinkedElement)))== NULL){
         return false;
     }
 
@@ -53,8 +53,8 @@ bool add(List *list, Node* element, const void *value){
         return true;
 }
 
-bool remove(List * list, Node * element, void **value){
-    Node * last_element = nullptr;
+bool remove(List * list, LinkedElement * element, void **value){
+    LinkedElement * last_element = nullptr;
 
     // return false if the list is empty
     if(size(list) == 0)
