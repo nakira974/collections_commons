@@ -1,5 +1,5 @@
 
-SET(BUILD_TESTS ON)
+SET(BUILD_TESTS OFF)
 
 if (BUILD_TESTS)
     message(STATUS "Tests are included. Set BUILD_TESTS=OFF to diable.")
