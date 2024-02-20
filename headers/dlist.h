@@ -10,13 +10,13 @@
 #include <stdbool.h>
 
 /**
- * Data structure definition for a simplae double linked list generic element
+ * Data structure definition for a double chained linked list generic element
  */
 typedef struct DLinkedElement {
     /**
      * Reference to the value of the current list element
      */
-    void * value;
+    void *value;
     /**
      * Reference of the previous element of the current list element
      */
@@ -30,9 +30,10 @@ typedef struct DLinkedElement {
 /**
  * Data structure definition for generic double linked list type
  */
-typedef struct DLinkedList{
+typedef struct DLinkedList {
     /**Current size of the list*/
     int size;
+
     /**
      * Match handle
      *
@@ -41,29 +42,32 @@ typedef struct DLinkedList{
      * @return true if left is equals to right, otherwise false
      */
     int (*match)(const void *val1, const void *val2);
+
     /**
      * Destroy handle
      * @param value Reference to value to destroy
      */
     void (*destroy)(void *value);
+
     /**
      * First element of the list
      */
-    DLinkedElement  *head;
+    DLinkedElement *head;
     /**
      * Last element of the list
      */
     DLinkedElement *tail;
 } DLinkedList;
+
 /**
- * Creates a linked list that can be used for other operations
+ * Creates a double linked list that can be used for other operations
  *
  * @param list Reference of the list to create
  * @param destroy Delegate function for later destruction of the current list
  * @complexity O(1)
- * @see void list_destroy(LinkedList * list)
+ * @see void dlist_destroy(DLinkedList * list)
  */
-void dlist_create(DLinkedList * list, void( * destroy)(void * value));
+void dlist_create(DLinkedList *list, void( *destroy)(void *value));
 
 
 /**
@@ -71,7 +75,7 @@ void dlist_create(DLinkedList * list, void( * destroy)(void * value));
  * @param list Reference of the list to destroy otherwise false
  * @complexity O(n) where n is the number of elements in the current list
  */
-void dlist_destroy(DLinkedList * list);
+void dlist_destroy(DLinkedList *list);
 
 /**
  * Insert a new element just after element parameter
@@ -82,7 +86,7 @@ void dlist_destroy(DLinkedList * list);
  * @return true if the element was added to the current list, otherwise false
  *
  */
-bool dlist_add(DLinkedList *list, DLinkedElement * element, const void *value);
+bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value);
 
 /**
  * Insert a new element just after element parameter
@@ -93,7 +97,7 @@ bool dlist_add(DLinkedList *list, DLinkedElement * element, const void *value);
  * @return true if the element was added to the current list, otherwise false
  *
  */
-bool dlist_add_before(DLinkedList *list, DLinkedElement * element, const void *value);
+bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *value);
 
 /**
  * Remove from an element from the current list, then returns a pointer on the value of the deleted element
@@ -103,7 +107,7 @@ bool dlist_add_before(DLinkedList *list, DLinkedElement * element, const void *v
  * @complexity O(1)
  * @return true if the element was correctly removed, otherwise false
  */
-bool dlist_remove(DLinkedList * list, DLinkedElement * element, void **value);
+bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value);
 
 /***
  * Macro that evaluates the number of elements inside the specified list

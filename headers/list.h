@@ -4,17 +4,18 @@
 
 #ifndef COLLECTIONS_COMMONS_LIST_H
 #define COLLECTIONS_COMMONS_LIST_H
+
 #include <stdlib.h>
 #include <stdbool.h>
 
 /**
- * Data structure definition for a simple linked list generic element
+ * Data structure definition for a simple chained linked list generic element
  */
 typedef struct LinkedElement {
     /**
      * Generic value of the current element
      */
-    void * value;
+    void *value;
     /**
      * Next value of the current element
      */
@@ -24,11 +25,12 @@ typedef struct LinkedElement {
 /**
  * Data structure definition for generic linked list type
  */
-typedef struct LinkedList{
+typedef struct LinkedList {
     /**
      * Current size of the list
      */
     int size;
+
     /**
      * Match handle
      * @param val1 Left value to compare
@@ -36,15 +38,17 @@ typedef struct LinkedList{
      * @return true if left is equals to right, otherwise false
      */
     int (*match)(const void *val1, const void *val2);
+
     /**
      * Destroy handle
      * @param value Reference to value to destroy
      */
     void (*destroy)(void *value);
+
     /**
      *  First element of the list
      */
-    LinkedElement  *head;
+    LinkedElement *head;
     /**
      * Last element of the list
      */
@@ -61,14 +65,14 @@ typedef struct LinkedList{
  * @complexity O(1)
  * @see void list_destroy(LinkedList * list)
  */
-void list_create(LinkedList * list, void( * destroy)(void * value));
+void list_create(LinkedList *list, void( *destroy)(void *value));
 
 /**
  * Destroy the specified list, after the call no other further operations will be permit
  * @param list Reference of the list to destroy otherwise false
  * @complexity O(n) where n is the number of elements in the current list
  */
-void list_destroy(LinkedList * list);
+void list_destroy(LinkedList *list);
 
 
 /**
@@ -80,7 +84,7 @@ void list_destroy(LinkedList * list);
  * @return true if the element was added to the current list, otherwise false
  *
  */
-bool list_add(LinkedList *list, LinkedElement* element, const void *value);
+bool list_add(LinkedList *list, LinkedElement *element, const void *value);
 
 /**
  * Remove from an element from the current list, then returns a pointer on the value of the deleted element
@@ -90,7 +94,7 @@ bool list_add(LinkedList *list, LinkedElement* element, const void *value);
  * @complexity O(1)
  * @return true if the element was correctly removed, otherwise false
  */
-bool list_remove(LinkedList * list, LinkedElement * element, void **value);
+bool list_remove(LinkedList *list, LinkedElement *element, void **value);
 
 /***
  * Macro that evaluates the number of elements inside the specified list
