@@ -2,7 +2,7 @@
 // Created by maxim on 13/02/2024.
 //
 
-#include "../headers/linked_list.h"
+#include "../headers/simple_list.h"
 
 Node *find_next_to(Node *current, int x) {
     // Tant qu'on peut défiler
@@ -26,9 +26,6 @@ Node *create_node(int value) {
     return newNode;
 }
 
-bool has_next(Node *current) {
-    return current->next != NULL;
-}
 
 void push(Node **head, int value) {
     Node *newNode = create_node(value);
@@ -59,11 +56,6 @@ void push_next(Node **head, Node **next) {
         // Ajouter le nouveau noeud à la fin de la liste
         current->next = *next;
     }
-}
-
-Node *set_link(Node *parent, Node *child) {
-    parent->next = child;
-    return parent;
 }
 
 int remove_by_index(Node **head, int n) {

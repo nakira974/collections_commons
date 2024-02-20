@@ -26,4 +26,4 @@ endif ()
 
 add_test(NAME randomized_set_test COMMAND ${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src/randomized_set.c)
-target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src/linked_list.c)
+target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src/simple_list.c)

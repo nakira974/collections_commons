@@ -1,12 +1,12 @@
 //
 // Created by maxim on 16/02/2024.
 //
-#include "queue.h"
+#include "simple_queue.h"
 
 
-struct Queue *createQueue() {
+struct SimpleQueue *createQueue() {
     // Alloue de la mémoire pour la queue
-    struct Queue *queue = (struct Queue *) malloc(sizeof(struct Queue));
+    struct SimpleQueue *queue = (struct SimpleQueue *) malloc(sizeof(struct SimpleQueue));
     // Initialise le front de la queue à NULL
     queue->front = NULL;
     // Initialise le rear de la queue à NULL
@@ -16,7 +16,7 @@ struct Queue *createQueue() {
 }
 
 
-void enqueue(struct Queue *queue, struct TreeNode *node) {
+void enqueue(struct SimpleQueue *queue, struct TreeNode *node) {
     // Alloue de la mémoire pour le nouveau noeud
     struct QueueNode *newNode =
             (struct QueueNode *) malloc(sizeof(struct QueueNode));
@@ -40,7 +40,7 @@ void enqueue(struct Queue *queue, struct TreeNode *node) {
 }
 
 
-struct TreeNode *dequeue(struct Queue *queue) {
+struct TreeNode *dequeue(struct SimpleQueue *queue) {
     // Si la queue est vide
     if (queue->front == NULL) {
         // Renvoie NULL
