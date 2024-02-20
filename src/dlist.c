@@ -81,9 +81,10 @@ bool dlist_add_before(DLinkedList *list, DLinkedElement * element, const void *v
         // If we're on top of list then the new element become the head
         if(element->previous == nullptr)
             list->head = new_element;
-        // else insert the
+        // else before replacing the previous element we need to update the current previous element next reference to the new created element
         else element->previous->next = new_element;
 
+        // finally replace the previous element
         element->previous = new_element;
     }
 
@@ -93,5 +94,31 @@ bool dlist_add_before(DLinkedList *list, DLinkedElement * element, const void *v
 }
 
 bool dlist_remove(DLinkedList * list, DLinkedElement * element, void **value){
+    // Do not authorize a null element or in an empty list
+    if(dlist_size(list) == 0 || element == nullptr){
+        return false;
+    }
 
+    // Remove the element from the list
+    *value = element->value;
+    if(element == list->head){
+        // The list become after deletion empty case
+        list->head=element->next;
+        if(list->head== nullptr)
+            list->tail= nullptr;
+        else
+            element->next->previous= nullptr;
+    }else{
+        // The list does not become empty after deletion case
+        element->previous->next = element->previous;
+
+        if(element->next == nullptr)
+            list->tail = element->previous;
+        else element->next->previous=element->previous;
+    }
+
+    free(element);
+
+    list->size--;
+    return true;
 }
