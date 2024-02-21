@@ -5,11 +5,14 @@ hash maps, and array lists. It allows you to efficiently manage and manipulate c
 
 ## Features
 
-- [x] Linked lists implementations (Simple / Double Chained and Circular) for storing and traversing data in a dynamic manner.
-- [ ] (Not release yet) Hash map implementation for fast key-value lookups and storage.
-- [x] Binary trees implementations for organizing and efficiently searching data. 
-- [x] Data Sets (Simple and Randomized) implementations for storing and traversing data in a dynamic manner.
-- [x] Deques / Queues implementations  for storing elements in the order they were added
+- [x] Linked lists implementations (Simple / Double Chained and Circular) for storing and traversing data in a dynamic manner
+- [ ] (Not released yet) Hash map implementation for fast key-value lookups and storage
+- [x] Binary trees implementations for organizing and efficiently searching data
+- [x] Heap & Stack implementations for LIFO / FIFO data organization
+- [x] Data Sets (Simple and Randomized) implementations for storing and traversing data in a dynamic manner
+- [x] Deques / Queues (Simple, Priority) implementations  for storing elements in the order they were added
+- [ ] (Not released yet) Graphs implementations for organizing and efficiently searching data
+- [ ] (Not released ) Sort & Search Algorithms associated to data structures mentionned bellow
 
 ## Usage
 
