@@ -5,6 +5,10 @@
 #ifndef COLLECTIONS_COMMONS_CLIST_H
 #define COLLECTIONS_COMMONS_CLIST_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
 #include <stdlib.h>
 #include <stdbool.h>
 #include <memory.h>
@@ -121,5 +125,9 @@ bool clist_remove(ClinkedList *list, CLinkedElement *element, void **value);
  * @complexity O(1)
  */
 #define clist_next(element) ((element)->next)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //COLLECTIONS_COMMONS_CLIST_H

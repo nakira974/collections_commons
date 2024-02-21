@@ -5,6 +5,10 @@
 #ifndef COLLECTIONS_COMMONS_DLIST_H
 #define COLLECTIONS_COMMONS_DLIST_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -61,6 +65,8 @@ typedef struct DLinkedList {
 
 /* ----- PUBLIC DEFINITIONS ----- */
 
+
+
 /**
  * Creates a double linked list that can be used for other operations
  *
@@ -110,6 +116,7 @@ bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *va
  * @return true if the element was correctly removed, otherwise false
  */
 bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value);
+
 
 /***
  * Macro that evaluates the number of elements inside the specified list
@@ -167,5 +174,9 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value);
  * @complexity O(1)
  */
 #define dlist_previous(element) ((element)->previous)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //COLLECTIONS_COMMONS_DLIST_H
