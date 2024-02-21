@@ -5,13 +5,17 @@
 #ifndef COLLECTIONS_UTILS_RANDOMIZED_SET_H
 #define COLLECTIONS_UTILS_RANDOMIZED_SET_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <malloc.h>
 #include <stdbool.h>
 
 /**
  * Data structure for a randomized set of integers
  */
-typedef struct {
+typedef struct RandomizedSet{
     /**
      * Array where are stored set values
      */
@@ -62,4 +66,7 @@ int randomized_set_get_random(RandomizedSet *obj);
  */
 void randomized_set_destroy(RandomizedSet *obj);
 
+#ifdef __cplusplus
+}
+#endif
 #endif //COLLECTIONS_UTILS_RANDOMIZED_SET_H

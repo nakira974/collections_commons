@@ -2,37 +2,14 @@
 // Created by maxim on 14/02/2024.
 //
 
-#ifndef COLLECTIONS_COMMONS_RANDOMIZED_SET_TEST_H
-#define COLLECTIONS_COMMONS_RANDOMIZED_SET_TEST_H
+#ifndef COLLECTIONS_COMMONS_RANDOMIZEDSETTEST_H
+#define COLLECTIONS_COMMONS_RANDOMIZEDSETTEST_H
 
 
 #include <gtest/gtest.h>
+#include "randomized_set.h"
 
 class RandomizedSetTest : public ::testing::Test {
-protected:
-public:
-
-    typedef struct {
-        /**
-         * Array where are stored set values
-         */
-        int *nums;
-        /**
-         * Current size of the randomized set
-         */
-        int size;
-        /**
-         * Current capacity of the set
-         */
-        int capacity;
-    } RandomizedSet;
-
-    void randomized_set_create(RandomizedSet *set);
-    bool randomized_set_add(RandomizedSetTest::RandomizedSet  *obj, int val);
-    bool randomized_set_remove(RandomizedSetTest::RandomizedSet  *obj, int val);
-    int randomized_set_get_random(RandomizedSetTest::RandomizedSet  *obj);
-
-
 protected:
     RandomizedSet *obj;
 
@@ -41,8 +18,6 @@ protected:
         obj = (RandomizedSet*)malloc(sizeof(RandomizedSet));
         randomized_set_create(obj);
     }
-
-    void randomized_set_destroy(RandomizedSet *obj);
 
     void TearDown() override {
 // Code exécuté après chaque test
@@ -75,4 +50,4 @@ TEST_F(RandomizedSetTest, GetRandomTest) {
 }
 
 
-#endif //COLLECTIONS_COMMONS_RANDOMIZED_SET_TEST_H
+#endif //COLLECTIONS_COMMONS_RANDOMIZEDSETTEST_H

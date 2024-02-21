@@ -5,6 +5,10 @@
 #ifndef COLLECTIONS_COMMONS_LIST_H
 #define COLLECTIONS_COMMONS_LIST_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -57,6 +61,7 @@ typedef struct LinkedList {
 
 /* ----- PUBLIC DEFINITIONS ----- */
 
+
 /**
  * Creates a linked list that can be used for other operations
  *
@@ -95,6 +100,7 @@ bool list_add(LinkedList *list, LinkedElement *element, const void *value);
  * @return true if the element was correctly removed, otherwise false
  */
 bool list_remove(LinkedList *list, LinkedElement *element, void **value);
+
 
 /***
  * Macro that evaluates the number of elements inside the specified list
@@ -146,4 +152,7 @@ bool list_remove(LinkedList *list, LinkedElement *element, void **value);
  */
 #define list_next(element) ((element)->next)
 
+#ifdef __cplusplus
+}
+#endif
 #endif //COLLECTIONS_COMMONS_LIST_H
