@@ -46,13 +46,13 @@ TEST_F(CLinkedList_Test, PageTest) {
 
 
 TEST_F(CLinkedList_Test, ReplacePageTest) {
-    for (int i = 0; i < 10; ++i) {
-        clist_add(obj, obj->head, new Page{i, i});
+    for (int i = 10; i >=0; --i) {
+        clist_add(obj, obj->head, new Page{i, i-1});
     }
     CLinkedElement *current = obj->head;
     int replacedPage = replace_page(&current);
 
-    ASSERT_EQ(replacedPage, 0); // Remplacer la page avec un autre numéro
+    ASSERT_EQ(replacedPage, 1);
 }
 
 TEST_F(CLinkedList_Test, PerformanceTest) {
