@@ -5,12 +5,11 @@ hash maps, and array lists. It allows you to efficiently manage and manipulate c
 
 ## Features
 
-- [x] Linked list implementation for storing and traversing data in a dynamic manner.
+- [x] Linked lists implementations (Simple / Double Chained and Circular) for storing and traversing data in a dynamic manner.
 - [ ] (Not release yet) Hash map implementation for fast key-value lookups and storage.
-- [ ] (Not release yet) Array list implementation for efficient random access and dynamic resizing.
 - [x] Binary trees implementations for organizing and efficiently searching data. 
-- [x] Randomized set implementation for storing and traversing data in a dynamic manner.
-- [x] Queues implementation  for storing elements in the order they were added
+- [x] Data Sets (Simple and Randomized) implementations for storing and traversing data in a dynamic manner.
+- [x] Deques / Queues implementations  for storing elements in the order they were added
 
 ## Usage
 
