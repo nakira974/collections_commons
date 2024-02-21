@@ -9,14 +9,15 @@
 
 class StackTest : public testing::Test {
 protected:
-    Stack stack{};
+    Stack stack;
 
     void SetUp() override {
         stack_create(&stack, free);
     }
 
     void TearDown() override {
-        list_destroy(&stack);
+        if(stack_size(&stack)>0)
+            stack_destory(&stack);
     }
 };
 
@@ -28,8 +29,8 @@ TEST_F(StackTest, PushPopTest) {
     stack_push(&stack, &value2);
 
     int *poppedValue1, *poppedValue2;
-    stack_pop(&stack, (void **)&poppedValue2);
     stack_pop(&stack, (void **)&poppedValue1);
+    stack_pop(&stack, (void **)&poppedValue2);
 
     EXPECT_EQ(*poppedValue1, value2);
     EXPECT_EQ(*poppedValue2, value1);
@@ -37,12 +38,13 @@ TEST_F(StackTest, PushPopTest) {
 
 TEST_F(StackTest, PeekTest) {
     int value = 30;
-
+    int *poppedValue1;
     stack_push(&stack, &value);
 
     int *peekedValue = (int *)stack_peek(&stack);
 
     EXPECT_EQ(*peekedValue, value);
+    stack_pop(&stack, (void **)&poppedValue1);
 }
 
 TEST_F(StackTest, SizeTest) {
@@ -53,5 +55,12 @@ TEST_F(StackTest, SizeTest) {
     stack_push(&stack, &value2);
 
     EXPECT_EQ(stack_size(&stack), 2);
+
+    int *poppedValue1, *poppedValue2;
+    stack_pop(&stack, (void **)&poppedValue2);
+    stack_pop(&stack, (void **)&poppedValue1);
+
+    EXPECT_EQ(stack_size(&stack), 0);
+
 }
 #endif //COLLECTIONS_COMMONS_STACK_TEST_H

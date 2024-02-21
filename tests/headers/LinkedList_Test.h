@@ -33,7 +33,7 @@ TEST_F(LinkedListTest, PerformanceTest) {
 
     // Deletion test
     LinkedElement *cur = list_first(&list);
-    while (cur != NULL) {
+    while (!list_is_last(&list, cur)) {
         void *value;
         list_remove(&list, cur, &value);
         free(value);

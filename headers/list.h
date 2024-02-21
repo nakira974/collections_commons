@@ -101,7 +101,75 @@ bool list_add(LinkedList *list, LinkedElement *element, const void *value);
  */
 bool list_remove(LinkedList *list, LinkedElement *element, void **value);
 
+/* ----- MACRO C++ COMPATIBILITY -----*/
+#ifdef __cplusplus
+/***
+ * Inline function that evaluates the number of elements inside the specified list
+ * @return The current element count of the current list
+ * @complexity O(1)
+ */
+inline int list_size(LinkedList *list){
+    return list->size;
+};
 
+
+/***
+ * Inline function that evaluates the first element of the specified list
+ * @return The first element of the current list
+ * @complexity O(1)
+ */
+inline LinkedElement* list_first(LinkedList * list){
+    return list->head;
+};
+
+/***
+ * Inline function that evaluates the last element of the specified list
+ * @return The last element of the current list
+ * @complexity O(1)
+ */
+inline LinkedElement * list_last(LinkedList * list){
+    return list->tail;
+};
+
+/***
+ * Inline function that evaluates if the specified element is the first element of the specified list
+ * @return true if the element is the first of the current list, otherwise false
+ * @complexity O(1)
+ */
+inline bool list_is_first(LinkedList * list, LinkedElement  *element){
+    return (list)->head == element;
+};
+
+/***
+ * Inline function that evaluates if the specified element is the last element of the specified list
+ * @return true if the element is the last of the current list, otherwise false
+ * @complexity O(1)
+ */
+inline bool list_is_last(LinkedList * list, LinkedElement  *element){
+    return (list)->tail == element;
+};
+
+/***
+ * Inline function that evaluates the value of a list element
+ * @return The value stored inside a list element
+ * @complexity O(1)
+ */
+inline void *list_value(LinkedElement  *element){
+    return ((element)->value);
+};
+
+/***
+ * Inline function that evaluates the next element of the current list element
+ * @return The reference to the next element of the current list element
+ * @complexity O(1)
+ */
+inline LinkedElement *list_next(LinkedElement *element){
+    if (element == nullptr) return nullptr;
+    else return (element)->next == nullptr ? nullptr : (element)->next;
+}
+
+/* ----- C MACRO  -----*/
+#else
 /***
  * Macro that evaluates the number of elements inside the specified list
  * @return The current element count of the current list
@@ -151,8 +219,13 @@ bool list_remove(LinkedList *list, LinkedElement *element, void **value);
  * @complexity O(1)
  */
 #define list_next(element) ((element)->next)
+#endif
 
 #ifdef __cplusplus
 }
+#else
+
 #endif
+
+
 #endif //COLLECTIONS_COMMONS_LIST_H

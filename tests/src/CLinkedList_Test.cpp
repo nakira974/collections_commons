@@ -13,7 +13,7 @@ int CLinkedList_Test::replace_page(CLinkedElement **current) {
 }
 
 void CLinkedList_Test::destroy(void *value) {
-    if (value != NULL) {
+    if (value != nullptr) {
         Page *page = (Page *) value;
         delete page;
     }
