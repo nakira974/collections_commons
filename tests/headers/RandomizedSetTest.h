@@ -15,7 +15,7 @@ protected:
 
     void SetUp() override {
 // Code exécuté avant chaque test
-        obj = (RandomizedSet*)malloc(sizeof(RandomizedSet));
+        obj = (RandomizedSet *) malloc(sizeof(RandomizedSet));
         randomized_set_create(obj);
     }
 

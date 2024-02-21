@@ -15,7 +15,7 @@ extern "C" {
 /**
  * Data structure for a randomized set of integers
  */
-typedef struct RandomizedSet{
+typedef struct RandomizedSet {
     /**
      * Array where are stored set values
      */

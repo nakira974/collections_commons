@@ -4,6 +4,7 @@
 
 #ifndef COLLECTIONS_COMMONS_LINKEDLIST_TEST_H
 #define COLLECTIONS_COMMONS_LINKEDLIST_TEST_H
+
 #include "list.h"
 #include <gtest/gtest.h>
 
@@ -23,7 +24,7 @@ protected:
 TEST_F(LinkedListTest, PerformanceTest) {
     // Insertion test
     for (int i = 0; i < 1000000; ++i) {
-        int *value = (int *)malloc(sizeof(int));
+        int *value = (int *) malloc(sizeof(int));
         *value = i;
         list_add(&list, NULL, value);
     }
@@ -41,4 +42,5 @@ TEST_F(LinkedListTest, PerformanceTest) {
 
     EXPECT_EQ(list_size(&list), 0);
 }
+
 #endif //COLLECTIONS_COMMONS_LINKEDLIST_TEST_H

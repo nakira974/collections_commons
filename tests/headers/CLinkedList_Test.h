@@ -8,7 +8,7 @@
 #include <gtest/gtest.h>
 #include "clist.h"
 
-class CLinkedList_Test : public ::testing::Test{
+class CLinkedList_Test : public ::testing::Test {
 public:
     typedef struct Page {
         int numero;
@@ -16,14 +16,15 @@ public:
     } Page;
 
 protected:
-    ClinkedList* obj;
+    ClinkedList *obj;
 
     static void destroy(void *value);
+
     int replace_page(CLinkedElement **current);
 
     void SetUp() override {
 // Code exécuté avant chaque test
-        obj = (ClinkedList *)malloc(sizeof(ClinkedList));
+        obj = (ClinkedList *) malloc(sizeof(ClinkedList));
         clist_create(obj, destroy);
     }
 
@@ -35,6 +36,7 @@ protected:
 
 
 };
+
 TEST_F(CLinkedList_Test, PageTest) {
     Page *page = new Page{1, 5};
 
@@ -46,7 +48,7 @@ TEST_F(CLinkedList_Test, PageTest) {
 
 TEST_F(CLinkedList_Test, ReplacePageTest) {
     for (int i = 10; i >= 0; --i) {
-        clist_add(obj, obj->head, new Page{i, i-1});
+        clist_add(obj, obj->head, new Page{i, i - 1});
     }
     CLinkedElement *current = obj->head;
     int replacedPage = replace_page(&current);
@@ -57,13 +59,13 @@ TEST_F(CLinkedList_Test, ReplacePageTest) {
 TEST_F(CLinkedList_Test, PerformanceTest) {
     // Vérifier les performances en ajoutant et supprimant un grand nombre d'éléments
     for (int i = 0; i < 100000; ++i) {
-        clist_add(obj, obj->head, new Page{i, i+1});
+        clist_add(obj, obj->head, new Page{i, i + 1});
     }
 
     for (int i = 0; i < 100000; ++i) {
         void *value = nullptr;
         clist_remove(obj, obj->head, &value);
-        delete static_cast<Page*>(value);
+        delete static_cast<Page *>(value);
     }
 
     EXPECT_EQ(clist_size(obj), 0);

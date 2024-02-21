@@ -17,8 +17,6 @@ include_directories(${PROJECT_SOURCE_DIR}/headers)
 add_executable(${PROJECT_NAME} ${TEST_SOURCES_FILES} ${TEST_HEADERS_FILES} main.cpp)
 
 
-
-
 add_test(NAME randomized_set_test COMMAND ${PROJECT_NAME})
 
 add_dependencies(${PROJECT_NAME} ${CMAKE_PROJECT_NAME})
