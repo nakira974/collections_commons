@@ -32,16 +32,13 @@ public:
     bool randomized_set_remove(RandomizedSetTest::RandomizedSet  *obj, int val);
     int randomized_set_get_random(RandomizedSetTest::RandomizedSet  *obj);
 
-    ~RandomizedSetTest() override {
-        free(obj);
-    }
 
 protected:
-
-
+    RandomizedSet *obj;
 
     void SetUp() override {
 // Code exécuté avant chaque test
+        obj = (RandomizedSet*)malloc(sizeof(RandomizedSet));
         randomized_set_create(obj);
     }
 
@@ -52,7 +49,6 @@ protected:
         randomized_set_destroy(obj);
     }
 
-    RandomizedSet *obj;
 };
 
 TEST_F(RandomizedSetTest, InsertTest) {
@@ -66,6 +62,7 @@ TEST_F(RandomizedSetTest, RemoveTest) {
 
     ASSERT_TRUE(randomized_set_remove(obj, 1));
     ASSERT_FALSE(randomized_set_remove(obj, 3));
+    ASSERT_TRUE(randomized_set_remove(obj, 2));
 }
 
 TEST_F(RandomizedSetTest, GetRandomTest) {
