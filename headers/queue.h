@@ -18,22 +18,22 @@ extern "C" {
 typedef LinkedList Queue;
 
 /**
- * Dequeue the first element of the specified queue
- * @param queue The queue to remove the first element in
- * @param value
+ * Add an element at the end of the specified queue
+ * @param queue The queue to add the first element in
+ * @param value Element to be added at the end of the queue
  * @complexity O(1)
  * @return
  */
-int queue_enqueue(Queue *queue, const void* value);
+bool queue_enqueue(Queue *queue, const void* value);
 
 /**
- *
- * @param queue
- * @param value
+ * Remove the first element of the specified queue
+ * @param queue Queue to remove the first element in
+ * @param value Reference to the first queue's element
  *  * @complexity O(1)
- * @return
+ * @return A reference to the first queue's element
  */
-int queue_dequeue(Queue * queue, void *value);
+bool queue_dequeue(Queue * queue, void *value);
 
 #ifdef __cplusplus
 
