@@ -9,7 +9,7 @@
 
 class StackTest : public testing::Test {
 protected:
-    Stack stack;
+    Stack stack{};
 
     void SetUp() override {
         stack_create(&stack, free);

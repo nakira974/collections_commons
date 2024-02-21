@@ -10,7 +10,7 @@
 
 class DLinkedListTest : public testing::Test {
 protected:
-    DLinkedList list;
+    DLinkedList list{};
 
     void SetUp() override {
         dlist_create(&list, free);

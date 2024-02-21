@@ -10,7 +10,7 @@
 
 class LinkedListTest : public testing::Test {
 protected:
-    LinkedList list;
+    LinkedList list{};
 
     void SetUp() override {
         list_create(&list, free);
