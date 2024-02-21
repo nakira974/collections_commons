@@ -6,15 +6,15 @@
 
 int CLinkedList_Test::replace_page(CLinkedElement **current) {
     // Loop until we replace a page
-    while(((Page * ) (*current)->value)->reference != 0){
+    while (((Page *) (*current)->value)->reference != 0) {
         *current = clist_next(*current);
     }
-    return (((Page * ) (*current)->value)->numero);
+    return (((Page *) (*current)->value)->numero);
 }
 
- void CLinkedList_Test::destroy(void *value) {
+void CLinkedList_Test::destroy(void *value) {
     if (value != NULL) {
-        Page *page = (Page *)value;
-         delete page;
+        Page *page = (Page *) value;
+        delete page;
     }
 }

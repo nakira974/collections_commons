@@ -8,7 +8,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include <memory.h>
@@ -61,10 +61,10 @@ typedef struct ClinkedList {
 /* ----- PUBLIC DEFINITIONS ----- */
 
 /**
- * Creates a circular linked list that can be used for other operations
+ * Creates a default circular linked list structure that can be used for other operations
  *
  * @param list Reference of the list to create
- * @param destroy Delegate function for later destruction of the current list
+ * @param destroy Delegate user function for later destruction of a single element in the current list
  * @complexity O(1)
  * @see void clist_destroy(ClinkedList * list)
  */
