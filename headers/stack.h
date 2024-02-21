@@ -37,6 +37,7 @@ bool stack_push(Stack *stack, const void *value);
 bool stack_pop(Stack *stack, void **value);
 
 #ifdef __cplusplus
+
 /**
  * Peek the first element of the stack without unstacking it
  */
