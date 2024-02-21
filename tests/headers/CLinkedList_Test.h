@@ -44,9 +44,8 @@ TEST_F(CLinkedList_Test, PageTest) {
     delete page;
 }
 
-
 TEST_F(CLinkedList_Test, ReplacePageTest) {
-    for (int i = 10; i >=0; --i) {
+    for (int i = 10; i >= 0; --i) {
         clist_add(obj, obj->head, new Page{i, i-1});
     }
     CLinkedElement *current = obj->head;
@@ -66,6 +65,8 @@ TEST_F(CLinkedList_Test, PerformanceTest) {
         clist_remove(obj, obj->head, &value);
         delete static_cast<Page*>(value);
     }
+
+    EXPECT_EQ(clist_size(obj), 0);
 }
 
 #endif //COLLECTIONS_COMMONS_CLINKEDLIST_TEST_H
