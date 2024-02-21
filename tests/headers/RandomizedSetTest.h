@@ -11,7 +11,7 @@
 
 class RandomizedSetTest : public ::testing::Test {
 protected:
-    RandomizedSet *obj;
+    RandomizedSet *obj{};
 
     void SetUp() override {
 // Code exécuté avant chaque test

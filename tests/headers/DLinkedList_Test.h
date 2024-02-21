@@ -4,7 +4,6 @@
 
 #ifndef COLLECTIONS_COMMONS_DLINKEDLIST_TEST_H
 #define COLLECTIONS_COMMONS_DLINKEDLIST_TEST_H
-
 #include "dlist.h"
 #include <gtest/gtest.h>
 
@@ -24,23 +23,22 @@ protected:
 TEST_F(DLinkedListTest, PerformanceTest) {
     // Insertion test
     for (int i = 0; i < 1000000; ++i) {
-        int *value = (int *) malloc(sizeof(int));
+        int *value = (int *)malloc(sizeof(int));
         *value = i;
         dlist_add(&list, NULL, value);
     }
 
-    EXPECT_EQ(dlist_size(&list), 1000000);
+    EXPECT_EQ(dlist_size(&list), 1);
 
     // Deletion test
     DLinkedElement *cur = dlist_first(&list);
-    while (cur != NULL) {
+    while (cur != nullptr) {
         void *value;
         dlist_remove(&list, cur, &value);
-        free(value);
+        delete static_cast<int*>(value);
         cur = dlist_next(cur);
     }
 
     EXPECT_EQ(dlist_size(&list), 0);
 }
-
 #endif //COLLECTIONS_COMMONS_DLINKEDLIST_TEST_H

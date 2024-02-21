@@ -4,13 +4,13 @@
 
 #include "clist.h"
 
-void clist_create(ClinkedList *list, void (*destroy)(void *value)) {
+void clist_create(CLinkedList *list, void (*destroy)(void *value)) {
     list->size = 0;
     list->destroy = destroy;
     list->head = NULL;
 }
 
-void clist_destroy(ClinkedList *list) {
+void clist_destroy(CLinkedList *list) {
     void *value;
 
     while (clist_size(list) > 0) {
@@ -18,10 +18,10 @@ void clist_destroy(ClinkedList *list) {
             list->destroy(value);
         }
     }
-    memset(list, 0, sizeof(ClinkedList));
+    memset(list, 0, sizeof(CLinkedList));
 }
 
-bool clist_add(ClinkedList *list, CLinkedElement *element, const void *value) {
+bool clist_add(CLinkedList *list, CLinkedElement *element, const void *value) {
     CLinkedElement *new_element = NULL;
 
     // If we've such enough place in the memory then continue
@@ -42,7 +42,7 @@ bool clist_add(ClinkedList *list, CLinkedElement *element, const void *value) {
     return true;
 }
 
-bool clist_remove(ClinkedList *list, CLinkedElement *element, void **value) {
+bool clist_remove(CLinkedList *list, CLinkedElement *element, void **value) {
     CLinkedElement *last_element = NULL;
 
     if (clist_size(list) == 0) return false;

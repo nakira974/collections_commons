@@ -18,7 +18,9 @@ void list_destroy(LinkedList *list) {
     void **value = NULL;
     while (list_size(list) > 0) {
         if (list_remove(list, NULL, (void **) &value) && list->destroy != NULL) {
-            list->destroy(value);
+            if (list->destroy != NULL && value != NULL) {
+                list->destroy(value);
+            }
         }
     }
 
@@ -65,7 +67,7 @@ bool list_remove(LinkedList *list, LinkedElement *element, void **value) {
         last_element = list->head;
         list->head = list->head->next;
 
-        if (list_size(list) == 1) list->tail == NULL;
+        if (list_size(list) == 1) list->tail = NULL;
 
     } else {
         if (element->next == NULL) return false;

@@ -56,7 +56,7 @@ typedef struct ClinkedList {
     * First element of the list
     */
     CLinkedElement *head;
-} ClinkedList;
+} CLinkedList;
 
 /* ----- PUBLIC DEFINITIONS ----- */
 
@@ -66,16 +66,16 @@ typedef struct ClinkedList {
  * @param list Reference of the list to create
  * @param destroy Delegate user function for later destruction of a single element in the current list
  * @complexity O(1)
- * @see void clist_destroy(ClinkedList * list)
+ * @see void clist_destroy(CLinkedList * list)
  */
-void clist_create(ClinkedList *list, void (*destroy)(void *value));
+void clist_create(CLinkedList *list, void (*destroy)(void *value));
 
 /**
  * Destroy the specified list, after the call no other further operations will be permit
  * @param list Reference of the list to destroy otherwise false
  * @complexity O(n) where n is the number of elements in the current list
  */
-void clist_destroy(ClinkedList *list);
+void clist_destroy(CLinkedList *list);
 
 /**
  * Insert a new element just after element parameter
@@ -86,7 +86,7 @@ void clist_destroy(ClinkedList *list);
  * @return true if the element was added to the current list, otherwise false
  *
  */
-bool clist_add(ClinkedList *list, CLinkedElement *element, const void *value);
+bool clist_add(CLinkedList *list, CLinkedElement *element, const void *value);
 
 /**
  * Remove from an element from the current list, then returns a pointer on the value of the deleted element
@@ -96,8 +96,57 @@ bool clist_add(ClinkedList *list, CLinkedElement *element, const void *value);
  * @complexity O(1)
  * @return true if the element was correctly removed, otherwise false
  */
-bool clist_remove(ClinkedList *list, CLinkedElement *element, void **value);
+bool clist_remove(CLinkedList *list, CLinkedElement *element, void **value);
 
+/* ----- MACRO C++ COMPATIBILITY -----*/
+#ifdef __cplusplus
+/***
+ * Inline function that evaluates the number of elements inside the specified list
+ * @return The current element count of the current list
+ * @complexity O(1)
+ */
+inline int clist_size(CLinkedList *list){
+    return list->size;
+};
+
+/***
+ * Inline function that evaluates the first element of the specified list
+ * @return The first element of the current list
+ * @complexity O(1)
+ */
+inline CLinkedElement* clist_first(CLinkedList * list){
+    return list->head;
+};
+
+/***
+ * Inline function that evaluates if the specified element is the first element of the specified list
+ * @return true if the element is the first of the current list, otherwise false
+ * @complexity O(1)
+ */
+inline bool clist_is_first(CLinkedList * list, CLinkedElement  *element){
+    return (list)->head == element;
+};
+
+/***
+ * Inline function that evaluates the value of a list element
+ * @return The value stored inside a list element
+ * @complexity O(1)
+ */
+inline void *clist_value(CLinkedElement  *element){
+    return ((element)->value);
+};
+
+/***
+ * Inline function that evaluates the next element of the current list element
+ * @return The reference to the next element of the current list element
+ * @complexity O(1)
+ */
+inline CLinkedElement *clist_next(CLinkedElement *element){
+    return (element)->next;
+}
+
+/* ----- C MACRO  -----*/
+#else
 /***
  * Macro that evaluates the number of elements inside the specified list
  * @return The current element count of the current list
@@ -113,6 +162,13 @@ bool clist_remove(ClinkedList *list, CLinkedElement *element, void **value);
 #define clist_first(list) ((list)->head);
 
 /***
+ * Macro that evaluates if the specified element is the first element of the specified list
+ * @return true if the element is the first of the current list, otherwise false
+ * @complexity O(1)
+ */
+#define list_is_first(list, element) ((element) == (list)->head ? true : false )
+
+/***
  * Macro that evaluates the value of a list element
  * @return The value stored inside a list element
  * @complexity O(1)
@@ -125,9 +181,13 @@ bool clist_remove(ClinkedList *list, CLinkedElement *element, void **value);
  * @complexity O(1)
  */
 #define clist_next(element) ((element)->next)
+#endif
 
 #ifdef __cplusplus
 }
 #endif
+
+
+
 
 #endif //COLLECTIONS_COMMONS_CLIST_H

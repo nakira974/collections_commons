@@ -3,6 +3,10 @@
 //
 
 #include <gtest/gtest.h>
+#include "Stack_Test.h"
+#include "LinkedList_Test.h"
+#include "DLinkedList_Test.h"
+#include "RandomizedSetTest.h"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

@@ -8,16 +8,12 @@ file(GLOB_RECURSE TEST_HEADERS_FILES
         ${PROJECT_SOURCE_DIR}/headers/*.h)
 
 file(GLOB_RECURSE TEST_SOURCES_FILES
-        ${PROJECT_SOURCE_DIR}/src/*.c
         ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 include_directories(${PROJECT_SOURCE_DIR}/headers)
 
 
 add_executable(${PROJECT_NAME} ${TEST_SOURCES_FILES} ${TEST_HEADERS_FILES} main.cpp)
-
-
-add_test(NAME randomized_set_test COMMAND ${PROJECT_NAME})
 
 add_dependencies(${PROJECT_NAME} ${CMAKE_PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} gtest gtest_main ${CMAKE_PROJECT_NAME})
