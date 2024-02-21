@@ -1,7 +1,7 @@
-# C Shared Library for Common Collections Algorithm and Structures
+# C/C++ Shared Library for Common Collections Algorithm and Structures
 
-This C shared library provides a collection of commonly used data structures and algorithms, including linked lists,
-hash maps, and array lists. It allows you to efficiently manage and manipulate collections of data in your C projects.
+This C/C++ shared library provides a collection of commonly used data structures and algorithms, including linked lists,
+hash maps, and array lists. It allows you to efficiently manage and manipulate collections of data in your C/C++ projects.
 
 ## Features
 
