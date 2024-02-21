@@ -12,9 +12,10 @@ int **levelOrder(struct TreeNode *root, int *returnSize,
     }
 
     // Crée une file pour stocker les nœuds
-    struct SimpleQueue *queue = createQueue();
+    Queue * queue = (Queue*) malloc(sizeof (Queue));
+    queue_create(queue, free);
     // Ajoute la racine à la file
-    enqueue(queue, root);
+    queue_enqueue(queue, root);
 
     // Initialisation des tableaux de résultats
     // Taille arbitraire. -1000 <= Node.val <= 1000
@@ -26,25 +27,26 @@ int **levelOrder(struct TreeNode *root, int *returnSize,
     int levelIndex = 0; // Indice du niveau actuel
 
     // On instancie une autre file pour stocker les noeuds du prochain niveau
-    struct SimpleQueue *nextQueue = createQueue();
+    Queue *nextQueue = (Queue*) malloc(sizeof (Queue));
 
-    while (queue->front != NULL) {
+    while (list_first(queue)!= NULL) {
         // Taille arbitraire pour le tableau du niveau actuel
         int *currentLevel = (int *) malloc(1000 * sizeof(int));
         int count = 0; // Compteur pour les nœuds dans chaque niveau
 
         // Parcourt le niveau actuel jusqu'à ce que la file soit vide
-        while (queue->front != NULL) {
+        while (list_first(queue)!= NULL) {
             // Récupère le nœud en tête de file
-            struct TreeNode *currNode = dequeue(queue);
+            struct TreeNode *currNode;
+            queue_dequeue(queue, &currNode);
             // Ajoute la valeur du nœud au tableau du niveau actuel
             currentLevel[count++] = currNode->val;
 
             // Ajoute les enfants du nœud au prochain niveau s'ils existent
             if (currNode->left != NULL)
-                enqueue(nextQueue, currNode->left);
+                queue_enqueue(nextQueue, currNode->left);
             if (currNode->right != NULL)
-                enqueue(nextQueue, currNode->right);
+                queue_enqueue(nextQueue, currNode->right);
         }
 
         // Ajuste la taille du tableau du niveau actuel et l'ajoute au résultat
@@ -60,9 +62,10 @@ int **levelOrder(struct TreeNode *root, int *returnSize,
         (*returnColumnSizes)[levelIndex++] = count;
 
         // Passe au prochain niveau en échangeant les files
+        queue_destroy(queue);
         free(queue);
         queue = nextQueue;
-        nextQueue = createQueue();
+        queue_create(nextQueue, free);
     }
 
     // Libère la mémoire de la file du prochain niveau
