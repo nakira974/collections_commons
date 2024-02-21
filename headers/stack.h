@@ -50,9 +50,9 @@ bool stack_push(Stack *stack, const void *value);
  */
 bool stack_pop(Stack *stack, void **value);
 
-#define stack_peek(stack)((stack)->head == NULL ? NULL : (stack)->head->value);
+#define stack_peek(stack)((stack)->head == NULL ? NULL : (stack)->head->value)
 
-#define stack_size list_size;
+#define stack_size list_size
 
 #ifdef __cplusplus
 }
