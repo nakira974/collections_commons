@@ -23,7 +23,7 @@ protected:
 
     void SetUp() override {
 // Code exécuté avant chaque test
-
+        obj = (ClinkedList *)malloc(sizeof(ClinkedList));
         clist_create(obj, destroy);
     }
 
@@ -46,6 +46,9 @@ TEST_F(CLinkedList_Test, PageTest) {
 
 
 TEST_F(CLinkedList_Test, ReplacePageTest) {
+    for (int i = 0; i < 10; ++i) {
+        clist_add(obj, obj->head, new Page{i, i});
+    }
     CLinkedElement *current = obj->head;
     int replacedPage = replace_page(&current);
 

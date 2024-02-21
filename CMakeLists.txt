@@ -8,8 +8,8 @@ else ()
 endif ()
 
 cmake_minimum_required(VERSION 3.27)
-set(CMAKE_C_STANDARD 23)
 project(collections_commons C)
+set(CMAKE_C_STANDARD 23)
 
 set(CMAKE_C_STANDARD 23)
 if (CMAKE_GENERATOR MATCHES "Visual Studio")

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22.3)
 
 set(PROJECT_NAME collections_tests)
 
-project(${PROJECT_NAME} CXX C)
+project(${PROJECT_NAME} CXX)
 
 file(GLOB_RECURSE TEST_HEADERS_FILES
         ${PROJECT_SOURCE_DIR}/headers/*.h)
