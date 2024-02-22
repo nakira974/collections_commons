@@ -4,70 +4,75 @@
 
 #ifndef COLLECTIONS_COMMONS_EVENTBUS_TEST_H
 #define COLLECTIONS_COMMONS_EVENTBUS_TEST_H
+
 #include <gtest/gtest.h>
-#include <thread>
 #include <csignal>
-
+#include <thread>
 #include "event_bus.h"
-
-static EventBus *event_bus;
+#include <gtest/gtest.h>
+#include "event_bus.h"
 
 class EventBusTest : public ::testing::Test {
 public:
+    static Queue *events;
 protected:
-void SetUp() override {
-// Initialisation du EventBus
-    event_bus = new EventBus;
-queue_create(event_bus,free);
-}
-
-void TearDown() override {
-// Destruction du EventBus
-queue_destroy(event_bus);
-delete event_bus;
-}
-
-static void interruptHandler(int signal) {
-    // Fonction de gestion des interruptions
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-
-    // Vérification que la durée de l'interruption est inférieure à 5ms
-    ASSERT_LT(duration, 5);
-
-    // Exécution du handle des events
-    event_bus_subscribe(event_bus, eventHandler);
-}
-
-static void eventHandler(const Event *event) {
-    // TODO: Implémenter la logique de gestion des events
-
-    // Exemple de catégorie d'events
-    if (event->eventType == 1) {
-        // Traiter les events de la catégorie 1
-    } else if (event->eventType == 2) {
-        // Traiter les events de la catégorie 2
+    void SetUp() override {
+        EventBusTest::events = (Queue*)malloc(sizeof(Queue));
+        if(EventBusTest::events)
+            queue_create(EventBusTest::events, free);
     }
-}
 
+    void TearDown() override {
 
-static std::chrono::high_resolution_clock::time_point start;
+        free(EventBusTest::events);
+    }
+
+    static Event create_event(int type, void* data) {
+        Event e;
+        e.eventType = type;
+        e.eventData = data;
+        return e;
+    }
+
+    static int process_event(Event *event) {
+        return event->eventType;
+    }
+
+    static void event_handler(const Event *event) {
+        ASSERT_EQ(event->eventType, 1);
+    }
+
+    static void interruption_handler(int signum) {
+        Event e = create_event(signum, nullptr);
+        event_receive(EventBusTest::events, &e);
+    }
 };
 
-// Initialisation du point de départ pour mesurer la durée des interruptions
-std::chrono::high_resolution_clock::time_point EventBusTest::start;
+Queue* EventBusTest::events;
+
+TEST_F(EventBusTest, TestEventProcess) {
+    Event e1 = create_event(1, nullptr);
+    event_receive(events, &e1);
+
+    int result = event_process(events, process_event);
+    ASSERT_EQ(result, true);
+}
 
 TEST_F(EventBusTest, TestInterrupt) {
-    // Capture du point de départ
-    EventBusTest::start = std::chrono::high_resolution_clock::now();
+    // Enregistrement du gestionnaire d'interruption_handler
+    signal(SIGINT, interruption_handler);
 
-    // Définition de la fonction de gestion des interruptions
-    std::signal(SIGINT, interruptHandler);
+    // Lever une interruption_handler SIGINT
+    raise(SIGINT);
 
-    // Exécution de la logique qui génère des interruptions (à remplacer par votre scénario de test)
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    // Traitement de l'événement - doit être SIGINT
+    int result = event_process(events, process_event);
+    ASSERT_EQ(result, true);
+}
 
-    // Suppression de la fonction de gestion des interruptions
-    std::signal(SIGINT, SIG_DFL);
+TEST_F(EventBusTest, TestPublishSubscribe) {
+    Event e1 = create_event(1, nullptr);
+    event_bus_publish(events, &e1);
+    event_bus_subscribe(events, event_handler);
 }
 #endif //COLLECTIONS_COMMONS_EVENTBUS_TEST_H
