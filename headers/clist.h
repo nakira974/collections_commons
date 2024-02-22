@@ -9,9 +9,17 @@
 extern "C" {
 #endif
 
+#ifdef __cplusplus
+#include <cstdlib>
+#include <cstring>
+#include <cstdbool>
+#else
 #include <stdlib.h>
-#include <stdbool.h>
 #include <memory.h>
+#include <stdbool.h>
+#endif
+
+
 
 /**
  * Data structure for circular linked list element

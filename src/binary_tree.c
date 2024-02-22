@@ -69,6 +69,7 @@ int **levelOrder(struct TreeNode *root, int *returnSize,
     }
 
     // Libère la mémoire de la file du prochain niveau
+    queue_destroy(nextQueue);
     free(nextQueue);
 
     // Met à jour la taille de retour

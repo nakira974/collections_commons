@@ -48,12 +48,10 @@ endif ()
 
 
 file(GLOB_RECURSE HEADERS_FILES
-        ${PROJECT_SOURCE_DIR}/headers/*.hpp
         ${PROJECT_SOURCE_DIR}/headers/*.h
         ${PROJECT_SOURCE_DIR}/headers/*.inl
 )
 file(GLOB_RECURSE SOURCES_FILES
-        ${PROJECT_SOURCE_DIR}/src/*.cpp
         ${PROJECT_SOURCE_DIR}/src/*.c
 )
 

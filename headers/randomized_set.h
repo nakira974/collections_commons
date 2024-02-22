@@ -9,8 +9,13 @@
 extern "C" {
 #endif
 
+#ifdef __cplusplus
+#include <cstdlib>
+#include <cstdbool>
+#else
 #include <malloc.h>
 #include <stdbool.h>
+#endif
 
 /**
  * Data structure for a randomized set of integers

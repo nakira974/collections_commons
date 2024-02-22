@@ -8,8 +8,14 @@
 extern "C" {
 #endif
 
+#ifdef __cpluscplus
+#include <cstdlib>
+#include <cstdbool>
+#else
 #include <stdlib.h>
 #include <stdbool.h>
+#endif
+
 #include "list.h"
 
 /**

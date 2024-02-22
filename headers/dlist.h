@@ -9,9 +9,17 @@
 extern "C" {
 #endif
 
+#ifdef __cplusplus
+#include <cstdlib>
+#include <cstring>
+#include <cstdbool>
+#else
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#endif
+
+
 
 /**
  * Data structure definition for a double chained linked list generic element
