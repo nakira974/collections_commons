@@ -9,6 +9,7 @@
 #include "RandomizedSetTest.h"
 #include "Queue_Test.h"
 #include "EventBus_Test.h"
+#include "Exception_Test.h"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
