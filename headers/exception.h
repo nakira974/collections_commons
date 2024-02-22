@@ -4,8 +4,18 @@
 
 #ifndef COLLECTIONS_COMMONS_EXCEPTION_H
 #define COLLECTIONS_COMMONS_EXCEPTION_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef __cplusplus
+#include <cstdio>
+#include <csetjmp>
+#else
 #include <stdio.h>
 #include <setjmp.h>
+#endif
 
 jmp_buf exception_buffer;
 
@@ -16,4 +26,8 @@ jmp_buf exception_buffer;
 void throw_exception() {
     longjmp(exception_buffer, 1);
 }
+
+#ifdef __cplusplus
+}
+#endif
 #endif //COLLECTIONS_COMMONS_EXCEPTION_H

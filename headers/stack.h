@@ -9,8 +9,14 @@
 extern "C" {
 #endif
 
+#ifdef __cplusplus
+#include <cstdlib>
+#include <cstdbool>
+#else
 #include <stdlib.h>
 #include <stdbool.h>
+#endif
+
 #include "list.h"
 
 /**
