@@ -8,6 +8,7 @@
 #include "DLinkedList_Test.h"
 #include "RandomizedSetTest.h"
 #include "Queue_Test.h"
+#include "EventBus_Test.h"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
