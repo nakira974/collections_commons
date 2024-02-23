@@ -1,6 +1,6 @@
 /**
  * @file event.h
- * @brief This file contains the API for Events
+ * @brief This file contains the API for Events in interruption scenario
  * @author Maxime Loukhal
  * @date 22/02/2024
  */

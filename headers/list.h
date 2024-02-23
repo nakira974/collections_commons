@@ -46,11 +46,11 @@ typedef struct LinkedList {
 
     /**
      * @brief Match handle
-     * @param val1 Left value to compare
-     * @param val2 Right value to compare
+     * @param left Left value to compare
+     * @param right Right value to compare
      * @return true if left is equals to right, otherwise false
      */
-    int (*match)(const void *val1, const void *val2);
+    int (*match)(const void *left, const void *right);
 
     /**
      * @brief Destroy handle
@@ -100,7 +100,7 @@ void list_destroy(LinkedList *list);
 bool list_add(LinkedList *list, LinkedElement *element, const void *value);
 
 /**
- * @brief Remove from an element from the current list, then returns a pointer on the value of the deleted element
+ * @brief Remove a given element from the current list, then returns a pointer on the value of the deleted element
  * @param list Reference of the list to remove an element
  * @param element Element of the list to be removed
  * @param value Output pointer on the value of the deleted list element reference

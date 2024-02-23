@@ -118,7 +118,7 @@ bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value);
 bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *value);
 
 /**
- * @brief Remove from an element from the current list, then returns a pointer on the value of the deleted element
+ * @brief Remove a given element from the current list, then returns a pointer on the value of the deleted element
  * @param list Reference of the list to remove an element
  * @param element Element of the list to be removed
  * @param value Output pointer on the value of the deleted list element reference

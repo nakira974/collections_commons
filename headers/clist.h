@@ -100,7 +100,7 @@ void clist_destroy(CLinkedList *list);
 bool clist_add(CLinkedList *list, CLinkedElement *element, const void *value);
 
 /**
- * @brief Remove from an element from the current list, then returns a pointer on the value of the deleted element
+ * @brief Remove a given element from the current list, then returns a pointer on the value of the deleted element
  * @param list Reference of the list to remove an element
  * @param element Element of the list to be removed
  * @param value Output pointer on the value of the deleted list element reference
