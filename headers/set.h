@@ -1,7 +1,9 @@
-//
-// Created by maxim on 23/02/2024.
-//
-
+/**
+ * @file set.h
+ * @brief This file contains the API for Set collections
+ * @author Maxime Loukhal
+ * @date 23/02/2024
+ */
 #ifndef COLLECTIONS_COMMONS_SET_H
 #define COLLECTIONS_COMMONS_SET_H
 
@@ -21,13 +23,6 @@ typedef LinkedList Set;
  * @complexity O(1)
  */
 void set_create(Set *set, int (*match)(const void *left, const void *right), void (*destroy)(void *value));
-
-/**
- * @brief Destroy a set and make it inoperable
- * @param set Set to destroy
- * @complexity O(n) where n is the number of elements inside the given Set to destroy
- */
-void set_destroy(Set *set);
 
 /**
  * @biref Try to insert a value in the given set
@@ -68,14 +63,14 @@ bool set_union(Set *union_result, const Set *left, const Set *right);
 bool set_intersection(Set *intersection_result, const Set *left, const Set *right);
 
 /**
- * @brief Build a Set resulting of the Difference of left and right, left and right MUST stay accessible before result is destroy
- * @param intersection_result Reference Set resulting of the difference between left and right
+ * @brief Build a Set resulting of the Difference of left and right, left and right MUST stay accessible before difference_result is destroy
+ * @param difference_result Reference Set resulting of the difference between left and right
  * @param left Left Set to compare for difference operation
  * @param right Right Set to compare for difference operation
  * @return true if the difference succeed, otherwise false
  * @complexity O(mn) where m and n are the number of elements in each operand
  */
-bool set_difference(Set *result, const Set *left, const Set *right);
+bool set_difference(Set *difference_result, const Set *left, const Set *right);
 
 /**
  * @brief Test if the value is in the given Set
@@ -111,15 +106,33 @@ bool set_is_equal(const Set *left, const Set *right);
  * @return The size of the current Set
  * @complexity O(1)
  */
-inline int set_size(const Set * set);
+static inline int set_size(const Set * set){
+    return list_size(set);
+};
+
+/**
+ * @brief Inline function to destroy a set
+ * @param set Set to destroy
+ * @complexity O(n) where n is the number of elements inside the given Set to destroy
+ */
+static inline void set_destroy(Set *set){
+    list_destroy(set);
+}
 #else
 /**
- * @brief Macro to get the current Set size
+ * @brief Macro that evaluates the size of a given Set
  * @param set Reference set to get the size
  * @return The size of the current Set
  * @complexity O(1)
  */
-#define set_size(set) ((set)->size);
+#define set_size(set) ((set)->size)
+
+/**
+ * @brief Macro that evaluates destruction of a given set
+ * @param set Set to destroy
+ * @complexity O(n) where n is the number of elements inside the given Set to destroy
+ */
+#define set_destroy(set) list_destroy
 #endif
 
 #ifdef __cplusplus
