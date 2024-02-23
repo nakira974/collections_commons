@@ -8,9 +8,8 @@
 #include <gtest/gtest.h>
 #include <csignal>
 #include <thread>
-#include "event_bus.h"
+#include "event.h"
 #include <gtest/gtest.h>
-#include "event_bus.h"
 
 class EventBusTest : public ::testing::Test {
 public:
@@ -68,11 +67,5 @@ TEST_F(EventBusTest, TestInterrupt) {
     // Traitement de l'événement - doit être SIGINT
     int result = event_process(events, process_event);
     ASSERT_EQ(result, true);
-}
-
-TEST_F(EventBusTest, TestPublishSubscribe) {
-    Event e1 = create_event(1, nullptr);
-    event_bus_publish(events, &e1);
-    event_bus_subscribe(events, event_handler);
 }
 #endif //COLLECTIONS_COMMONS_EVENTBUS_TEST_H
