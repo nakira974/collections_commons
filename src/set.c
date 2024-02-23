@@ -43,7 +43,7 @@ bool set_union(Set *union_result, const Set *left, const Set *right){
     set_create(union_result, left->match, NULL);
 
     // Insertion of left set elements
-    for(current_element = list_first(left);current_element!=NULL;){
+    for(current_element = list_first(left);current_element!=NULL;current_element= list_next(current_element)){
         value = list_value(current_element);
 
         if(!list_add(union_result, list_last(union_result), value)){
@@ -53,7 +53,7 @@ bool set_union(Set *union_result, const Set *left, const Set *right){
     }
 
     // Insertion of right set elements
-    for(current_element = list_first(right);current_element!=NULL;){
+    for(current_element = list_first(right);current_element!=NULL;current_element= list_next(current_element)){
         if(set_is_member(left, list_value(current_element))) continue;
         else{
             value = list_value(current_element);
@@ -76,7 +76,7 @@ bool set_intersection(Set *intersection_result, const Set *left, const Set *righ
 
     // intersection of elements in left and right set
 
-    for(current_element = list_first(left);current_element!=NULL;){
+    for(current_element = list_first(left);current_element!=NULL;current_element= list_next(current_element)){
         // If the current left element is in the right Set
         if(set_is_member(right, list_value(current_element))){
             value = list_value(current_element);
@@ -97,7 +97,7 @@ bool set_difference(Set *difference_result, const Set *left, const Set *right){
     set_create(difference_result, left->match, NULL);
 
     // Insert elements of left non present in right
-    for(current_element = list_first(left);current_element != NULL;){
+    for(current_element = list_first(left);current_element != NULL;current_element= list_next(current_element)){
         // If the current left value is not in the right set
         if(!set_is_member(right, list_value(current_element))){
             value = list_value(current_element);
@@ -115,7 +115,7 @@ bool set_is_member(const Set *set, const void *value){
 
     // Determine if the value is in set
 
-    for(current_element = list_first(set); current_element != NULL;){
+    for(current_element = list_first(set); current_element != NULL;current_element= list_next(current_element)){
         // If any match occurs, then return false
         if(set->match(value, list_value(current_element))) return false;
     }
