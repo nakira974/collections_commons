@@ -57,7 +57,7 @@ file(GLOB_RECURSE SOURCES_FILES
 #ADD GTEST
 if (BUILD_TESTS)
     add_subdirectory(tests)
-    add_subdirectory(third-party/gtest/googletest)
+    add_subdirectory(third-party/googletest)
     include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 endif ()
 
