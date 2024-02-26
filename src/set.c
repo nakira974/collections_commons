@@ -2,8 +2,64 @@
 // Created by maxim on 23/02/2024.
 //
 
-#include "set.h"
+#include <stdint.h>
+#include "hash_set.h"
 
+
+
+bool set_match_exact(Set *elements, Set* elements_to_match, Set * matched_elements){
+    Set intersection;
+    HashSet *hashSet;
+    LinkedElement *current_element,*element_max;
+    void * value;
+    uint32_t max_size;
+
+    // Initialize the set cover
+    set_create(matched_elements, elements_to_match->match, NULL);
+
+    // Continue until there are non-covering elements and candidates
+
+    while(set_size(elements) > 0 && set_size(elements_to_match) > 0){
+        // Search of the candidate covering the most elements as possible
+        max_size = 0;
+
+        for(current_element= list_first(elements_to_match);current_element != NULL; current_element = list_next(current_element)){
+            if(!set_intersection(&intersection, &((HashSet * ) list_value(current_element))->set, elements)) return false;
+
+            if(set_size(&intersection) > max_size){
+                element_max = current_element;
+                max_size = set_size(&intersection);
+            }
+
+            set_destroy(&intersection);
+        }
+    }
+
+    // A covering isn't possible if there's no intersection
+
+    if(max_size == 0) return  false;
+
+    // Insert inside the covering the selected hashset
+    hashSet = (HashSet *) list_value(element_max);
+
+    if(!set_add(matched_elements, hashSet)) return false;
+
+    // Remove each current_element covered from the uncovered-elements set
+    for(current_element = list_first(&((HashSet*) list_value(element_max))->set); current_element != NULL; current_element= list_next(current_element)){
+        value = list_value(current_element);
+
+        if(set_remove(elements, (void**)&value) && elements->destroy != NULL) elements->destroy(value);
+    }
+
+    // Remove the hashset from the hashset candidates
+
+    if(!set_remove(elements_to_match, (void **)&hashSet)) return false;
+
+    // No covering if there's still non-covered elements
+    if(set_size(elements) > 0) return false;
+
+    return true;
+}
 void set_create(Set *set, int (*match)(const void *left, const void *right), void (*destroy)(void *value)){
     list_create(set, destroy);
     set->match = match;

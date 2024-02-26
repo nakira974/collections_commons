@@ -13,6 +13,9 @@
 extern "C" {
 #endif
 
+    /**
+     * @brief Data structure definition for a generic dataset
+     */
 typedef LinkedList Set;
 
 /**
