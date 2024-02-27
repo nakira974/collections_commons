@@ -31,7 +31,7 @@ void set_create(Set *set, int (*match)(const void *left, const void *right), voi
  * @biref Try to insert a value in the given set
  * @param set Set to insert a value in
  * @param value Value to insert in the set
- * @return True if the value was inserted in the given Set, otherwise false
+ * @return True if the value was inserted in the given Set, false otherwise
  * @complexity O(n) where n is the number of elements inside the given Set to compare with the parameter value
  */
 bool set_add(Set *set, const void *value);
@@ -50,7 +50,7 @@ bool set_remove(Set *set, void **value);
  * @param union_result Reference Set resulting of the union between left and right
  * @param left Left Set to compare for union operation
  * @param right Right Set to compare for union operation
- * @return true if the union succeed, otherwise false
+ * @return true if the union succeed, false otherwise
  * @complexity O(mn) where m and n are the number of elements in each operand
  */
 bool set_union(Set *union_result, const Set *left, const Set *right);
@@ -60,7 +60,7 @@ bool set_union(Set *union_result, const Set *left, const Set *right);
  * @param intersection_result Reference Set resulting of the intersection between left and right
  * @param left Left Set to compare for intersection operation
  * @param right Right Set to compare for intersection operation
- * @return true if the intersection succeed, otherwise false
+ * @return true if the intersection succeed, false otherwise
  * @complexity O(mn) where m and n are the number of elements in each operand
  */
 bool set_intersection(Set *intersection_result, const Set *left, const Set *right);
@@ -70,7 +70,7 @@ bool set_intersection(Set *intersection_result, const Set *left, const Set *righ
  * @param difference_result Reference Set resulting of the difference between left and right
  * @param left Left Set to compare for difference operation
  * @param right Right Set to compare for difference operation
- * @return true if the difference succeed, otherwise false
+ * @return true if the difference succeed, false otherwise
  * @complexity O(mn) where m and n are the number of elements in each operand
  */
 bool set_difference(Set *difference_result, const Set *left, const Set *right);
@@ -79,7 +79,7 @@ bool set_difference(Set *difference_result, const Set *left, const Set *right);
  * @brief Test if the value is in the given Set
  * @param set Set to search in
  * @param value Value to search in the set
- * @return true if the element is in the set, otherwise false
+ * @return true if the element is in the set, false otherwise
  * @complexity O(n) where n is the number of elements inside the given Set to compare with the parameter value
  */
 bool set_is_member(const Set *set, const void *value);
@@ -88,7 +88,7 @@ bool set_is_member(const Set *set, const void *value);
  * @brief Test if the left operand is a subset of the right operand
  * @param left Set to determine if it's a subset of right operand
  * @param right Set to be compared with left operand
- * @return true if the left Set is a subset of the right Set, otherwise false
+ * @return true if the left Set is a subset of the right Set, false otherwise
  * @complexity O(mn) where m and n are the number of elements in each operand
  */
 bool set_is_subset(const Set *left, const Set *right);
@@ -97,7 +97,7 @@ bool set_is_subset(const Set *left, const Set *right);
  * @brief Test if left and right Set operands are equal
  * @param left Left Set reference operand
  * @param right Right Set reference operand
- * @return true if left and right are equal, otherwise false
+ * @return true if left and right are equal, false otherwise
  * @complexity O(n ^ 2 ) where n is the number of elements inside left AND right
  */
 bool set_is_equal(const Set *left, const Set *right);
@@ -125,8 +125,8 @@ static inline void set_destroy(Set *set){
 /**
  * @brief Inline function that returns a random element from the set
  */
-static inline bool set_get_random(Set* set, LinkedElement *random_element){
-    return list_get_random(set, random_element);
+static inline LinkedElement * set_get_random(Set* set){
+    return list_get_random(set);
 }
 #else
 /**
@@ -147,7 +147,7 @@ static inline bool set_get_random(Set* set, LinkedElement *random_element){
 /**
  * @brief Macro that evaluates a random element from the set and returns it
  */
-#define set_get_random(set, element) list_get_random
+#define set_get_random(set) list_get_random
 #endif
 
 #ifdef __cplusplus

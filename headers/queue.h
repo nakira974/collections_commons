@@ -76,7 +76,7 @@ inline void queue_create(Queue * queue, void( *destroy)(void *value)){
 
 /**
  * @brief Destroy the specified queue, after the call no other further operations will be permit
- * @param queue Reference of the queue to destroy otherwise false
+ * @param queue Reference of the queue to destroy false otherwise
  * @complexity O(n) where n is the number of elements in the current list
  */
 
@@ -87,8 +87,8 @@ inline void queue_destroy(Queue * queue){
 /**
  * @brief Inline function that returns a random element from the queue
  */
-static inline bool queue_get_random(Queue* queue, LinkedElement *random_element){
-    return list_get_random(queue, random_element);
+static inline LinkedElement *queue_peek_random(Queue* queue){
+    return list_get_random(queue);
 }
 #else
 
@@ -122,7 +122,7 @@ static inline bool queue_get_random(Queue* queue, LinkedElement *random_element)
 /**
  * @brief Macro that evaluates a random element from the queue and returns it
  */
-#define queue_get_random(queue, element) list_get_random
+#define queue_peek_random(queue) list_get_random
 #endif
 
 

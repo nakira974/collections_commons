@@ -53,7 +53,7 @@ typedef struct DLinkedList {
      *
      * @param val1 Left value to compare
      * @param val2 Right value to compare
-     * @return true if left is equals to right, otherwise false
+     * @return true if left is equals to right, false otherwise
      */
     int (*match)(const void *val1, const void *val2);
 
@@ -90,7 +90,7 @@ void dlist_create(DLinkedList *list, void( *destroy)(void *value));
 
 /**
  * @brief Destroy the specified list, after the call no other further operations will be permit
- * @param list Reference of the list to destroy otherwise false
+ * @param list Reference of the list to destroy false otherwise
  * @complexity O(n) where n is the number of elements in the current list
  */
 void dlist_destroy(DLinkedList *list);
@@ -101,7 +101,7 @@ void dlist_destroy(DLinkedList *list);
  * @param element Reference element of the current list to add after
  * @param value A generic data to add after the element parameter
  * @complexity O(1)
- * @return true if the element was added to the current list, otherwise false
+ * @return true if the element was added to the current list, false otherwise
  *
  */
 bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value);
@@ -112,7 +112,7 @@ bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value);
  * @param element Reference element of the current list to add after
  * @param value A generic data to add after the element parameter
  * @complexity O(1)
- * @return true if the element was added to the current list, otherwise false
+ * @return true if the element was added to the current list, false otherwise
  *
  */
 bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *value);
@@ -123,7 +123,7 @@ bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *va
  * @param element Element of the list to be removed
  * @param value Output pointer on the value of the deleted list element reference
  * @complexity O(1)
- * @return true if the element was correctly removed, otherwise false
+ * @return true if the element was correctly removed, false otherwise
  */
 bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value);
 
@@ -133,7 +133,7 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value);
  * @param value Reference to a random element
  * @return true if a random element has been returned, false otherwise
  */
-bool dlist_get_random(DLinkedList *list, DLinkedElement* value);
+DLinkedElement * dlist_get_random(DLinkedList *list);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
@@ -167,7 +167,7 @@ inline DLinkedElement *dlist_last(DLinkedList * list){
 
 /***
  * @brief Inline function that evaluates if the specified element is the first element of the specified list
- * @return true if the element is the first of the current list, otherwise false
+ * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
 inline bool dlist_is_first(DLinkedList * list, DLinkedElement  *element){
@@ -176,7 +176,7 @@ inline bool dlist_is_first(DLinkedList * list, DLinkedElement  *element){
 
 /***
  * @brief Inline function that evaluates if the specified element is the last element of the specified list
- * @return true if the element is the last of the current list, otherwise false
+ * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
 inline bool dlist_is_last(DLinkedList * list, DLinkedElement  *element){
@@ -235,14 +235,14 @@ inline DLinkedElement *dlist_previous(DLinkedElement *element){
 
 /***
  * @brief Macro that evaluates if the specified element is the first element of the specified list
- * @return true if the element is the first of the current list, otherwise false
+ * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
 #define dlist_is_first(list, element) ((element)->previous == NULL ? true : false )
 
 /***
  * @brief Macro that evaluates if the specified element is the last element of the specified list
- * @return true if the element is the last of the current list, otherwise false
+ * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
 #define dlist_is_last(list, element) ((element)->next == NULL ? true : false )

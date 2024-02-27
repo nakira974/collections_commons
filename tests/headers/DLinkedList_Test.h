@@ -25,18 +25,35 @@ TEST_F(DLinkedListTest, PerformanceTest) {
     for (int i = 0; i < 1000000; ++i) {
         int *value = (int *)malloc(sizeof(int));
         *value = i;
-        dlist_add(&list, NULL, value);
+        dlist_add(&list, nullptr, value);
     }
 
     EXPECT_EQ(dlist_size(&list), 1);
 
     // Deletion test
-    DLinkedElement *cur = dlist_first(&list);
-    while (cur != nullptr) {
+    DLinkedElement *current_element;
+
+    for(current_element= dlist_get_random(&list); current_element != nullptr;current_element= dlist_next(current_element)){
         void *value;
-        dlist_remove(&list, cur, &value);
+        dlist_remove(&list, current_element, &value);
         delete static_cast<int*>(value);
-        cur = dlist_next(cur);
+    }
+
+    EXPECT_EQ(dlist_size(&list), 0);
+
+    for (int i = 0; i < 1000000; ++i) {
+        int *value = (int *)malloc(sizeof(int));
+        *value = i;
+        dlist_add(&list, nullptr, value);
+    }
+
+    current_element= dlist_first(&list);
+
+    while (current_element != nullptr) {
+        void *value;
+        dlist_remove(&list, current_element, &value);
+        free(value);
+        current_element = dlist_next(current_element);
     }
 
     EXPECT_EQ(dlist_size(&list), 0);

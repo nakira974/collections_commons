@@ -53,7 +53,7 @@ typedef struct ClinkedList {
     *
     * @param val1 Left value to compare
     * @param val2 Right value to compare
-    * @return true if left is equals to right, otherwise false
+    * @return true if left is equals to right, false otherwise
     */
     int (*match)(const void *val1, const void *val2);
 
@@ -83,7 +83,7 @@ void clist_create(CLinkedList *list, void (*destroy)(void *value));
 
 /**
  * @brief Destroy the specified list, after the call no other further operations will be permit
- * @param list Reference of the list to destroy otherwise false
+ * @param list Reference of the list to destroy false otherwise
  * @complexity O(n) where n is the number of elements in the current list
  */
 void clist_destroy(CLinkedList *list);
@@ -94,7 +94,7 @@ void clist_destroy(CLinkedList *list);
  * @param element Reference element of the current list to add after
  * @param value A generic data to add after the element parameter
  * @complexity O(1)
- * @return true if the element was added to the current list, otherwise false
+ * @return true if the element was added to the current list, false otherwise
  *
  */
 bool clist_add(CLinkedList *list, CLinkedElement *element, const void *value);
@@ -105,7 +105,7 @@ bool clist_add(CLinkedList *list, CLinkedElement *element, const void *value);
  * @param element Element of the list to be removed
  * @param value Output pointer on the value of the deleted list element reference
  * @complexity O(1)
- * @return true if the element was correctly removed, otherwise false
+ * @return true if the element was correctly removed, false otherwise
  */
 bool clist_remove(CLinkedList *list, CLinkedElement *element, void **value);
 
@@ -115,7 +115,7 @@ bool clist_remove(CLinkedList *list, CLinkedElement *element, void **value);
  * @param random_element Reference to a random element
  * @return true if a random element has been returned, false otherwise
  */
-bool clist_get_random(CLinkedList *list, CLinkedElement * random_element);
+CLinkedElement * clist_get_random(CLinkedList *list);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
@@ -139,7 +139,7 @@ inline CLinkedElement* clist_first(CLinkedList * list){
 
 /***
  * Inline function that evaluates if the specified element is the first element of the specified list
- * @return true if the element is the first of the current list, otherwise false
+ * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
 inline bool clist_is_first(CLinkedList * list, CLinkedElement  *element){
@@ -182,7 +182,7 @@ inline CLinkedElement *clist_next(CLinkedElement *element){
 
 /**
  * @brief Macro that evaluates if the specified element is the first element of the specified list
- * @return true if the element is the first of the current list, otherwise false
+ * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
 #define list_is_first(list, element) ((element) == (list)->head ? true : false )

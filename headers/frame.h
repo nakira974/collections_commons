@@ -31,7 +31,7 @@ int frame_alloc(LinkedList *frames);
  * Try to deallocate a frame based on its id
  * @param frames List of frames where to remove the given frame index
  * @param frame_id Frame id to remove
- * @return true if the frame was destroy, otherwise false
+ * @return true if the frame was destroy, false otherwise
  */
 bool frame_destroy(LinkedList *frames, int frame_id);
 #ifdef __cplusplus

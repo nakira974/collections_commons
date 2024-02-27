@@ -48,7 +48,7 @@ typedef struct LinkedList {
      * @brief Match handle
      * @param left Left value to compare
      * @param right Right value to compare
-     * @return true if left is equals to right, otherwise false
+     * @return true if left is equals to right, false otherwise
      */
     int (*match)(const void *left, const void *right);
 
@@ -82,7 +82,7 @@ void list_create(LinkedList *list, void( *destroy)(void *value));
 
 /**
  * @brief Destroy the specified list, after the call no other further operations will be permit
- * @param list Reference of the list to destroy otherwise false
+ * @param list Reference of the list to destroy false otherwise
  * @complexity O(n) where n is the number of elements in the current list
  */
 void list_destroy(LinkedList *list);
@@ -94,7 +94,7 @@ void list_destroy(LinkedList *list);
  * @param element Reference element of the current list to add after
  * @param value A generic data to add after the element parameter
  * @complexity O(1)
- * @return true if the element was added to the current list, otherwise false
+ * @return true if the element was added to the current list, false otherwise
  *
  */
 bool list_add(LinkedList *list, LinkedElement *element, const void *value);
@@ -105,7 +105,7 @@ bool list_add(LinkedList *list, LinkedElement *element, const void *value);
  * @param element Element of the list to be removed
  * @param value Output pointer on the value of the deleted list element reference
  * @complexity O(1)
- * @return true if the element was correctly removed, otherwise false
+ * @return true if the element was correctly removed, false otherwise
  */
 bool list_remove(LinkedList *list, LinkedElement *element, void **value);
 
@@ -115,7 +115,7 @@ bool list_remove(LinkedList *list, LinkedElement *element, void **value);
  * @param random_element Reference to a random element
  * @return true if a random element has been returned, false otherwise
  */
-bool list_get_random(LinkedList *list, LinkedElement* random_element);
+LinkedElement* list_get_random(LinkedList *list);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
@@ -149,7 +149,7 @@ inline LinkedElement * list_last(LinkedList * list){
 
 /**
  * @brief Inline function that evaluates if the specified element is the first element of the specified list
- * @return true if the element is the first of the current list, otherwise false
+ * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
 inline bool list_is_first(LinkedList * list, LinkedElement  *element){
@@ -158,7 +158,7 @@ inline bool list_is_first(LinkedList * list, LinkedElement  *element){
 
 /**
  * @brief Inline function that evaluates if the specified element is the last element of the specified list
- * @return true if the element is the last of the current list, otherwise false
+ * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
 inline bool list_is_last(LinkedList * list, LinkedElement  *element){
@@ -209,14 +209,14 @@ inline LinkedElement *list_next(LinkedElement *element){
 
 /**
  * @brief Macro that evaluates if the specified element is the first element of the specified list
- * @return true if the element is the first of the current list, otherwise false
+ * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
 #define list_is_first(list, element) ((element) == (list)->head ? true : false )
 
 /**
  * @brief Macro that evaluates if the specified element is the last element of the specified list
- * @return true if the element is the last of the current list, otherwise false
+ * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
 #define list_is_last(list, element) ((element) == (list)->tail ? true : false )

@@ -123,8 +123,9 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value) {
     return true;
 }
 
-bool dlist_get_random(DLinkedList *list, DLinkedElement * random_element){
-    if(dlist_size(list) == 0) return false;
+DLinkedElement *  dlist_get_random(DLinkedList *list){
+    DLinkedElement * random_element;
+    if(dlist_size(list) == 0) return NULL;
     // Génère un index aléatoire dans la plage des indices valides du tableau.
     int rd_index = rand() % dlist_size(list);
     int count = 0;
@@ -135,5 +136,5 @@ bool dlist_get_random(DLinkedList *list, DLinkedElement * random_element){
         }
         count++;
     }
-    return true;
+    return random_element;
 }

@@ -6,7 +6,6 @@
 #include "Stack_Test.h"
 #include "LinkedList_Test.h"
 #include "DLinkedList_Test.h"
-#include "RandomizedSetTest.h"
 #include "Queue_Test.h"
 #include "EventBus_Test.h"
 #include "Exception_Test.h"

@@ -30,7 +30,7 @@ typedef LinkedList Stack;
  * @brief Push a value on the top of the stack, the reference to the value MUST stay accessible while it's in the stack
  * @param stack The stack to push value on
  * @param value The value to be pushed on top of stack
- * @return true if the value has been stacked, otherwise false
+ * @return true if the value has been stacked, false otherwise
  * @complexity O(1)
  */
 bool stack_push(Stack *stack, const void *value);
@@ -39,7 +39,7 @@ bool stack_push(Stack *stack, const void *value);
  * @brief Unstack the on-top value of the specified stack
  * @param stack The stack to unstack a value on
  * @param value The value of the element stored on top of the stack
- * @return true if an element has been unstacked, otherwise false
+ * @return true if an element has been unstacked, false otherwise
  * @complexity O(1)
  */
 bool stack_pop(Stack *stack, void **value);
@@ -72,12 +72,19 @@ inline void stack_create(Stack * stack,  void( *destroy)(void *value)){
 
 /**
  * @brief Destroy the specified stack, after the call no other further operations will be permit
- * @param stack Reference of the stack to destroy otherwise false
+ * @param stack Reference of the stack to destroy false otherwise
  * @complexity O(n) where n is the number of elements in the current list
  */
 
 inline void stack_destory(Stack * stack){
     list_destroy(stack);
+}
+
+/**
+ * @brief Inline function that returns a random element from the queue
+ */
+static inline LinkedElement * stack_peek_random(Stack * queue){
+return list_get_random(queue);
 }
 #else
 
@@ -101,10 +108,15 @@ inline void stack_destory(Stack * stack){
 
 /**
  * @brief Destroy the specified stack, after the call no other further operations will be permit
- * @param stack Reference of the stack to destroy otherwise false
+ * @param stack Reference of the stack to destroy false otherwise
  * @complexity O(n) where n is the number of elements in the current list
  */
 #define stack_destroy list_destroy
+
+/**
+ * @brief Macro that evaluates a random element from the queue and returns it
+ */
+#define stack_peek_random(stack) list_get_random
 #endif
 
 #ifdef __cplusplus

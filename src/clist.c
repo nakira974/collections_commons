@@ -62,8 +62,9 @@ bool clist_remove(CLinkedList *list, CLinkedElement *element, void **value) {
     return true;
 }
 
-bool clist_get_random(CLinkedList *list, CLinkedElement * random_element){
-    if(clist_size(list) == 0) return false;
+CLinkedElement * clist_get_random(CLinkedList *list){
+    CLinkedElement * random_element;
+    if(clist_size(list) == 0) return NULL;
     int rd_index = rand() % clist_size(list);
     int count = 0;
 
@@ -73,5 +74,5 @@ bool clist_get_random(CLinkedList *list, CLinkedElement * random_element){
         }
         count++;
     }
-    return true;
+    return random_element;
 }
