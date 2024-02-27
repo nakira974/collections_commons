@@ -68,7 +68,7 @@ typedef struct LinkedHashTable{
 * @return The current element count of the current list
 * @complexity O(1)
 */
-inline int lhtable_size(LinkedHashTable *queue){
+inline int lhtbl_size(LinkedHashTable *queue){
     return queue->size;
 };
 #else
@@ -78,19 +78,19 @@ inline int lhtable_size(LinkedHashTable *queue){
 * @return The current element count of the current chained hash table
 * @complexity O(1)
 */
-#define lhtable_size(table);
+#define lhtbl_size(table);
 #endif
 
 /**
  * @brief Tries to allocate a new linked hash table
- * @param lhtable Linked hash table to create
+ * @param lhtbl Linked hash table to create
  * @param containers The number of containers in the hash table
  * @param hash Element hash function
  * @param match Element match function
  * @param destroy Element destroy function
  * @return true if the hash table has been created successfully, false otherwise
  */
-bool lhtable_create(LinkedHashTable *lhtable,
+bool lhtbl_create(LinkedHashTable *lhtbl,
                     int containers,
                     int (*hash)(const void *key),
                     int (*match)(const void* key1, const void* key2),
@@ -98,33 +98,33 @@ bool lhtable_create(LinkedHashTable *lhtable,
 
 /**
  * @brief Destroy a given data table
- * @param lhtable The data table to be destroyed
+ * @param lhtbl The data table to be destroyed
  */
-void lhtable_destroy(LinkedHashTable *lhtable);
+void lhtbl_destroy(LinkedHashTable *lhtbl);
 
 /**
  * @brief Associates the specified value with a new hash key
- * @param lhtable Linked Hash Table to put a value in
+ * @param lhtbl Linked Hash Table to put a value in
  * @param value Value to be put in the given data table
  * @return true if the value has been correctly inserted, false otherwise
  */
-bool lhtable_put(LinkedHashTable *lhtable, const void* value);
+bool lhtbl_put(LinkedHashTable *lhtbl, const void* value);
 
 /**
  * @brief Remove a value from the data table, then if the operation has been compute value will contain the pointer on the destroyed value
- * @param lhtable Linked Hash Table to remove a value in
+ * @param lhtbl Linked Hash Table to remove a value in
  * @param value Double pointer on the value to be removed, then if it has been correctly removed the pointer on the removed value
  * @return true if the data table has been deleted from the data table, false otherwise
  */
-bool lhtable_remove(LinkedHashTable *lhtable, void** value);
+bool lhtbl_remove(LinkedHashTable *lhtbl, void** value);
 
 /**
  * @brief Test if the given value is present in the data table, if a match occurs value will contain the pointer on the matched value
- * @param lhtable Linked Hash Table to lookup in
+ * @param lhtbl Linked Hash Table to lookup in
  * @param value Double pointer to lookup the value in the given data table, if a match occurs returns the pointer on it
  * @return true if the data table is present in the given data table, false otherwise
  */
-bool lhtable_lookup(LinkedHashTable *lhtable, void** value);
+bool lhtbl_lookup(LinkedHashTable *lhtbl, void** value);
 #ifdef __cplusplus
 }
 #endif
