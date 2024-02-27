@@ -109,6 +109,14 @@ bool clist_add(CLinkedList *list, CLinkedElement *element, const void *value);
  */
 bool clist_remove(CLinkedList *list, CLinkedElement *element, void **value);
 
+/**
+ * @brief Returns a random element from the given list
+ * @param list List to return a random element from
+ * @param random_element Reference to a random element
+ * @return true if a random element has been returned, false otherwise
+ */
+bool clist_get_random(CLinkedList *list, CLinkedElement * random_element);
+
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 /***

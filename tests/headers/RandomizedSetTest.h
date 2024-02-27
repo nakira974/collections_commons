@@ -7,7 +7,7 @@
 
 
 #include <gtest/gtest.h>
-#include "randomized_set.h"
+#include "rd_set.h"
 
 class RandomizedSetTest : public ::testing::Test {
 protected:

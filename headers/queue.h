@@ -83,6 +83,13 @@ inline void queue_create(Queue * queue, void( *destroy)(void *value)){
 inline void queue_destroy(Queue * queue){
     list_destroy(queue);
 }
+
+/**
+ * @brief Inline function that returns a random element from the queue
+ */
+static inline bool queue_get_random(Queue* queue, LinkedElement *random_element){
+    return list_get_random(queue, random_element);
+}
 #else
 
 /**
@@ -111,6 +118,11 @@ inline void queue_destroy(Queue * queue){
 * @complexity O(1)
 */
 #define queue_size list_size
+
+/**
+ * @brief Macro that evaluates a random element from the queue and returns it
+ */
+#define queue_get_random(queue, element) list_get_random
 #endif
 
 

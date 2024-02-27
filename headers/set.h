@@ -121,6 +121,13 @@ static inline int set_size(const Set * set){
 static inline void set_destroy(Set *set){
     list_destroy(set);
 }
+
+/**
+ * @brief Inline function that returns a random element from the set
+ */
+static inline bool set_get_random(Set* set, LinkedElement *random_element){
+    return list_get_random(set, random_element);
+}
 #else
 /**
  * @brief Macro that evaluates the size of a given Set
@@ -136,6 +143,11 @@ static inline void set_destroy(Set *set){
  * @complexity O(n) where n is the number of elements inside the given Set to destroy
  */
 #define set_destroy(set) list_destroy
+
+/**
+ * @brief Macro that evaluates a random element from the set and returns it
+ */
+#define set_get_random(set, element) list_get_random
 #endif
 
 #ifdef __cplusplus

@@ -127,6 +127,14 @@ bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *va
  */
 bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value);
 
+/**
+ * @brief Returns a random element from the given list
+ * @param list List to return a random element from
+ * @param value Reference to a random element
+ * @return true if a random element has been returned, false otherwise
+ */
+bool dlist_get_random(DLinkedList *list, DLinkedElement* value);
+
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 

@@ -1,11 +1,11 @@
 /**
  * @file set.h
- * @brief This file contains the API for generic Set covering
+ * @brief This file contains the API for key set entries
  * @author Maxime Loukhal
- * @date 23/02/2024
+ * @date 26/02/2024
  */
-#ifndef COLLECTIONS_COMMONS_HASH_SET_H
-#define COLLECTIONS_COMMONS_HASH_SET_H
+#ifndef COLLECTIONS_COMMONS_SET_ENTRY_H
+#define COLLECTIONS_COMMONS_SET_ENTRY_H
 #include "set.h"
 
 
@@ -16,20 +16,20 @@ extern "C" {
 /**
  * @brief Data structure for a set identify by a generic key
  */
-typedef struct HashSet{
+typedef struct KeySetEntry{
     void *key;
     Set set;
-}HashSet;
+}KeySetEntry;
 
 /**
- * @brief Determine of elements to match are covering ALL elements
+ * @brief Determine if sets from elements to match are covering ALL elements, if true return the best solution
  * @param elements Elements to be covered
  * @param elements_to_match Sub sets to determine if they can cover ALL elements
  * @param matched_elements Shortest list of elements that match ALL elements
  * @return True if elements to match are covering ALL elements, false otherwise
  */
-bool set_match_exact(Set *elements, Set* elements_to_match, Set * matched_elements);
+bool set_match_entries(Set *elements, Set* elements_to_match, Set * matched_elements);
 #ifdef __cplusplus
 }
 #endif
-#endif //COLLECTIONS_COMMONS_HASH_SET_H
+#endif //COLLECTIONS_COMMONS_SET_ENTRY_H

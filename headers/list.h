@@ -109,6 +109,14 @@ bool list_add(LinkedList *list, LinkedElement *element, const void *value);
  */
 bool list_remove(LinkedList *list, LinkedElement *element, void **value);
 
+/**
+ * @brief Returns a random element from the given list
+ * @param list List to return a random element from
+ * @param random_element Reference to a random element
+ * @return true if a random element has been returned, false otherwise
+ */
+bool list_get_random(LinkedList *list, LinkedElement* random_element);
+
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 /**

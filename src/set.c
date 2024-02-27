@@ -3,13 +3,13 @@
 //
 
 #include <stdint.h>
-#include "hash_set.h"
+#include "set_entry.h"
+#include "set.h"
 
 
-
-bool set_match_exact(Set *elements, Set* elements_to_match, Set * matched_elements){
+bool set_match_entries(Set *elements, Set* elements_to_match, Set * matched_elements){
     Set intersection;
-    HashSet *hashSet;
+    KeySetEntry *hashSet;
     LinkedElement *current_element,*element_max;
     void * value;
     uint32_t max_size;
@@ -24,7 +24,7 @@ bool set_match_exact(Set *elements, Set* elements_to_match, Set * matched_elemen
         max_size = 0;
 
         for(current_element= list_first(elements_to_match);current_element != NULL; current_element = list_next(current_element)){
-            if(!set_intersection(&intersection, &((HashSet * ) list_value(current_element))->set, elements)) return false;
+            if(!set_intersection(&intersection, &((KeySetEntry * ) list_value(current_element))->set, elements)) return false;
 
             if(set_size(&intersection) > max_size){
                 element_max = current_element;
@@ -40,12 +40,12 @@ bool set_match_exact(Set *elements, Set* elements_to_match, Set * matched_elemen
     if(max_size == 0) return  false;
 
     // Insert inside the covering the selected hashset
-    hashSet = (HashSet *) list_value(element_max);
+    hashSet = (KeySetEntry *) list_value(element_max);
 
     if(!set_add(matched_elements, hashSet)) return false;
 
     // Remove each current_element covered from the uncovered-elements set
-    for(current_element = list_first(&((HashSet*) list_value(element_max))->set); current_element != NULL; current_element= list_next(current_element)){
+    for(current_element = list_first(&((KeySetEntry*) list_value(element_max))->set); current_element != NULL; current_element= list_next(current_element)){
         value = list_value(current_element);
 
         if(set_remove(elements, (void**)&value) && elements->destroy != NULL) elements->destroy(value);
