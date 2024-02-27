@@ -1,8 +1,8 @@
 /**
- * @file set.h
+ * @file lhtbl.h
  * @brief This file contains the API for linked hash tables
  * @author Maxime Loukhal
- * @date 26/02/2024
+ * @date 27/02/2024
  */
 
 #ifndef COLLECTIONS_COMMONS_LHTBL_H
@@ -20,7 +20,7 @@ extern "C" {
 #endif
 
 #include "list.h"
-
+#include "htbl_fun.h"
 /**
  * @brief Data structure definition for a linked hash table
  */
