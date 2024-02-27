@@ -81,10 +81,10 @@ inline void stack_destory(Stack * stack){
 }
 
 /**
- * @brief Inline function that returns a random element from the queue
+ * @brief Inline function that returns a random element from the stack
  */
-static inline LinkedElement * stack_peek_random(Stack * queue){
-return list_get_random(queue);
+static inline LinkedElement * stack_peek_random(Stack * stack){
+return list_get_random(stack);
 }
 #else
 

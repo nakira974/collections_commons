@@ -50,7 +50,7 @@ bool queue_dequeue(Queue * queue, void *value);
 * @return The current element count of the current list
 * @complexity O(1)
 */
-inline int queue_size(LinkedList *queue){
+inline int queue_size(Queue *queue){
     return queue->size;
 };
 
