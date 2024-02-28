@@ -138,3 +138,20 @@ DLinkedElement *  dlist_get_random(DLinkedList *list){
     }
     return random_element;
 }
+
+bool dlist_replace(DLinkedList *list, DLinkedElement  *element, void **value){
+    if(list == NULL || element == NULL ) return false;
+    DLinkedElement  * current_element;
+    for(current_element= dlist_first(list); current_element!=NULL; current_element=dlist_next(current_element)){
+        if(current_element == element){
+            void** temp = current_element->value;
+            current_element->value = *value;
+            value = temp;
+            free(temp);
+            break;
+        }
+    }
+
+    free(current_element);
+    return true;
+}

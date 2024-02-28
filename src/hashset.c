@@ -1,10 +1,10 @@
 //
 // Created by maxim on 28/02/2024.
 //
-#include "htbl.h"
+#include "hashset.h"
 
 bool cmp_int(const void *a, const void *b){
-    if(a ==NULL || b == NULL ) return -1;
+    if(a ==NULL || b == NULL ) return false;
     int* intA = (int*)a;
     int* intB = (int*)b;
 

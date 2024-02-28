@@ -76,3 +76,22 @@ CLinkedElement * clist_get_random(CLinkedList *list){
     }
     return random_element;
 }
+
+bool clist_replace(CLinkedList *list, CLinkedElement  *element, void **value){
+    if(list == NULL || element == NULL ) return false;
+    int i;
+    CLinkedElement  * current_element = clist_first(list);
+    for(i=0;i< clist_size(list);i++){
+        if(current_element == element){
+            void** temp = current_element->value;
+            current_element->value = *value;
+            value = temp;
+            free(temp);
+            break;
+        }
+        current_element=clist_next(current_element);
+    }
+
+    free(current_element);
+    return true;
+}

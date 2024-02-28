@@ -117,6 +117,15 @@ bool list_remove( LinkedList*list, LinkedElement *element, void **value);
  */
 LinkedElement* list_get_random(LinkedList *list);
 
+/**
+ * @brief Replace a specified element from the given list with the specified value
+ * @param list List where to replace the element value
+ * @param element Element to replace the value
+ * @param value Value to replace
+ * @return true if the given element's value was replaces, false otherwise
+ */
+bool list_replace(LinkedList *list, LinkedElement  *element, void **value);
+
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 /**

@@ -4,8 +4,8 @@
  * @author Maxime Loukhal
  * @date 27/02/2024
  */
-#ifndef COLLECTIONS_COMMONS_HTBL_H
-#define COLLECTIONS_COMMONS_HTBL_H
+#ifndef COLLECTIONS_COMMONS_HASHSET_H
+#define COLLECTIONS_COMMONS_HASHSET_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,6 +17,7 @@ extern "C" {
 #include <stdint.h>
 #include <math.h>
 #endif
+#include "lhashset.h"
 
 /**
  * @brief PJW method to convert the given key into a permuted integer using consecutive XOR shifts
@@ -49,4 +50,4 @@ bool cmp_int(const void *a, const void *b);
 }
 #endif
 
-#endif //COLLECTIONS_COMMONS_HTBL_H
+#endif //COLLECTIONS_COMMONS_HASHSET_H

@@ -135,6 +135,14 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value);
  */
 DLinkedElement * dlist_get_random(DLinkedList *list);
 
+/**
+ * @brief Replace a specified element from the given list with the specified value
+ * @param list List where to replace the element value
+ * @param element Element to replace the value
+ * @param value Value to replace
+ * @return true if the given element's value was replaces, false otherwise
+ */
+bool dlist_replace(DLinkedList *list, DLinkedElement  *element, void **value);
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 

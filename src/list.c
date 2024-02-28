@@ -99,3 +99,21 @@ LinkedElement* list_get_random(LinkedList *list){
     }
     return random_element;
 }
+
+
+bool list_replace(LinkedList *list, LinkedElement  *element, void **value){
+    if(list == NULL || element == NULL ) return false;
+    LinkedElement  * current_element;
+    for(current_element= list_first(list); current_element!=NULL; current_element=list_next(current_element)){
+        if(current_element == element){
+            void** temp = current_element->value;
+            current_element->value = *value;
+            value = temp;
+            free(temp);
+            break;
+        }
+    }
+
+    free(current_element);
+    return true;
+}

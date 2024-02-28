@@ -4,8 +4,8 @@
  * @author Maxime Loukhal
  * @date 27/02/2024
  */
-#ifndef COLLECTIONS_COMMONS_LHTBL_H
-#define COLLECTIONS_COMMONS_LHTBL_H
+#ifndef COLLECTIONS_COMMONS_LHASHSET_H
+#define COLLECTIONS_COMMONS_LHASHSET_H
 
 
 #ifdef __cplusplus
@@ -23,7 +23,7 @@ extern "C" {
 #endif
 
 #include "list.h"
-#include "htbl.h"
+#include "hashset.h"
 /**
  * @brief Data structure definition for a linked hash table
  */
@@ -122,7 +122,7 @@ bool lhtbl_put(LinkedHashTable *lhtbl, const void* value);
 bool lhtbl_remove(LinkedHashTable *lhtbl, void** value);
 
 /**
- * @brief Test if the given value is present in the data table, if a equals occurs value will contain the pointer on the equalsed value
+ * @brief Test if the given value is present in the hash table, if a equals occurs value will contain the pointer on the equalsed value
  * @param lhtbl Linked Hash Table to lookup in
  * @param value Double pointer to lookup the value in the given data table, if a equals occurs returns the pointer on it
  * @return true if the data table is present in the given data table, false otherwise
@@ -134,4 +134,4 @@ bool lhtbl_containsKey(const LinkedHashTable *lhtbl, void** value);
 #endif
 
 
-#endif //COLLECTIONS_COMMONS_LHTBL_H
+#endif //COLLECTIONS_COMMONS_LHASHSET_H

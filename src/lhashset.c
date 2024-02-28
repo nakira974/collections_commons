@@ -2,7 +2,7 @@
 // Created by maxim on 28/02/2024.
 //
 
-#include "lhtbl.h"
+#include "lhashset.h"
 
 bool lhtbl_create(LinkedHashTable *lhtbl,
                   int containers,

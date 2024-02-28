@@ -117,6 +117,15 @@ bool clist_remove(CLinkedList *list, CLinkedElement *element, void **value);
  */
 CLinkedElement * clist_get_random(CLinkedList *list);
 
+/**
+ * @brief Replace a specified element from the given list with the specified value
+ * @param list List where to replace the element value
+ * @param element Element to replace the value
+ * @param value Value to replace
+ * @return true if the given element's value was replaces, false otherwise
+ */
+bool clist_replace(CLinkedList *list, CLinkedElement  *element, void **value);
+
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 /***

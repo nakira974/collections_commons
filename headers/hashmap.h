@@ -7,7 +7,7 @@
 #ifndef COLLECTIONS_COMMONS_HASHMAP_H
 #define COLLECTIONS_COMMONS_HASHMAP_H
 
-#include "lhtbl.h"
+#include "lhashset.h"
 #include "set.h"
 
 /**
@@ -33,10 +33,7 @@ typedef struct SimpleEntry {
  * @brief Data structure to map a specific key with its associated value
  */
 typedef struct HashMap {
-    /**
-     * @brief Key-Value pairs collection
-     */
-    LinkedList *map;
+
     /**
      * @brief Internal key hashtable
      */
@@ -124,7 +121,7 @@ bool hashmap_putIfAbsent(HashMap *map, void *key, void *value);
  * @param old_value Pointer on the old key value
  * @return true if the replace occurs
  */
-bool hashmap_replace(HashMap *map, void *key, void *new_value, void** old_value);
+bool hashmap_replace(HashMap *map, void *key,void** value);
 
 /**
  * @brief Remove a given entry from the current hashmap, then returns a pointer on the value of the deleted element
