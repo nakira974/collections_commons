@@ -6,8 +6,8 @@
 
 bool lhtbl_create(LinkedHashTable *lhtbl,
                   int containers,
-                  int (*hash)(int table_size, const void *key),
-                  int (*equals)(const void* key1, const void* key2),
+                  int (*hash)(const void *key),
+                  bool (*equals)(const void* key1, const void* key2),
                   void(*destroy)(void *value)){
 
     int i;
@@ -54,7 +54,7 @@ bool lhtbl_put(LinkedHashTable *lhtbl, const void* value){
     if(lhtbl_containsKey(lhtbl, &temp)) return result;
 
     // Hash the given key with the user function
-    container = lhtbl->hash(lhtbl->size, value) % lhtbl->containers;
+    container = lhtbl->hash(value) % lhtbl->containers;
 
     // Add the value inside the result container
 
@@ -66,7 +66,7 @@ bool lhtbl_put(LinkedHashTable *lhtbl, const void* value){
 bool lhtbl_remove(LinkedHashTable *lhtbl, void** value){
     LinkedElement *current_element,*last_element;
     int current_container;
-    current_container = lhtbl->hash(lhtbl->size, *value) % lhtbl->containers;
+    current_container = lhtbl->hash(*value) % lhtbl->containers;
 
     // Search for the value inside the current container
     last_element = NULL;
@@ -93,7 +93,7 @@ bool lhtbl_containsKey(const LinkedHashTable *lhtbl, void** value){
     int current_container;
 
     // Hash the given key value
-    current_container = lhtbl->hash(lhtbl->size, *value) % lhtbl->containers;
+    current_container = lhtbl->hash(*value) % lhtbl->containers;
 
     // Search the value inside the current container
 

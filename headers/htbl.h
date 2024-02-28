@@ -24,7 +24,7 @@ extern "C" {
  * @author P.J. WEINBERGER
  * @see 'Compilers : Principles, Technics and Tools' from Alfred V. AHO
  */
-int hashpjw(int table_size, const void* key);
+int hashpjw(const void* key);
 
 /**
  * @brief Hashes the memory address of a reference and returns it as a uint64_t value
@@ -32,15 +32,15 @@ int hashpjw(int table_size, const void* key);
  * @param ref The reference whose address is to be hashed
  * @return The hashed value of the reference address
  */
-int hashref(int table_size, const void *ref);
+int hashref(const void *ref);
 
 /**
  * Inline assembly implementation of integer comparison.
  * @param a Pointer to the first value
  * @param b Pointer to the second value
- * @return Result of the comparison
+ * @return true if two numbers are stricly equals, false otherwise
  */
-int cmp_int(const void *a, const void *b);
+bool cmp_int(const void *a, const void *b);
 
 
 #ifdef __cplusplus

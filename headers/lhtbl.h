@@ -38,7 +38,7 @@ typedef struct LinkedHashTable{
      * @param key The key to be hashed
      * @return The hashed value of the key
      */
-    int (*hash)(int table_size, const void *key);
+    int (*hash)(const void *key);
 
     /**
      * @brief Pointer to the equals function for hashtable
@@ -46,7 +46,7 @@ typedef struct LinkedHashTable{
      * @param key2 The second key to be compared
      * @return 0 if the keys equals, non-zero otherwise
      */
-    int (*equals)(const void* key1, const void* key2);
+    bool (*equals)(const void* key1, const void* key2);
 
     /**
      * @brief Pointer to the destroy function for hashtable
@@ -95,8 +95,8 @@ inline int lhtbl_size(LinkedHashTable *queue){
  */
 bool lhtbl_create(LinkedHashTable *lhtbl,
                     int containers,
-                    int (*hash)(int table_size, const void *key),
-                    int (*equals)(const void* key1, const void* key2),
+                    int (*hash)(const void *key),
+                    bool (*equals)(const void* key1, const void* key2),
                     void(*destroy)(void *value));
 
 /**

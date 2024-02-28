@@ -39,7 +39,7 @@ void LinkedHashTableTest::destroy(void *value) {
 }
 
 TEST_F(LinkedHashTableTest, TestHashRefFunction) {
-    int hash_val = hashref(2000, (void*)12345);
+    int hash_val = hashref((void*)12345);
     EXPECT_TRUE(hash_val != 0);
 }
 
@@ -50,7 +50,7 @@ TEST_F(LinkedHashTableTest, TestLhtblPutAndGet) {
 
     ASSERT_TRUE(lhtbl_put(lhtbl, page));
 
-    void* value = nullptr;
+    void* value = page;
     ASSERT_TRUE(lhtbl_containsKey(lhtbl, &value));
     Page* retrieved_page = (Page*)value;
     EXPECT_EQ(retrieved_page->numero, page->numero);
@@ -64,7 +64,7 @@ TEST_F(LinkedHashTableTest, TestLhtblRemove) {
 
     ASSERT_TRUE(lhtbl_put(lhtbl, page));
 
-    void* value = (void*)&page;
+    void* value = (void*) page;
     ASSERT_TRUE(lhtbl_remove(lhtbl, &value));
 
     Page* removed_page = (Page*)value;
