@@ -7,7 +7,9 @@
 #ifndef COLLECTIONS_COMMONS_LINKEDHASHTABLE_TEST_H
 #define COLLECTIONS_COMMONS_LINKEDHASHTABLE_TEST_H
 #include <gtest/gtest.h>
-#include "lhashset.h"
+#include "hashset.h"
+#include "hash_utils.h"
+
 
 class LinkedHashTableTest : public ::testing::Test
 {

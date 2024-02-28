@@ -4,8 +4,8 @@
  * @author Maxime Loukhal
  * @date 27/02/2024
  */
-#ifndef COLLECTIONS_COMMONS_LHASHSET_H
-#define COLLECTIONS_COMMONS_LHASHSET_H
+#ifndef COLLECTIONS_COMMONS_LHASHTABLE_H
+#define COLLECTIONS_COMMONS_LHASHTABLE_H
 
 
 #ifdef __cplusplus
@@ -134,4 +134,4 @@ bool lhtbl_containsKey(const LinkedHashTable *lhtbl, void** value);
 #endif
 
 
-#endif //COLLECTIONS_COMMONS_LHASHSET_H
+#endif //COLLECTIONS_COMMONS_LHASHTABLE_H

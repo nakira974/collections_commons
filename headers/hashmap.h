@@ -7,7 +7,11 @@
 #ifndef COLLECTIONS_COMMONS_HASHMAP_H
 #define COLLECTIONS_COMMONS_HASHMAP_H
 
-#include "lhashset.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "lhashtable.h"
 #include "set.h"
 
 /**
@@ -297,4 +301,7 @@ inline bool hashmap_get(const HashMap *map, void** value){
 #define hashmap_get(map,value) hashmap_containsKey
 #endif
 
+#ifdef __cplusplus
+}
+#endif
 #endif //COLLECTIONS_COMMONS_HASHMAP_H
