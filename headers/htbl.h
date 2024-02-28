@@ -1,7 +1,9 @@
-//
-// Created by maxim on 28/02/2024.
-//
-
+/**
+ * @file sort.h
+ * @brief This file contains the API for hash tables functions
+ * @author Maxime Loukhal
+ * @date 27/02/2024
+ */
 #ifndef COLLECTIONS_COMMONS_HTBL_H
 #define COLLECTIONS_COMMONS_HTBL_H
 

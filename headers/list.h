@@ -107,13 +107,13 @@ bool list_add(LinkedList *list, LinkedElement *element, const void *value);
  * @complexity O(1)
  * @return true if the element was correctly removed, false otherwise
  */
-bool list_remove(LinkedList *list, LinkedElement *element, void **value);
+bool list_remove( LinkedList*list, LinkedElement *element, void **value);
 
 /**
  * @brief Returns a random element from the given list
  * @param list List to return a random element from
  * @param random_element Reference to a random element
- * @return true if a random element has been returned, false otherwise
+ * @return true if a random element was returned, false otherwise
  */
 LinkedElement* list_get_random(LinkedList *list);
 
