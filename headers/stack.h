@@ -73,7 +73,7 @@ inline void stack_create(Stack * stack,  void( *destroy)(void *value)){
 /**
  * @brief Destroy the specified stack, after the call no other further operations will be permit
  * @param stack Reference of the stack to destroy false otherwise
- * @complexity O(n) where n is the number of elements in the current list
+ * @complexity O(n) where n is the number of hashtable in the current list
  */
 
 inline void stack_destory(Stack * stack){
@@ -109,7 +109,7 @@ return list_get_random(stack);
 /**
  * @brief Destroy the specified stack, after the call no other further operations will be permit
  * @param stack Reference of the stack to destroy false otherwise
- * @complexity O(n) where n is the number of elements in the current list
+ * @complexity O(n) where n is the number of hashtable in the current list
  */
 #define stack_destroy list_destroy
 

@@ -10,7 +10,7 @@ hash maps, and array lists. It allows you to efficiently manage and manipulate c
 - [ ] (Not release yet) Array list implementation for efficient random access and dynamic resizing.
 - [x] Binary trees implementations for organizing and efficiently searching data. 
 - [x] Randomized set implementation for storing and traversing data in a dynamic manner.
-- [x] Queues implementation  for storing elements in the order they were added
+- [x] Queues implementation  for storing hashtable in the order they were added
 
 ## Usage
 

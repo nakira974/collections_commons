@@ -23,7 +23,7 @@ extern "C" {
     /**
      * @brief Determine if a generic array is sorted or not
      * @param value Array to determine if it's sorted or not
-     * @param element_count Number of elements inside the given array
+     * @param element_count Number of hashtable inside the given array
      * @param element_size The size of the enumerable
      * @param compare User compare function
      * @return true if the generic array is sorted, false otherwise

@@ -21,27 +21,27 @@ typedef LinkedList Set;
 /**
  * @brief Create a Set
  * @param set Set reference to create
- * @param match User match function to determine if elements are equals or not
- * @param destroy User destroy function to clean set elements on remove
+ * @param equals User equals function to determine if hashtable are equals or not
+ * @param destroy User destroy function to clean set hashtable on remove
  * @complexity O(1)
  */
-void set_create(Set *set, int (*match)(const void *left, const void *right), void (*destroy)(void *value));
+void set_create(Set *set, int (*equals)(const void *left, const void *right), void (*destroy)(void *value));
 
 /**
  * @biref Try to insert a value in the given set
  * @param set Set to insert a value in
  * @param value Value to insert in the set
  * @return True if the value was inserted in the given Set, false otherwise
- * @complexity O(n) where n is the number of elements inside the given Set to compare with the parameter value
+ * @complexity O(n) where n is the number of hashtable inside the given Set to compare with the parameter value
  */
 bool set_add(Set *set, const void *value);
 
 /**
- * @brief Remove from the set a value that match the value parameter then return a pointer to the removed value
+ * @brief Remove from the set a value that equals the value parameter then return a pointer to the removed value
  * @param set Set to remove a value in
  * @param value Reference to the delete value in the given set
  * @return True if the value was correctly removed, otherwise
- * @complexity O(n) where n is the number of elements inside the given Set to compare with the parameter value
+ * @complexity O(n) where n is the number of hashtable inside the given Set to compare with the parameter value
  */
 bool set_remove(Set *set, void **value);
 
@@ -51,7 +51,7 @@ bool set_remove(Set *set, void **value);
  * @param left Left Set to compare for union operation
  * @param right Right Set to compare for union operation
  * @return true if the union succeed, false otherwise
- * @complexity O(mn) where m and n are the number of elements in each operand
+ * @complexity O(mn) where m and n are the number of hashtable in each operand
  */
 bool set_union(Set *union_result, const Set *left, const Set *right);
 
@@ -61,7 +61,7 @@ bool set_union(Set *union_result, const Set *left, const Set *right);
  * @param left Left Set to compare for intersection operation
  * @param right Right Set to compare for intersection operation
  * @return true if the intersection succeed, false otherwise
- * @complexity O(mn) where m and n are the number of elements in each operand
+ * @complexity O(mn) where m and n are the number of hashtable in each operand
  */
 bool set_intersection(Set *intersection_result, const Set *left, const Set *right);
 
@@ -71,7 +71,7 @@ bool set_intersection(Set *intersection_result, const Set *left, const Set *righ
  * @param left Left Set to compare for difference operation
  * @param right Right Set to compare for difference operation
  * @return true if the difference succeed, false otherwise
- * @complexity O(mn) where m and n are the number of elements in each operand
+ * @complexity O(mn) where m and n are the number of hashtable in each operand
  */
 bool set_difference(Set *difference_result, const Set *left, const Set *right);
 
@@ -80,7 +80,7 @@ bool set_difference(Set *difference_result, const Set *left, const Set *right);
  * @param set Set to search in
  * @param value Value to search in the set
  * @return true if the element is in the set, false otherwise
- * @complexity O(n) where n is the number of elements inside the given Set to compare with the parameter value
+ * @complexity O(n) where n is the number of hashtable inside the given Set to compare with the parameter value
  */
 bool set_is_member(const Set *set, const void *value);
 
@@ -89,7 +89,7 @@ bool set_is_member(const Set *set, const void *value);
  * @param left Set to determine if it's a subset of right operand
  * @param right Set to be compared with left operand
  * @return true if the left Set is a subset of the right Set, false otherwise
- * @complexity O(mn) where m and n are the number of elements in each operand
+ * @complexity O(mn) where m and n are the number of hashtable in each operand
  */
 bool set_is_subset(const Set *left, const Set *right);
 
@@ -98,7 +98,7 @@ bool set_is_subset(const Set *left, const Set *right);
  * @param left Left Set reference operand
  * @param right Right Set reference operand
  * @return true if left and right are equal, false otherwise
- * @complexity O(n ^ 2 ) where n is the number of elements inside left AND right
+ * @complexity O(n ^ 2 ) where n is the number of hashtable inside left AND right
  */
 bool set_is_equal(const Set *left, const Set *right);
 
@@ -116,7 +116,7 @@ static inline int set_size(const Set * set){
 /**
  * @brief Inline function to destroy a set
  * @param set Set to destroy
- * @complexity O(n) where n is the number of elements inside the given Set to destroy
+ * @complexity O(n) where n is the number of hashtable inside the given Set to destroy
  */
 static inline void set_destroy(Set *set){
     list_destroy(set);
@@ -140,7 +140,7 @@ static inline LinkedElement * set_get_random(Set* set){
 /**
  * @brief Macro that evaluates destruction of a given set
  * @param set Set to destroy
- * @complexity O(n) where n is the number of elements inside the given Set to destroy
+ * @complexity O(n) where n is the number of hashtable inside the given Set to destroy
  */
 #define set_destroy(set) list_destroy
 

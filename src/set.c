@@ -15,7 +15,7 @@ bool set_match_entries(Set *elements, Set* elements_to_match, Set * matched_elem
     uint32_t max_size;
 
     // Initialize the set cover
-    set_create(matched_elements, elements_to_match->match, NULL);
+    set_create(matched_elements, elements_to_match->equals, NULL);
 
     // Continue until there are non-covering elements and candidates
 
@@ -60,9 +60,9 @@ bool set_match_entries(Set *elements, Set* elements_to_match, Set * matched_elem
 
     return true;
 }
-void set_create(Set *set, int (*match)(const void *left, const void *right), void (*destroy)(void *value)){
+void set_create(Set *set, int (*equals)(const void *left, const void *right), void (*destroy)(void *value)){
     list_create(set, destroy);
-    set->match = match;
+    set->equals = equals;
 }
 
 bool set_add(Set *set, const void *value){
@@ -78,7 +78,7 @@ bool set_remove(Set *set, void **value){
     // Search for a value to remove
 
     for(current_element= list_first(set);current_element!=NULL;current_element= list_next(current_element)){
-        if(set->match(*value, list_value(current_element)))
+        if(set->equals(*value, list_value(current_element)))
             break;
         element_to_remove = current_element;
     }
@@ -96,7 +96,7 @@ bool set_union(Set *union_result, const Set *left, const Set *right){
     void * value;
 
     // Create the union set
-    set_create(union_result, left->match, NULL);
+    set_create(union_result, left->equals, NULL);
 
     // Insertion of left set elements
     for(current_element = list_first(left);current_element!=NULL;current_element= list_next(current_element)){
@@ -128,7 +128,7 @@ bool set_intersection(Set *intersection_result, const Set *left, const Set *righ
 
     // Create the intersection Set
 
-    set_create(intersection_result, left->match, NULL);
+    set_create(intersection_result, left->equals, NULL);
 
     // intersection of elements in left and right set
 
@@ -150,7 +150,7 @@ bool set_difference(Set *difference_result, const Set *left, const Set *right){
     void * value;
 
     // Creation of the difference Set
-    set_create(difference_result, left->match, NULL);
+    set_create(difference_result, left->equals, NULL);
 
     // Insert elements of left non present in right
     for(current_element = list_first(left);current_element != NULL;current_element= list_next(current_element)){
@@ -172,8 +172,8 @@ bool set_is_member(const Set *set, const void *value){
     // Determine if the value is in set
 
     for(current_element = list_first(set); current_element != NULL;current_element= list_next(current_element)){
-        // If any match occurs, then return false
-        if(set->match(value, list_value(current_element))) return false;
+        // If any equals occurs, then return false
+        if(set->equals(value, list_value(current_element))) return false;
     }
     return true;
 }

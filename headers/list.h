@@ -50,7 +50,7 @@ typedef struct LinkedList {
      * @param right Right value to compare
      * @return true if left is equals to right, false otherwise
      */
-    int (*match)(const void *left, const void *right);
+    int (*equals)(const void *left, const void *right);
 
     /**
      * @brief Destroy handle
@@ -83,7 +83,7 @@ void list_create(LinkedList *list, void( *destroy)(void *value));
 /**
  * @brief Destroy the specified list, after the call no other further operations will be permit
  * @param list Reference of the list to destroy false otherwise
- * @complexity O(n) where n is the number of elements in the current list
+ * @complexity O(n) where n is the number of hashtable in the current list
  */
 void list_destroy(LinkedList *list);
 
@@ -120,7 +120,7 @@ LinkedElement* list_get_random(LinkedList *list);
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 /**
- * @brief Inline function that evaluates the number of elements inside the specified list
+ * @brief Inline function that evaluates the number of hashtable inside the specified list
  * @return The current element count of the current list
  * @complexity O(1)
  */
@@ -187,7 +187,7 @@ inline LinkedElement *list_next(LinkedElement *element){
 /* ----- C MACRO  -----*/
 #else
 /**
- * @brief Macro that evaluates the number of elements inside the specified list
+ * @brief Macro that evaluates the number of hashtable inside the specified list
  * @return The current element count of the current list
  * @complexity O(1)
  */

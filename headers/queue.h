@@ -46,7 +46,7 @@ bool queue_dequeue(Queue * queue, void *value);
 #ifdef __cplusplus
 
 /***
-* @brief Inline function that evaluates the number of elements inside the specified queue
+* @brief Inline function that evaluates the number of hashtable inside the specified queue
 * @return The current element count of the current list
 * @complexity O(1)
 */
@@ -77,7 +77,7 @@ inline void queue_create(Queue * queue, void( *destroy)(void *value)){
 /**
  * @brief Destroy the specified queue, after the call no other further operations will be permit
  * @param queue Reference of the queue to destroy false otherwise
- * @complexity O(n) where n is the number of elements in the current list
+ * @complexity O(n) where n is the number of hashtable in the current list
  */
 
 inline void queue_destroy(Queue * queue){
@@ -100,7 +100,7 @@ static inline LinkedElement *queue_peek_random(Queue* queue){
 
 /**
  * @brief Macro that evaluates queue destruction
- * @complexity O(n) where n is the number of elements in the current list
+ * @complexity O(n) where n is the number of hashtable in the current list
  */
 #define queue_destroy list_destroy
 
@@ -113,7 +113,7 @@ static inline LinkedElement *queue_peek_random(Queue* queue){
 #define queue_peek(queue) ((queue)->head == NULL ? NUll : (queue)->head->value)
 
 /***
-* @brief Macro that evaluates the number of elements inside the specified queue
+* @brief Macro that evaluates the number of hashtable inside the specified queue
 * @return The current element count of the current list
 * @complexity O(1)
 */

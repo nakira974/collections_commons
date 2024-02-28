@@ -14,7 +14,7 @@ void list_create(LinkedList *list, void( *destroy)(void *value)) {
 }
 
 void list_destroy(LinkedList *list) {
-    // Remove each elements
+    // Remove each hashtable
     void **value = NULL;
     while (list_size(list) > 0) {
         if (list_remove(list, NULL, (void **) &value) && list->destroy != NULL) {

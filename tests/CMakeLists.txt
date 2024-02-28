@@ -16,4 +16,4 @@ include_directories(${PROJECT_SOURCE_DIR}/headers)
 add_executable(${PROJECT_NAME} ${TEST_SOURCES_FILES} ${TEST_HEADERS_FILES} main.cpp)
 
 add_dependencies(${PROJECT_NAME} ${CMAKE_PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} gtest gtest_main ${CMAKE_PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME} gtest gtest_main collections_commons)

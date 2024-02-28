@@ -1,26 +1,29 @@
 /**
- * @file lhtbl.h
+ * @file  lhtbl.h
  * @brief This file contains the API for linked hash tables
  * @author Maxime Loukhal
  * @date 27/02/2024
  */
-
 #ifndef COLLECTIONS_COMMONS_LHTBL_H
 #define COLLECTIONS_COMMONS_LHTBL_H
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 #ifdef __cplusplus
 #include <cstdlib>
 #include <cstdbool>
+#include <cstring>
 #else
 #include <stdlib.h>
 #include <stdbool.h>
+#include <memory.h>
 #endif
 
 #include "list.h"
-#include "htbl_fun.h"
+#include "htbl.h"
 /**
  * @brief Data structure definition for a linked hash table
  */
@@ -31,22 +34,22 @@ typedef struct LinkedHashTable{
     int containers;
 
     /**
-     * @brief Pointer to the hash function for elements
+     * @brief Pointer to the hash function for hashtable
      * @param key The key to be hashed
      * @return The hashed value of the key
      */
-    int (*hash)(const void *key);
+    int (*hash)(int table_size, const void *key);
 
     /**
-     * @brief Pointer to the match function for elements
+     * @brief Pointer to the equals function for hashtable
      * @param key1 The first key to be compared
      * @param key2 The second key to be compared
-     * @return 0 if the keys match, non-zero otherwise
+     * @return 0 if the keys equals, non-zero otherwise
      */
-    int (*match)(const void* key1, const void* key2);
+    int (*equals)(const void* key1, const void* key2);
 
     /**
-     * @brief Pointer to the destroy function for elements
+     * @brief Pointer to the destroy function for hashtable
      * @param value The value to be destroyed
      */
     void(*destroy)(void *value);
@@ -57,14 +60,14 @@ typedef struct LinkedHashTable{
     int size;
 
     /**
-     * @brief Pointer to the internal linked list for storing elements
+     * @brief Pointer to the internal linked list for storing hashtable
      */
-    LinkedList *elements;
+    LinkedList *hashtable;
 } LinkedHashTable;
 
 #ifdef __cplusplus
 /***
-* @brief Inline function that evaluates the number of elements inside the specified queue
+* @brief Inline function that evaluates the number of hashtable inside the specified queue
 * @return The current element count of the current list
 * @complexity O(1)
 */
@@ -74,11 +77,11 @@ inline int lhtbl_size(LinkedHashTable *queue){
 #else
 
 /***
-* @brief Inline function that evaluates the number of elements inside the specified queue
+* @brief Inline function that evaluates the number of hashtable inside the specified queue
 * @return The current element count of the current chained hash table
 * @complexity O(1)
 */
-#define lhtbl_size(table);
+#define lhtbl_size(table) list_size;
 #endif
 
 /**
@@ -86,14 +89,14 @@ inline int lhtbl_size(LinkedHashTable *queue){
  * @param lhtbl Linked hash table to create
  * @param containers The number of containers in the hash table
  * @param hash Element hash function
- * @param match Element match function
+ * @param equals Element equals function
  * @param destroy Element destroy function
  * @return true if the hash table has been created successfully, false otherwise
  */
 bool lhtbl_create(LinkedHashTable *lhtbl,
                     int containers,
-                    int (*hash)(const void *key),
-                    int (*match)(const void* key1, const void* key2),
+                    int (*hash)(int table_size, const void *key),
+                    int (*equals)(const void* key1, const void* key2),
                     void(*destroy)(void *value));
 
 /**
@@ -119,13 +122,16 @@ bool lhtbl_put(LinkedHashTable *lhtbl, const void* value);
 bool lhtbl_remove(LinkedHashTable *lhtbl, void** value);
 
 /**
- * @brief Test if the given value is present in the data table, if a match occurs value will contain the pointer on the matched value
+ * @brief Test if the given value is present in the data table, if a equals occurs value will contain the pointer on the equalsed value
  * @param lhtbl Linked Hash Table to lookup in
- * @param value Double pointer to lookup the value in the given data table, if a match occurs returns the pointer on it
+ * @param value Double pointer to lookup the value in the given data table, if a equals occurs returns the pointer on it
  * @return true if the data table is present in the given data table, false otherwise
  */
-bool lhtbl_lookup(LinkedHashTable *lhtbl, void** value);
+bool lhtbl_containsKey(const LinkedHashTable *lhtbl, void** value);
+
 #ifdef __cplusplus
 }
 #endif
+
+
 #endif //COLLECTIONS_COMMONS_LHTBL_H

@@ -28,7 +28,7 @@ void dlist_destroy(DLinkedList *list) {
 
 bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value) {
     DLinkedElement *new_element = NULL;
-    // Reject null elements except if list is empty
+    // Reject null hashtable except if list is empty
     if (element == NULL && dlist_size(list) != 0) return false;
 
     // Allocate a new memory space for the element
@@ -56,7 +56,7 @@ bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value) {
 
 bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *value) {
     DLinkedElement *new_element = NULL;
-    // Reject null elements except if list is empty
+    // Reject null hashtable except if list is empty
     if (element == NULL && dlist_size(list) != 0) return false;
 
     // Allocate a new memory space for the element

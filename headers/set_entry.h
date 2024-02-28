@@ -22,13 +22,13 @@ typedef struct KeySetEntry{
 }KeySetEntry;
 
 /**
- * @brief Determine if sets from elements to match are covering ALL elements, if true return the best solution
+ * @brief Determine if sets from hashtable to equals are covering ALL hashtable, if true return the best solution
  * @param elements Elements to be covered
- * @param elements_to_match Sub sets to determine if they can cover ALL elements
- * @param matched_elements Shortest list of elements that match ALL elements
- * @return True if elements to match are covering ALL elements, false otherwise
+ * @param elements_to_equals Sub sets to determine if they can cover ALL hashtable
+ * @param equalsed_elements Shortest list of hashtable that equals ALL hashtable
+ * @return True if hashtable to equals are covering ALL hashtable, false otherwise
  */
-bool set_match_entries(Set *elements, Set* elements_to_match, Set * matched_elements);
+bool set_equals_entries(Set *elements, Set* elements_to_equals, Set * equalsed_elements);
 #ifdef __cplusplus
 }
 #endif

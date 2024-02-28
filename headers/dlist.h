@@ -55,7 +55,7 @@ typedef struct DLinkedList {
      * @param val2 Right value to compare
      * @return true if left is equals to right, false otherwise
      */
-    int (*match)(const void *val1, const void *val2);
+    int (*equals)(const void *val1, const void *val2);
 
     /**
      * @brief Destroy handle
@@ -91,7 +91,7 @@ void dlist_create(DLinkedList *list, void( *destroy)(void *value));
 /**
  * @brief Destroy the specified list, after the call no other further operations will be permit
  * @param list Reference of the list to destroy false otherwise
- * @complexity O(n) where n is the number of elements in the current list
+ * @complexity O(n) where n is the number of hashtable in the current list
  */
 void dlist_destroy(DLinkedList *list);
 
@@ -139,7 +139,7 @@ DLinkedElement * dlist_get_random(DLinkedList *list);
 #ifdef __cplusplus
 
 /***
- * @brief Inline function that evaluates the number of elements inside the specified list
+ * @brief Inline function that evaluates the number of hashtable inside the specified list
  * @return The current element count of the current list
  * @complexity O(1)
  */
@@ -213,7 +213,7 @@ inline DLinkedElement *dlist_previous(DLinkedElement *element){
 /* ----- C MACRO  -----*/
 #else
 /***
- * @brief Macro that evaluates the number of elements inside the specified list
+ * @brief Macro that evaluates the number of hashtable inside the specified list
  * @return The current element count of the current list
  * @complexity O(1)
  */
