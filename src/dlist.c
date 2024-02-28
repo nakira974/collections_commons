@@ -123,15 +123,15 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value) {
     return true;
 }
 
-DLinkedElement *  dlist_get_random(DLinkedList *list){
-    DLinkedElement * random_element;
-    if(dlist_size(list) == 0) return NULL;
+DLinkedElement *dlist_get_random(DLinkedList *list) {
+    DLinkedElement *random_element;
+    if (dlist_size(list) == 0) return NULL;
     // Génère un index aléatoire dans la plage des indices valides du tableau.
     int rd_index = rand() % dlist_size(list);
     int count = 0;
 
-    for(random_element= dlist_first(list);random_element!=NULL; random_element= dlist_next(random_element)){
-        if(rd_index == count){
+    for (random_element = dlist_first(list); random_element != NULL; random_element = dlist_next(random_element)) {
+        if (rd_index == count) {
             break;
         }
         count++;
@@ -139,12 +139,12 @@ DLinkedElement *  dlist_get_random(DLinkedList *list){
     return random_element;
 }
 
-bool dlist_replace(DLinkedList *list, DLinkedElement  *element, void **value){
-    if(list == NULL || element == NULL ) return false;
-    DLinkedElement  * current_element;
-    for(current_element= dlist_first(list); current_element!=NULL; current_element=dlist_next(current_element)){
-        if(current_element == element){
-            void** temp = current_element->value;
+bool dlist_replace(DLinkedList *list, DLinkedElement *element, void **value) {
+    if (list == NULL || element == NULL) return false;
+    DLinkedElement *current_element;
+    for (current_element = dlist_first(list); current_element != NULL; current_element = dlist_next(current_element)) {
+        if (current_element == element) {
+            void **temp = current_element->value;
             current_element->value = *value;
             value = temp;
             free(temp);

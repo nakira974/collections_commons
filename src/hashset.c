@@ -3,10 +3,10 @@
 //
 #include "hashset.h"
 
-bool cmp_int(const void *a, const void *b){
-    if(a ==NULL || b == NULL ) return false;
-    int* intA = (int*)a;
-    int* intB = (int*)b;
+bool cmp_int(const void *a, const void *b) {
+    if (a == NULL || b == NULL) return false;
+    int *intA = (int *) a;
+    int *intB = (int *) b;
 
     if (*intA == *intB) {
         return true;
@@ -19,11 +19,11 @@ int hashref(const void *ref) {
     const double phi = (sqrt(5) - 1) / 2;
     intptr_t address = (intptr_t) ref;
 
-    return ((int)( (int) address * phi));
+    return ((int) ((int) address * phi));
 }
 
-int hashpjw(const void* key){
-    const char * string;
+int hashpjw(const void *key) {
+    const char *string;
     int value;
 
     // hash the key the bit to bit operations
@@ -31,12 +31,12 @@ int hashpjw(const void* key){
     value = 0;
     string = key;
 
-    while(*string != '\0'){
+    while (*string != '\0') {
         int temp;
-        value = (value<<4) + (*string);
-        if(temp=(value & 0xf0000000)){
-            value = value ^(temp >> 24);
-            value = value ^temp;
+        value = (value << 4) + (*string);
+        if (temp = (value & 0xf0000000)) {
+            value = value ^ (temp >> 24);
+            value = value ^ temp;
         }
         string++;
     }
