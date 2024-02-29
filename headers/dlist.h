@@ -118,14 +118,14 @@ bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value);
 bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *value);
 
 /**
- * @brief Remove a given element from the current list, then returns a pointer on the value of the deleted element
- * @param list Reference of the list to remove an element
- * @param element Element of the list to be removed
- * @param value Output pointer on the value of the deleted list element reference
+ * @brief Remove a given entry from the current list, then returns a pointer on the value of the deleted entry
+ * @param list Reference of the list to remove an entry
+ * @param entry Element of the list to be removed
+ * @param value Output pointer on the value of the deleted list entry reference
  * @complexity O(1)
- * @return true if the element was correctly removed, false otherwise
+ * @return true if the entry was correctly removed, false otherwise
  */
-bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value);
+bool dlist_remove(DLinkedList *list, DLinkedElement *entry, void **value);
 
 /**
  * @brief Returns a random element from the given list

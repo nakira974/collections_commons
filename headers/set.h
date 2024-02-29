@@ -110,7 +110,7 @@ bool set_is_equal(const Set *left, const Set *right);
  * @complexity O(1)
  */
 static inline int set_size(const Set * set){
-    return list_size(set);
+    return list_size((LinkedList*)set);
 };
 
 /**
