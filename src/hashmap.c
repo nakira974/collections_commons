@@ -244,6 +244,7 @@ bool hashmap_remove(HashMap *map, void **value) {
         }
         last_element = current_element;
     }
+    // If a removed operation occurred inside the hashtable, then compute deletion inside the entries collection
     if (result) {
         SimpleEntry *current_entry = (SimpleEntry *) *value;
         void *key_value;

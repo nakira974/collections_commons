@@ -12,7 +12,7 @@ extern "C" {
 #endif
 
 #include "lhtbl.h"
-
+#include "dlist.h"
 
 /**
  * @brief Data structure to set a specific key with its associated value
@@ -76,34 +76,8 @@ void hashset_destroy(HashSet *set);
  * @param value Value to be added with the specified key in the given hashset
  * @return true if the given key value pair was added, false otherwise
  */
-bool hashset_put(HashSet *set, void *key, void *value);
+bool hashset_add(HashSet *set, void *value);
 
-/**
- * @brief Puts an entry at the end of the given hashset
- * @param set Hashmap to add an entry in
- * @param entry Entry to be added in the given hashset
- * @return true if the given entry was added, false otherwise
- */
-bool hashset_addEntry(HashSet *set, DLinkedElement *entry);
-
-/**
- * @brief Compute the put operation only if the target key isn't already in the given hashset
- * @param set Hashmap to put a value if absent in
- * @param key Key to put if absent in the given hashset
- * @param value Value of the key to put if absent in the given hashset
- * @return true if key value pair has been added to the given hashset, false otherwise
- */
-bool hashset_putIfAbsent(HashSet *set, void *key, void *value);
-
-/**
- * @brief Replace the value of a target key in a given hashset
- * @param set Hashmap to replace a key value in
- * @param key Key to replace the value
- * @param new_value New value of the key
- * @param old_value Pointer on the old key value
- * @return true if the replace occurs
- */
-bool hashset_replace(HashSet *set, void *key, void **value);
 
 /**
  * @brief Remove a given entry from the current hashset, then returns a pointer on the value of the deleted element
@@ -114,21 +88,12 @@ bool hashset_replace(HashSet *set, void *key, void **value);
 bool hashset_remove(HashSet *set, void **value);
 
 /**
- * @brief Remove a given entry from the current hashset, then returns a pointer on the value of the deleted element
- * @param set Reference of the hashset to remove an element
- * @param element Entry of the hashset to be removed
- * @param value Output pointer on the value of the deleted entry value
- * @return true if the element was correctly removed, false otherwise
- */
-bool hashset_removeEntry(HashSet *set, DLinkedElement *entry, void **value);
-
-/**
  * @brief Test if the given value is present in the hashset, if a equals occurs value will contain the pointer on the equalsed value
  * @param set Hashmap to lookup in
  * @param value Double pointer to remove the key in the given hashset, if a delete occurs returns the pointer on it
  * @return true if the data table is present in the given hashset, false otherwise
  */
-bool hashset_containsKey(HashSet *set, void **value);
+bool hashset_contains(HashSet *set, void **value);
 
 /**
  * @brief Build a HashSet resulting of the Union of left and right, left and right MUST stay accessible before result is destroy
@@ -250,7 +215,7 @@ inline DLinkedElement *hashset_next(DLinkedElement *entry) {
  * @return true if the data table is present in the given hashset, false otherwise
  */
 inline bool hashset_get(HashSet *set, void **value) {
-    return hashset_containsKey(set, value);
+    return hashset_contains(set, value);
 } ;
 #else
 /**

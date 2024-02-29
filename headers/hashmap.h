@@ -91,9 +91,9 @@ bool hashmap_create(HashMap *map,
 
 /**
  * @brief Destroy the given hashmap and all its entries
- * @param map The hashmap to be destroyed
+ * @param set The hashmap to be destroyed
  */
-void hashmap_destroy(HashMap *map);
+void hashmap_destroy(HashMap *set);
 
 /**
  * @brief Associates the specified value to the specified key in the given hashmap if the key isn't already present
