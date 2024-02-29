@@ -32,7 +32,7 @@ typedef LinkedList Queue;
  * @complexity O(1)
  * @return
  */
-bool queue_enqueue(Queue *queue, const void* value);
+bool queue_enqueue(Queue *queue, const void *value);
 
 /**
  * @brief Remove the first element of the specified queue
@@ -41,7 +41,7 @@ bool queue_enqueue(Queue *queue, const void* value);
  * @complexity O(1)
  * @return A reference to the first queue's element
  */
-bool queue_dequeue(Queue * queue, void *value);
+bool queue_dequeue(Queue *queue, void *value);
 
 #ifdef __cplusplus
 
@@ -50,9 +50,9 @@ bool queue_dequeue(Queue * queue, void *value);
 * @return The current element count of the current list
 * @complexity O(1)
 */
-inline int queue_size(Queue *queue){
+inline int queue_size(Queue *queue) {
     return queue->size;
-};
+} ;
 
 /**
  * @brief Inline function that peeks the first element of the queue without unstacking it
@@ -60,7 +60,7 @@ inline int queue_size(Queue *queue){
  * @return The current first element of the queue
  * @complexity O(1)
  */
-inline void * queue_peek(Queue  * queue){
+inline void *queue_peek(Queue *queue) {
     return ((queue)->head == nullptr ? nullptr : (queue)->head->value);
 }
 
@@ -70,7 +70,7 @@ inline void * queue_peek(Queue  * queue){
  * @param destroy Delegate user function for later destruction of a single element the current queue
  * @complexity O(1)
  */
-inline void queue_create(Queue * queue, void( *destroy)(void *value)){
+inline void queue_create(Queue *queue, void( *destroy)(void *value)) {
     list_create(queue, destroy);
 }
 
@@ -80,15 +80,15 @@ inline void queue_create(Queue * queue, void( *destroy)(void *value)){
  * @complexity O(n) where n is the number of hashtable in the current list
  */
 
-inline void queue_destroy(Queue * queue){
+inline void queue_destroy(Queue *queue) {
     list_destroy(queue);
 }
 
 /**
  * @brief Inline function that returns a random element from the queue
  */
-static inline LinkedElement *queue_peek_random(Queue* queue){
-    return list_get_random(queue);
+static inline LinkedElement *queue_peekRandom(Queue *queue) {
+    return list_getRandom(queue);
 }
 #else
 
@@ -122,7 +122,7 @@ static inline LinkedElement *queue_peek_random(Queue* queue){
 /**
  * @brief Macro that evaluates a random element from the queue and returns it
  */
-#define queue_peek_random(queue) list_get_random
+#define queue_peekRandom(queue) list_getRandom
 #endif
 
 

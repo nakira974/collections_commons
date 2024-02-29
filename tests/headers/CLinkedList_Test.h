@@ -62,7 +62,7 @@ TEST_F(CLinkedList_Test, PerformanceTest) {
     CLinkedElement *current_element;
 
     // Remove random element until the list is not empty
-    for(current_element= clist_get_random(obj); clist_size(obj) > 0;current_element= clist_next(current_element)){
+    for(current_element= clist_getRandom(obj); clist_size(obj) > 0; current_element= clist_next(current_element)){
         void *value = nullptr;
         clist_remove(obj,current_element , &value);
         delete static_cast<Page*>(value);

@@ -26,7 +26,7 @@ extern "C" {
 /**
  * @brief Data structure definition for a linked hash table
  */
-typedef struct LinkedHashTable{
+typedef struct LinkedHashTable {
     /**
      * @brief Number of containers in the linked hash table
      */
@@ -45,13 +45,13 @@ typedef struct LinkedHashTable{
      * @param key2 The second key to be compared
      * @return 0 if the keys equals, non-zero otherwise
      */
-    bool (*equals)(const void* key1, const void* key2);
+    bool (*equals)(const void *key1, const void *key2);
 
     /**
      * @brief Pointer to the destroy function for hashtable
      * @param value The value to be destroyed
      */
-    void(*destroy)(void *value);
+    void (*destroy)(void *value);
 
     /**
      * @brief Current element count of the hash table
@@ -70,9 +70,9 @@ typedef struct LinkedHashTable{
 * @return The current element count of the current list
 * @complexity O(1)
 */
-inline int lhtbl_size(LinkedHashTable *queue){
+inline int lhtbl_size(LinkedHashTable *queue) {
     return queue->size;
-};
+} ;
 #else
 
 /***
@@ -93,10 +93,10 @@ inline int lhtbl_size(LinkedHashTable *queue){
  * @return true if the hash table has been created successfully, false otherwise
  */
 bool lhtbl_create(LinkedHashTable *lhtbl,
-                    int containers,
-                    int (*hash)(const void *key),
-                    bool (*equals)(const void* key1, const void* key2),
-                    void(*destroy)(void *value));
+                  int containers,
+                  int (*hash)(const void *key),
+                  bool (*equals)(const void *key1, const void *key2),
+                  void(*destroy)(void *value));
 
 /**
  * @brief Destroy a given data table
@@ -110,7 +110,7 @@ void lhtbl_destroy(LinkedHashTable *lhtbl);
  * @param value Value to be put in the given data table
  * @return true if the value has been correctly inserted, false otherwise
  */
-bool lhtbl_put(LinkedHashTable *lhtbl, const void* value);
+bool lhtbl_put(LinkedHashTable *lhtbl, const void *value);
 
 /**
  * @brief Remove a value from the data table, then if the operation has been compute value will contain the pointer on the destroyed value
@@ -118,7 +118,7 @@ bool lhtbl_put(LinkedHashTable *lhtbl, const void* value);
  * @param value Double pointer on the value to be removed, then if it has been correctly removed the pointer on the removed value
  * @return true if the data table has been deleted from the data table, false otherwise
  */
-bool lhtbl_remove(LinkedHashTable *lhtbl, void** value);
+bool lhtbl_remove(LinkedHashTable *lhtbl, void **value);
 
 /**
  * @brief Test if the given value is present in the hash table, if a equals occurs value will contain the pointer on the equalsed value
@@ -126,7 +126,7 @@ bool lhtbl_remove(LinkedHashTable *lhtbl, void** value);
  * @param value Double pointer to lookup the value in the given data table, if a equals occurs returns the pointer on it
  * @return true if the data table is present in the given data table, false otherwise
  */
-bool lhtbl_containsKey(const LinkedHashTable *lhtbl, void** value);
+bool lhtbl_containsKey(const LinkedHashTable *lhtbl, void **value);
 
 #ifdef __cplusplus
 }

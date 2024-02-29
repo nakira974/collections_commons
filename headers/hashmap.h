@@ -12,7 +12,6 @@ extern "C" {
 #endif
 
 #include "lhtbl.h"
-#include "set.h"
 
 /**
  * @brief Hashmap Key-Value pair entry
@@ -85,10 +84,10 @@ typedef struct HashMap {
  * @return true if the hashmap was created successfully, false otherwise
  */
 bool hashmap_create(HashMap *map,
-                  int containers,
-                  int (*hash)(const void *key),
-                  bool (*equals)(const void* key1, const void* key2),
-                  void(*destroy)(void *value));
+                    int containers,
+                    int (*hash)(const void *key),
+                    bool (*equals)(const void *key1, const void *key2),
+                    void(*destroy)(void *value));
 
 /**
  * @brief Destroy the given hashmap and all its entries
@@ -130,7 +129,7 @@ bool hashmap_putIfAbsent(HashMap *map, void *key, void *value);
  * @param old_value Pointer on the old key value
  * @return true if the replace occurs
  */
-bool hashmap_replace(HashMap *map, void *key,void** value);
+bool hashmap_replace(HashMap *map, void *key, void **value);
 
 /**
  * @brief Remove a given entry from the current hashmap, then returns a pointer on the value of the deleted element
@@ -138,7 +137,7 @@ bool hashmap_replace(HashMap *map, void *key,void** value);
  * @param value Double pointer of the key to delete, if deletion occurs returns pointer on the value of the deleted entry value
  * @return true if the element was correctly removed, false otherwise
  */
-bool hashmap_remove(HashMap *map, void** value);
+bool hashmap_remove(HashMap *map, void **value);
 
 /**
  * @brief Remove a given entry from the current hashmap, then returns a pointer on the value of the deleted element
@@ -147,7 +146,7 @@ bool hashmap_remove(HashMap *map, void** value);
  * @param value Output pointer on the value of the deleted entry value
  * @return true if the element was correctly removed, false otherwise
  */
-bool hashmap_removeEntry( HashMap *map, SimpleEntry *entry, void **value);
+bool hashmap_removeEntry(HashMap *map, SimpleEntry *entry, void **value);
 
 /**
  * @brief Test if the given value is present in the hashmap, if a equals occurs value will contain the pointer on the equalsed value
@@ -155,7 +154,7 @@ bool hashmap_removeEntry( HashMap *map, SimpleEntry *entry, void **value);
  * @param value Double pointer to remove the key in the given hashmap, if a delete occurs returns the pointer on it
  * @return true if the data table is present in the given hashmap, false otherwise
  */
-bool hashmap_containsKey(HashMap *map, void** value);
+bool hashmap_containsKey(HashMap *map, void **value);
 
 #ifdef __cplusplus
 /**
@@ -163,9 +162,9 @@ bool hashmap_containsKey(HashMap *map, void** value);
  * @return The current entry count of the current hashmap
  * @complexity O(1)
  */
-inline int hashmap_size(HashMap *hashmap){
+inline int hashmap_size(HashMap *hashmap) {
     return hashmap->size;
-};
+} ;
 
 
 /**
@@ -173,43 +172,43 @@ inline int hashmap_size(HashMap *hashmap){
  * @return The first entry of the current hashmap
  * @complexity O(1)
  */
-inline SimpleEntry * hashmap_first(HashMap * hashmap){
+inline SimpleEntry *hashmap_first(HashMap *hashmap) {
     return hashmap->head;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates the last entry of the specified hashmap
  * @return The last entry of the current hashmap
  * @complexity O(1)
  */
-inline SimpleEntry * hashmap_last(HashMap * hashmap){
+inline SimpleEntry *hashmap_last(HashMap *hashmap) {
     return hashmap->tail;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates if the specified entry is the first entry of the specified hashmap
  * @return true if the entry is the first of the current hashmap, false otherwise
  * @complexity O(1)
  */
-inline bool hashmap_is_first(HashMap * hashmap, SimpleEntry *entry){
+inline bool hashmap_isFirst(HashMap *hashmap, SimpleEntry *entry) {
     return (hashmap)->head == entry;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates if the specified entry is the last entry of the specified hashmap
  * @return true if the entry is the last of the current hashmap, false otherwise
  * @complexity O(1)
  */
-inline bool hashmap_is_last(HashMap * hashmap, SimpleEntry *entry){
+inline bool hashmap_isLast(HashMap *hashmap, SimpleEntry *entry) {
     return (hashmap)->tail == entry;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates the next entry of the current hashmap entry
  * @return The reference to the next entry of the current hashmap entry
  * @complexity O(1)
  */
-inline SimpleEntry *hashmap_next(SimpleEntry *entry){
+inline SimpleEntry *hashmap_next(SimpleEntry *entry) {
     if (entry == nullptr) return nullptr;
     else return (entry)->next == nullptr ? nullptr : (entry)->next;
 }
@@ -220,9 +219,9 @@ inline SimpleEntry *hashmap_next(SimpleEntry *entry){
  * @param value Double pointer to remove the key in the given hashmap, if a equals occurs returns the pointer on it
  * @return true if the data table is present in the given hashmap, false otherwise
  */
-inline bool hashmap_get(HashMap *map, void** value){
+inline bool hashmap_get(HashMap *map, void **value) {
     return hashmap_containsKey(map, value);
-};
+} ;
 #else
 /**
  * @brief Macro that evaluates the number of hashtable inside the specified hashmap
@@ -250,14 +249,14 @@ inline bool hashmap_get(HashMap *map, void** value){
  * @return true if the entry is the first of the current hashmap, false otherwise
  * @complexity O(1)
  */
-#define hashmap_is_first(hashmap, entry) ((entry) == (hashmap)->head ? true : false )
+#define hashmap_isFirst(hashmap, entry) ((entry) == (hashmap)->head ? true : false )
 
 /**
  * @brief Macro that evaluates if the specified entry is the last entry of the specified hashmap
  * @return true if the entry is the last of the current hashmap, false otherwise
  * @complexity O(1)
  */
-#define hashmap_is_last(hashmap, entry) ((entry) == (hashmap)->tail ? true : false )
+#define hashmap_isLast(hashmap, entry) ((entry) == (hashmap)->tail ? true : false )
 
 /**
  * @brief Macro that evaluates the value of a hashmap entry

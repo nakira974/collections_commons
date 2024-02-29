@@ -12,7 +12,8 @@ protected:
 
     void SetUp() override {
         map = (HashMap *) malloc(sizeof(HashMap));
-        hashmap_create(map, 16, hashref, cmp_int, free);
+        // Creating 16 containers, because it works using an AVR ATmega328PB 8bit addressing blocks microprocessor
+        hashmap_create(map, 16, hashint, cmp_int, free);
     }
 
     void TearDown() override {
@@ -40,4 +41,6 @@ TEST_F(HashMapTest, BasicTest) {
     ASSERT_FALSE(hashmap_containsKey(map, reinterpret_cast<void **>(&chunk2->data)));
 
     ASSERT_EQ(hashmap_size(map), 1);
+    ASSERT_TRUE(hashmap_remove(map, reinterpret_cast<void **>(&chunk1->data)));
+    ASSERT_EQ(hashmap_size(map), 0);
 }

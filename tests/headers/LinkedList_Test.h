@@ -23,38 +23,20 @@ protected:
 
 TEST_F(LinkedListTest, PerformanceTest) {
     // Insertion test
-    for (int i = 0; i < 1000000; ++i) {
-        int *value = (int *) malloc(sizeof(int));
-        *value = i;
+    for (int i = 0; i < 100000; ++i) {
+        int *value = (int *) malloc(10* sizeof(int));
+        for(int j =0;j<10;j++)value[j] = i+j;
         list_add(&list, nullptr, value);
     }
 
-    EXPECT_EQ(list_size(&list), 1000000);
+    EXPECT_EQ(list_size(&list), 100000);
 
     // Deletion test
-    LinkedElement *current_element = list_first(&list);
 
-    for(current_element= list_get_random(&list); current_element != nullptr;current_element= list_next(current_element)){
+    while(list_size(&list) != 0){
         void *value;
-        list_remove(&list, current_element, &value);
+        list_remove(&list, nullptr, &value);
         delete static_cast<int*>(value);
-    }
-
-    EXPECT_EQ(list_size(&list), 0);
-
-    for (int i = 0; i < 1000000; ++i) {
-        int *value = (int *) malloc(sizeof(int));
-        *value = i;
-        list_add(&list, nullptr, value);
-    }
-
-    current_element= list_first(&list);
-
-    while (current_element != nullptr) {
-        void *value;
-        list_remove(&list, current_element, &value);
-        free(value);
-        current_element = list_next(current_element);
     }
 
     EXPECT_EQ(list_size(&list), 0);

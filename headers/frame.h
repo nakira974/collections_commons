@@ -12,7 +12,9 @@
 #include <cstdlib>
 #include <cstdbool>
 #else
+
 #include <stdlib.h>
+
 #endif
 
 #include "list.h"
@@ -20,6 +22,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 /**
  * @brief Try to allocate a frame, then returns its index
  * @param frames
@@ -34,6 +37,7 @@ int frame_alloc(LinkedList *frames);
  * @return true if the frame was destroy, false otherwise
  */
 bool frame_destroy(LinkedList *frames, int frame_id);
+
 #ifdef __cplusplus
 }
 #endif

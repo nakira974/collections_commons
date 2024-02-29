@@ -49,14 +49,14 @@ bool stack_pop(Stack *stack, void **value);
 /**
  * @brief Peek the first element of the stack without unstacking it
  */
-inline void * stack_peek(Stack  * stack){
+inline void *stack_peek(Stack *stack) {
     return ((stack)->head == nullptr ? nullptr : (stack)->head->value);
 }
 
 /**
  * @brief Return the current stack size
  */
-inline int stack_size(Stack *stack){
+inline int stack_size(Stack *stack) {
     return list_size(stack);
 }
 
@@ -66,8 +66,8 @@ inline int stack_size(Stack *stack){
  * @param destroy Delegate user function for later destruction of a single element the current stack
  * @complexity O(1)
  */
-inline void stack_create(Stack * stack,  void( *destroy)(void *value)){
-    list_create(stack,destroy);
+inline void stack_create(Stack *stack, void( *destroy)(void *value)) {
+    list_create(stack, destroy);
 }
 
 /**
@@ -76,15 +76,15 @@ inline void stack_create(Stack * stack,  void( *destroy)(void *value)){
  * @complexity O(n) where n is the number of hashtable in the current list
  */
 
-inline void stack_destory(Stack * stack){
+inline void stack_destory(Stack *stack) {
     list_destroy(stack);
 }
 
 /**
  * @brief Inline function that returns a random element from the stack
  */
-static inline LinkedElement * stack_peek_random(Stack * stack){
-return list_get_random(stack);
+static inline LinkedElement *stack_peekRandom(Stack *stack) {
+    return list_getRandom(stack);
 }
 #else
 
@@ -116,7 +116,7 @@ return list_get_random(stack);
 /**
  * @brief Macro that evaluates a random element from the queue and returns it
  */
-#define stack_peek_random(stack) list_get_random
+#define stack_peek_random(stack) list_getRandom
 #endif
 
 #ifdef __cplusplus

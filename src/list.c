@@ -83,7 +83,7 @@ bool list_remove(LinkedList *list, LinkedElement *element, void **value) {
     return true;
 }
 
-LinkedElement *list_get_random(LinkedList *list) {
+LinkedElement *list_getRandom(LinkedList *list) {
     LinkedElement *random_element;
     if (list_size(list) == 0) return NULL;
     // Génère un index aléatoire dans la plage des indices valides du tableau.

@@ -20,7 +20,6 @@ extern "C" {
 #endif
 
 
-
 /**
  * @brief Data structure definition for a simple chained linked list generic element
  */
@@ -50,7 +49,7 @@ typedef struct LinkedList {
      * @param right Right value to compare
      * @return true if left is equals to right, false otherwise
      */
-    int (*equals)(const void *left, const void *right);
+    bool (*equals)(const void *left, const void *right);
 
     /**
      * @brief Destroy handle
@@ -107,7 +106,7 @@ bool list_add(LinkedList *list, LinkedElement *element, const void *value);
  * @complexity O(1)
  * @return true if the element was correctly removed, false otherwise
  */
-bool list_remove( LinkedList*list, LinkedElement *element, void **value);
+bool list_remove(LinkedList *list, LinkedElement *element, void **value);
 
 /**
  * @brief Returns a random element from the given list
@@ -115,7 +114,7 @@ bool list_remove( LinkedList*list, LinkedElement *element, void **value);
  * @param random_element Reference to a random element
  * @return true if a random element was returned, false otherwise
  */
-LinkedElement* list_get_random(LinkedList *list);
+LinkedElement *list_getRandom(LinkedList *list);
 
 /**
  * @brief Replace a specified element from the given list with the specified value
@@ -124,7 +123,7 @@ LinkedElement* list_get_random(LinkedList *list);
  * @param value Value to replace
  * @return true if the given element's value was replaces, false otherwise
  */
-bool list_replace(LinkedList *list, LinkedElement  *element, void **value);
+bool list_replace(LinkedList *list, LinkedElement *element, void **value);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
@@ -133,9 +132,9 @@ bool list_replace(LinkedList *list, LinkedElement  *element, void **value);
  * @return The current element count of the current list
  * @complexity O(1)
  */
-inline int list_size(LinkedList *list){
+inline int list_size(LinkedList *list) {
     return list->size;
-};
+} ;
 
 
 /**
@@ -143,52 +142,52 @@ inline int list_size(LinkedList *list){
  * @return The first element of the current list
  * @complexity O(1)
  */
-inline LinkedElement* list_first(LinkedList * list){
+inline LinkedElement *list_first(LinkedList *list) {
     return list->head;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates the last element of the specified list
  * @return The last element of the current list
  * @complexity O(1)
  */
-inline LinkedElement * list_last(LinkedList * list){
+inline LinkedElement *list_last(LinkedList *list) {
     return list->tail;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates if the specified element is the first element of the specified list
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool list_is_first(LinkedList * list, LinkedElement  *element){
+inline bool list_isFirst(LinkedList *list, LinkedElement *element) {
     return (list)->head == element;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates if the specified element is the last element of the specified list
  * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool list_is_last(LinkedList * list, LinkedElement  *element){
+inline bool list_isLast(LinkedList *list, LinkedElement *element) {
     return (list)->tail == element;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates the value of a list element
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-inline void *list_value(LinkedElement  *element){
+inline void *list_value(LinkedElement *element) {
     return ((element)->value);
-};
+} ;
 
 /**
  * @brief Inline function that evaluates the next element of the current list element
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline LinkedElement *list_next(LinkedElement *element){
+inline LinkedElement *list_next(LinkedElement *element) {
     if (element == nullptr) return nullptr;
     else return (element)->next == nullptr ? nullptr : (element)->next;
 }
@@ -221,14 +220,14 @@ inline LinkedElement *list_next(LinkedElement *element){
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-#define list_is_first(list, element) ((element) == (list)->head ? true : false )
+#define list_isFirst(list, element) ((element) == (list)->head ? true : false )
 
 /**
  * @brief Macro that evaluates if the specified element is the last element of the specified list
  * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
-#define list_is_last(list, element) ((element) == (list)->tail ? true : false )
+#define list_isLast(list, element) ((element) == (list)->tail ? true : false )
 
 /**
  * @brief Macro that evaluates the value of a list element

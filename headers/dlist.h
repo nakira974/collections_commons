@@ -22,7 +22,6 @@ extern "C" {
 #endif
 
 
-
 /**
  * @brief Data structure definition for a double chained linked list generic element
  */
@@ -55,7 +54,7 @@ typedef struct DLinkedList {
      * @param val2 Right value to compare
      * @return true if left is equals to right, false otherwise
      */
-    int (*equals)(const void *val1, const void *val2);
+    bool (*equals)(const void *val1, const void *val2);
 
     /**
      * @brief Destroy handle
@@ -115,7 +114,7 @@ bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value);
  * @return true if the element was added to the current list, false otherwise
  *
  */
-bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *value);
+bool dlist_addBefore(DLinkedList *list, DLinkedElement *element, const void *value);
 
 /**
  * @brief Remove a given entry from the current list, then returns a pointer on the value of the deleted entry
@@ -133,7 +132,7 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *entry, void **value);
  * @param value Reference to a random element
  * @return true if a random element has been returned, false otherwise
  */
-DLinkedElement * dlist_get_random(DLinkedList *list);
+DLinkedElement *dlist_getRandom(DLinkedList *list);
 
 /**
  * @brief Replace a specified element from the given list with the specified value
@@ -142,7 +141,7 @@ DLinkedElement * dlist_get_random(DLinkedList *list);
  * @param value Value to replace
  * @return true if the given element's value was replaces, false otherwise
  */
-bool dlist_replace(DLinkedList *list, DLinkedElement  *element, void **value);
+bool dlist_replace(DLinkedList *list, DLinkedElement *element, void **value);
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 
@@ -151,61 +150,61 @@ bool dlist_replace(DLinkedList *list, DLinkedElement  *element, void **value);
  * @return The current element count of the current list
  * @complexity O(1)
  */
-inline int dlist_size(DLinkedList *list){
+inline int dlist_size(DLinkedList *list) {
     return list->size;
-};
+} ;
 
 /***
  * @brief Inline function that evaluates the first element of the specified list
  * @return The first element of the current list
  * @complexity O(1)
  */
-inline DLinkedElement* dlist_first(DLinkedList * list){
+inline DLinkedElement *dlist_first(DLinkedList *list) {
     return list->head;
-};
+} ;
 
 /***
  * @brief Inline function that evaluates the last element of the specified list
  * @return The last element of the current list
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_last(DLinkedList * list){
+inline DLinkedElement *dlist_last(DLinkedList *list) {
     return list->tail;
-};
+} ;
 
 /***
  * @brief Inline function that evaluates if the specified element is the first element of the specified list
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool dlist_is_first(DLinkedList * list, DLinkedElement  *element){
+inline bool dlist_isFirst(DLinkedList *list, DLinkedElement *element) {
     return (element)->previous == nullptr;
-};
+} ;
 
 /***
  * @brief Inline function that evaluates if the specified element is the last element of the specified list
  * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool dlist_is_last(DLinkedList * list, DLinkedElement  *element){
+inline bool dlist_isLast(DLinkedList *list, DLinkedElement *element) {
     return (element)->next == nullptr;
-};
+} ;
 
 /***
  * @brief Inline function that evaluates the value of a list element
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-inline void *dlist_value(DLinkedElement  *element){
+inline void *dlist_value(DLinkedElement *element) {
     return ((element)->value);
-};
+} ;
 
 /***
  * @brief Inline function that evaluates the next element of the current list element
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_next(DLinkedElement *element){
+inline DLinkedElement *dlist_next(DLinkedElement *element) {
     return (element)->next;
 }
 
@@ -214,7 +213,7 @@ inline DLinkedElement *dlist_next(DLinkedElement *element){
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_previous(DLinkedElement *element){
+inline DLinkedElement *dlist_previous(DLinkedElement *element) {
     return (element)->previous;
 }
 
@@ -246,14 +245,14 @@ inline DLinkedElement *dlist_previous(DLinkedElement *element){
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-#define dlist_is_first(list, element) ((element)->previous == NULL ? true : false )
+#define dlist_isFirst(list, element) ((element)->previous == NULL ? true : false )
 
 /***
  * @brief Macro that evaluates if the specified element is the last element of the specified list
  * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
-#define dlist_is_last(list, element) ((element)->next == NULL ? true : false )
+#define dlist_isLast(list, element) ((element)->next == NULL ? true : false )
 
 /***
  * @brief Macro that evaluates the value of a list element
@@ -281,7 +280,6 @@ inline DLinkedElement *dlist_previous(DLinkedElement *element){
 #ifdef __cplusplus
 }
 #endif
-
 
 
 #endif //COLLECTIONS_COMMONS_DLIST_H

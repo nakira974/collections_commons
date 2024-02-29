@@ -6,6 +6,7 @@
  */
 #ifndef COLLECTIONS_COMMONS_SET_ENTRY_H
 #define COLLECTIONS_COMMONS_SET_ENTRY_H
+
 #include "set.h"
 
 
@@ -16,10 +17,10 @@ extern "C" {
 /**
  * @brief Data structure for a set identify by a generic key
  */
-typedef struct KeySetEntry{
+typedef struct KeySetEntry {
     void *key;
     Set set;
-}KeySetEntry;
+} KeySetEntry;
 
 /**
  * @brief Determine if sets from hashtable to equals are covering ALL hashtable, if true return the best solution
@@ -28,7 +29,8 @@ typedef struct KeySetEntry{
  * @param equalsed_elements Shortest list of hashtable that equals ALL hashtable
  * @return True if hashtable to equals are covering ALL hashtable, false otherwise
  */
-bool set_equals_entries(Set *elements, Set* elements_to_equals, Set * equalsed_elements);
+bool set_equals_entries(Set *elements, Set *elements_to_equals, Set *equalsed_elements);
+
 #ifdef __cplusplus
 }
 #endif

@@ -11,6 +11,7 @@
 #include "Exception_Test.h"
 #include "LinkedHashTable_Test.h"
 #include "HashMap_Test.h"
+#include "Set_Test.h"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

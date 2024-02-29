@@ -56,7 +56,7 @@ bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value) {
     return true;
 }
 
-bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *value) {
+bool dlist_addBefore(DLinkedList *list, DLinkedElement *element, const void *value) {
     DLinkedElement *new_element = NULL;
     // Reject null hashtable except if list is empty
     if (element == NULL && dlist_size(list) != 0) return false;
@@ -103,7 +103,7 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value) {
 
     // Remove the element from the list
     *value = element->value;
-    if (dlist_is_first(list, element)) {
+    if (dlist_isFirst(list, element)) {
         // The list become after deletion empty case
         list->head = element->next;
         if (list->head == NULL)
@@ -125,7 +125,7 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value) {
     return true;
 }
 
-DLinkedElement *dlist_get_random(DLinkedList *list) {
+DLinkedElement *dlist_getRandom(DLinkedList *list) {
     DLinkedElement *random_element;
     if (dlist_size(list) == 0) return NULL;
     // Génère un index aléatoire dans la plage des indices valides du tableau.

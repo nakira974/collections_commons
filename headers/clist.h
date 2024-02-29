@@ -23,7 +23,6 @@ extern "C" {
 #endif
 
 
-
 /**
  * @brief Data structure for circular linked list element
  */
@@ -55,7 +54,7 @@ typedef struct ClinkedList {
     * @param val2 Right value to compare
     * @return true if left is equals to right, false otherwise
     */
-    int (*equals)(const void *val1, const void *val2);
+    bool (*equals)(const void *val1, const void *val2);
 
     /**
      * @brief Destroy handle
@@ -115,7 +114,7 @@ bool clist_remove(CLinkedList *list, CLinkedElement *element, void **value);
  * @param random_element Reference to a random element
  * @return true if a random element has been returned, false otherwise
  */
-CLinkedElement * clist_get_random(CLinkedList *list);
+CLinkedElement *clist_getRandom(CLinkedList *list);
 
 /**
  * @brief Replace a specified element from the given list with the specified value
@@ -124,7 +123,7 @@ CLinkedElement * clist_get_random(CLinkedList *list);
  * @param value Value to replace
  * @return true if the given element's value was replaces, false otherwise
  */
-bool clist_replace(CLinkedList *list, CLinkedElement  *element, void **value);
+bool clist_replace(CLinkedList *list, CLinkedElement *element, void **value);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
@@ -133,43 +132,43 @@ bool clist_replace(CLinkedList *list, CLinkedElement  *element, void **value);
  * @return The current element count of the current list
  * @complexity O(1)
  */
-inline int clist_size(CLinkedList *list){
+inline int clist_size(CLinkedList *list) {
     return list->size;
-};
+} ;
 
 /***
  * Inline function that evaluates the first element of the specified list
  * @return The first element of the current list
  * @complexity O(1)
  */
-inline CLinkedElement* clist_first(CLinkedList * list){
+inline CLinkedElement *clist_first(CLinkedList *list) {
     return list->head;
-};
+} ;
 
 /***
  * Inline function that evaluates if the specified element is the first element of the specified list
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool clist_is_first(CLinkedList * list, CLinkedElement  *element){
+inline bool clist_isFirst(CLinkedList *list, CLinkedElement *element) {
     return (list)->head == element;
-};
+} ;
 
 /***
  * Inline function that evaluates the value of a list element
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-inline void *clist_value(CLinkedElement  *element){
+inline void *clist_value(CLinkedElement *element) {
     return ((element)->value);
-};
+} ;
 
 /***
  * Inline function that evaluates the next element of the current list element
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline CLinkedElement *clist_next(CLinkedElement *element){
+inline CLinkedElement *clist_next(CLinkedElement *element) {
     return (element)->next;
 }
 
@@ -194,7 +193,7 @@ inline CLinkedElement *clist_next(CLinkedElement *element){
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-#define list_is_first(list, element) ((element) == (list)->head ? true : false )
+#define list_isFirst(list, element) ((element) == (list)->head ? true : false )
 
 /**
  * @brief Macro that evaluates the value of a list element
@@ -214,8 +213,6 @@ inline CLinkedElement *clist_next(CLinkedElement *element){
 #ifdef __cplusplus
 }
 #endif
-
-
 
 
 #endif //COLLECTIONS_COMMONS_CLIST_H

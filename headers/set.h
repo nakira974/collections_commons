@@ -13,9 +13,9 @@
 extern "C" {
 #endif
 
-    /**
-     * @brief Data structure definition for a generic dataset
-     */
+/**
+ * @brief Data structure definition for a generic dataset
+ */
 typedef LinkedList Set;
 
 /**
@@ -25,7 +25,7 @@ typedef LinkedList Set;
  * @param destroy User destroy function to clean set hashtable on remove
  * @complexity O(1)
  */
-void set_create(Set *set, int (*equals)(const void *left, const void *right), void (*destroy)(void *value));
+void set_create(Set *set, bool (*equals)(const void *left, const void *right), void (*destroy)(void *value));
 
 /**
  * @biref Try to insert a value in the given set
@@ -82,7 +82,7 @@ bool set_difference(Set *difference_result, const Set *left, const Set *right);
  * @return true if the element is in the set, false otherwise
  * @complexity O(n) where n is the number of hashtable inside the given Set to compare with the parameter value
  */
-bool set_is_member(const Set *set, const void *value);
+bool set_isMember(const Set *set, const void *value);
 
 /**
  * @brief Test if the left operand is a subset of the right operand
@@ -91,7 +91,7 @@ bool set_is_member(const Set *set, const void *value);
  * @return true if the left Set is a subset of the right Set, false otherwise
  * @complexity O(mn) where m and n are the number of hashtable in each operand
  */
-bool set_is_subset(const Set *left, const Set *right);
+bool set_isSubset(const Set *left, const Set *right);
 
 /**
  * @brief Test if left and right Set operands are equal
@@ -100,7 +100,7 @@ bool set_is_subset(const Set *left, const Set *right);
  * @return true if left and right are equal, false otherwise
  * @complexity O(n ^ 2 ) where n is the number of hashtable inside left AND right
  */
-bool set_is_equal(const Set *left, const Set *right);
+bool set_equals(const Set *left, const Set *right);
 
 #ifdef __cplusplus
 /**
@@ -109,24 +109,24 @@ bool set_is_equal(const Set *left, const Set *right);
  * @return The size of the current Set
  * @complexity O(1)
  */
-static inline int set_size(const Set * set){
-    return list_size((LinkedList*)set);
-};
+static inline int set_size(const Set *set) {
+    return list_size((LinkedList *) set);
+} ;
 
 /**
  * @brief Inline function to destroy a set
  * @param set Set to destroy
  * @complexity O(n) where n is the number of hashtable inside the given Set to destroy
  */
-static inline void set_destroy(Set *set){
+static inline void set_destroy(Set *set) {
     list_destroy(set);
 }
 
 /**
  * @brief Inline function that returns a random element from the set
  */
-static inline LinkedElement * set_get_random(Set* set){
-    return list_get_random(set);
+static inline LinkedElement *set_getRandom(Set *set) {
+    return list_getRandom(set);
 }
 #else
 /**
@@ -147,7 +147,7 @@ static inline LinkedElement * set_get_random(Set* set){
 /**
  * @brief Macro that evaluates a random element from the set and returns it
  */
-#define set_get_random(set) list_get_random
+#define set_get_random(set) list_getRandom
 #endif
 
 #ifdef __cplusplus
