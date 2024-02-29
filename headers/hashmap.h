@@ -11,7 +11,7 @@
 extern "C" {
 #endif
 
-#include "lhashtable.h"
+#include "lhtbl.h"
 #include "set.h"
 
 /**
@@ -31,6 +31,11 @@ typedef struct SimpleEntry {
      * @brief Next entry in the hashmap
      */
     struct SimpleEntry *next;
+
+    /**
+     * @brief Next entry in the hashmap
+     */
+    struct SimpleEntry *last;
 } SimpleEntry;
 
 /**
@@ -150,21 +155,7 @@ bool hashmap_removeEntry( HashMap *map, SimpleEntry *entry, void **value);
  * @param value Double pointer to remove the key in the given hashmap, if a delete occurs returns the pointer on it
  * @return true if the data table is present in the given hashmap, false otherwise
  */
-bool hashmap_containsKey(const HashMap *map, void** value);
-
-/**
- * @brief Returns the keys of the given hashmap as set
- * @param map Hashmap to get keys as set
- * @return A set of the given hashmap keys
- */
-Set * hashmap_keySet(HashMap *map);
-
-/**
- * @brief Returns entries of the given hashmap as set
- * @param map Hashmap to get entries as set
- * @return A set of the given hashmap entries
- */
-Set * hashmap_entrySet(HashMap *map);
+bool hashmap_containsKey(HashMap *map, void** value);
 
 #ifdef __cplusplus
 /**
@@ -182,7 +173,7 @@ inline int hashmap_size(HashMap *hashmap){
  * @return The first entry of the current hashmap
  * @complexity O(1)
  */
-inline HashMap* hashmap_first(HashMap * hashmap){
+inline SimpleEntry * hashmap_first(HashMap * hashmap){
     return hashmap->head;
 };
 
@@ -191,7 +182,7 @@ inline HashMap* hashmap_first(HashMap * hashmap){
  * @return The last entry of the current hashmap
  * @complexity O(1)
  */
-inline HashMap * hashmap_last(HashMap * hashmap){
+inline SimpleEntry * hashmap_last(HashMap * hashmap){
     return hashmap->tail;
 };
 
@@ -200,7 +191,7 @@ inline HashMap * hashmap_last(HashMap * hashmap){
  * @return true if the entry is the first of the current hashmap, false otherwise
  * @complexity O(1)
  */
-inline bool hashmap_is_first(LinkedList * hashmap, SimpleEntry *entry){
+inline bool hashmap_is_first(HashMap * hashmap, SimpleEntry *entry){
     return (hashmap)->head == entry;
 };
 
@@ -211,15 +202,6 @@ inline bool hashmap_is_first(LinkedList * hashmap, SimpleEntry *entry){
  */
 inline bool hashmap_is_last(HashMap * hashmap, SimpleEntry *entry){
     return (hashmap)->tail == entry;
-};
-
-/**
- * @brief Inline function that evaluates the value of a hashmap entry
- * @return The value stored inside a hashmap entry
- * @complexity O(1)
- */
-inline void *hashmap_get(void * key){
-    return ((entry)->value);
 };
 
 /**
@@ -238,7 +220,7 @@ inline SimpleEntry *hashmap_next(SimpleEntry *entry){
  * @param value Double pointer to remove the key in the given hashmap, if a equals occurs returns the pointer on it
  * @return true if the data table is present in the given hashmap, false otherwise
  */
-inline bool hashmap_get(const HashMap *map, void** value){
+inline bool hashmap_get(HashMap *map, void** value){
     return hashmap_containsKey(map, value);
 };
 #else

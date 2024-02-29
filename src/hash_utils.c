@@ -4,10 +4,10 @@
 #include "hash_utils.h"
 bool cmp_int(const void *a, const void *b){
     if(a ==NULL || b == NULL ) return false;
-    int* intA = (int*)a;
-    int* intB = (int*)b;
+    int intA = *((int*)a);
+    int intB = *((int*)b);
 
-    if (*intA == *intB) {
+    if (intA == intB) {
         return true;
     } else {
         return false;

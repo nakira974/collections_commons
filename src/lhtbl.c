@@ -2,13 +2,14 @@
 // Created by maxim on 28/02/2024.
 //
 
-#include "lhashtable.h"
+#include "lhtbl.h"
 
 bool lhtbl_create(LinkedHashTable *lhtbl,
                   int containers,
                   int (*hash)(const void *key),
                   bool (*equals)(const void* key1, const void* key2),
                   void(*destroy)(void *value)){
+    if(hash == NULL ||  equals == NULL || destroy == NULL) return false;
 
     int i;
 

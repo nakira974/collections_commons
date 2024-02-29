@@ -17,7 +17,7 @@ extern "C" {
 #include <stdint.h>
 #include <math.h>
 #endif
-#include "lhashtable.h"
+#include "lhtbl.h"
 
 
 #ifdef __cplusplus

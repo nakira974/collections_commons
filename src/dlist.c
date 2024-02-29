@@ -41,13 +41,15 @@ bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value) {
         list->head = new_element;
         list->head->previous = NULL;
         list->head->next = NULL;
-        list->tail = NULL;
+        list->tail = new_element;
     } else {
         // Non-empty list case
         new_element->next = element->next;
         new_element->previous = element;
         if (element->next == NULL) list->tail = new_element;
-        else element->next = new_element;
+        else element->next->previous = new_element;
+
+        element->next = new_element;
     }
 
     list->size++;
@@ -101,7 +103,7 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value) {
 
     // Remove the element from the list
     *value = element->value;
-    if (element == list->head) {
+    if (dlist_is_first(list, element)) {
         // The list become after deletion empty case
         list->head = element->next;
         if (list->head == NULL)
@@ -110,7 +112,7 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value) {
             element->next->previous = NULL;
     } else {
         // The list does not become empty after deletion case
-        element->previous->next = element->previous;
+        element->previous->next = element->next;
 
         if (element->next == NULL)
             list->tail = element->previous;

@@ -10,6 +10,7 @@
 #include "EventBus_Test.h"
 #include "Exception_Test.h"
 #include "LinkedHashTable_Test.h"
+#include "HashMap_Test.h"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
