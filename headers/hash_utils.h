@@ -10,9 +10,11 @@ extern "C" {
 
 #ifdef __cplusplus
 #include <cstdint>
+#include <cstdbool>
 #else
 #include <stdint.h>
 #include <math.h>
+#include <stdbool.h>
 #endif
 /**
 * @brief PJW method to convert the given key into a permuted integer using consecutive XOR shifts
