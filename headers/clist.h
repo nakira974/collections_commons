@@ -41,7 +41,7 @@ typedef struct CLinkedElement {
  * @brief Data structure for a circular linked list
  */
 
-typedef struct ClinkedList {
+typedef struct CLinkedList {
     /**
      * @brief Current size of the list
      */

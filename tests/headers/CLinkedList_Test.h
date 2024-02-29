@@ -16,14 +16,14 @@ public:
     } Page;
 
 protected:
-    ClinkedList* obj;
+    CLinkedList* obj;
 
     static void destroy(void *value);
     int replace_page(CLinkedElement **current);
 
     void SetUp() override {
 // Code exécuté avant chaque test
-        obj = (ClinkedList *)malloc(sizeof(ClinkedList));
+        obj = (CLinkedList *)malloc(sizeof(CLinkedList));
         clist_create(obj, destroy);
     }
 
