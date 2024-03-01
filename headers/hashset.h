@@ -217,6 +217,7 @@ inline DLinkedElement *hashset_next(DLinkedElement *entry) {
 inline bool hashset_get(HashSet *set, void **value) {
     return hashset_contains(set, value);
 } ;
+
 #else
 /**
  * @brief Macro that evaluates the number of hashtable inside the specified hashset
@@ -225,19 +226,6 @@ inline bool hashset_get(HashSet *set, void **value) {
  */
 #define hashset_size(hashset) ((hashset)->size)
 
-/**
- * @brief Macro that evaluates the first entry of the specified hashset
- * @return The first entry of the current hashset
- * @complexity O(1)
- */
-#define hashset_first(hashset) ((hashset)->head)
-
-/**
- * @brief Macro that evaluates the last entry of the specified hashset
- * @return The last entry of the current hashset
- * @complexity O(1)
- */
-#define hashset_last(hashset) ((hashset)->tail)
 
 /**
  * @brief Macro that evaluates if the specified entry is the first entry of the specified hashset
@@ -274,7 +262,19 @@ inline bool hashset_get(HashSet *set, void **value) {
  * @param value Double pointer to remove the key in the given hashset, if a equals occurs returns the pointer on it
  * @return true if the data table is present in the given hashset, false otherwise
  */
-#define hashset_get(set,value) hashset_containsKey
+#define hashset_get(set,value) hashset_contains
+
+/**
+ * @brief Macro that evaluates the first element of the given Hashset
+ * @param set HashSet to evaluate the first element in
+ */
+#define hashset_first(set) dlist_first(set->elements)
+
+/**
+ * @brief Macro that evaluates the last element of the given Hashset
+ * @param set HashSet to evaluate the first element in
+ */
+#define hashset_last(set) dlist_last(set->elements)
 #endif
 
 #ifdef __cplusplus
