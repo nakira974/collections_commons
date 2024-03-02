@@ -15,10 +15,7 @@ bool hashset_addBefore(DLinkedList *list, DLinkedElement *element, DLinkedElemen
     if (element == NULL && dlist_size(list) != 0) return false;
 
     // Allocate a new memory space for the element
-    if ((new_element = (DLinkedElement *) malloc(sizeof(DLinkedElement))) == NULL)
-        return false;
-
-    if (dlist_size(list) > 0) {
+    if (dlist_size(list) == 0) {
         // Empty list case
         list->head = new_element;
         list->head->previous = NULL;
@@ -65,15 +62,16 @@ bool hashset_create(HashSet *hashset,
         // Destroy the hashtable before leaving
         lhtbl_destroy(hashset->hashTable);
         return false;
-    }
+    }else dlist_create(hashset->elements, free);
+
 
     return true;
 }
 
 void hashset_destroy(HashSet *hashset) {
     if (hashset == NULL) return;
-    dlist_destroy(hashset->elements);
     lhtbl_destroy(hashset->hashTable);
+    dlist_destroy(hashset->elements);
     memset(hashset, 0, sizeof(HashSet));
 }
 
@@ -109,16 +107,20 @@ bool hashset_add(HashSet *hashset, void *value) {
         int container;
 
         // Hash the given key with the user function
-        container = hashset->hashTable->hash(value) % hashset->hashTable->containers;
+        container = hashset->hashTable->hash(&value) % hashset->hashTable->containers;
 
         DLinkedElement *new_element;
         if ((new_element = (DLinkedElement *) malloc(sizeof(DLinkedElement))) == NULL) return false;
         new_element->value = value;
+        new_element->next = NULL;
+        new_element->previous = NULL;
         // Add the current key value pair to the container
         if ((result = list_add(&hashset->hashTable->hashtable[container], NULL, new_element))) {
             result = hashset_addBefore(hashset->elements, dlist_first(hashset->elements), new_element);
-            hashset->hashTable->size++;
-            hashset->size++;
+            if(result){
+                hashset->hashTable->size++;
+                hashset->size++;
+            }
         }
 
     }

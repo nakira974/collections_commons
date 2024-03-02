@@ -1,10 +1,7 @@
 #include "gtest/gtest.h"
 #include "hashmap.h"
 #include "hash_utils.h"
-
-struct Chunk {
-    int data;
-};
+#include "block.h"
 
 class HashMapTest : public testing::Test {
 protected:
@@ -28,19 +25,24 @@ TEST_F(HashMapTest, BasicTest) {
     chunk1->data=1;
     chunk2->data=2;
 
-    ASSERT_TRUE(hashmap_put(map, reinterpret_cast<void *>(chunk1->data), (void*)chunk1));
-    ASSERT_TRUE(hashmap_put(map, reinterpret_cast<void *>(chunk2->data), (void*)chunk2));
+    ASSERT_TRUE(hashmap_put(map, &chunk1->data, chunk1));
+    ASSERT_TRUE(hashmap_put(map, &chunk2->data, chunk2));
 
     Chunk *value;
-    void* temp = reinterpret_cast<void *>(chunk1->data);
+    void* temp = &chunk1->data;
     ASSERT_TRUE(hashmap_get(map, &temp));
-    value = (Chunk *)temp;
+    value = (Chunk *) temp;
     ASSERT_EQ(value->data, 1);
-    temp = reinterpret_cast<void *>(chunk2->data);
+    temp = &chunk2->data;
     ASSERT_TRUE(hashmap_remove(map, &temp));
-    ASSERT_FALSE(hashmap_containsKey(map, reinterpret_cast<void **>(&chunk2->data)));
+    ASSERT_EQ((Chunk*) temp, chunk2);
+    free(temp);
+    temp = &chunk2->data;
+    ASSERT_FALSE(hashmap_containsKey(map, &temp));
 
     ASSERT_EQ(hashmap_size(map), 1);
-    ASSERT_TRUE(hashmap_remove(map, reinterpret_cast<void **>(&chunk1->data)));
+    temp = &chunk1->data;
+    ASSERT_TRUE(hashmap_remove(map, &temp));
+    free(temp);
     ASSERT_EQ(hashmap_size(map), 0);
 }

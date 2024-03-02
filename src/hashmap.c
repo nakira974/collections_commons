@@ -48,7 +48,7 @@ bool hashmap_pop(HashMap *map, SimpleEntry *entry, void **value) {
 
     // Remove the entry from the map
     *value = entry->value;
-    if (entry == map->head) {
+    if (map->equals(entry->key, map->head->key)) {
         // The map become after deletion empty case
         map->head = entry->next;
         if (map->head == NULL)
@@ -64,7 +64,7 @@ bool hashmap_pop(HashMap *map, SimpleEntry *entry, void **value) {
         else entry->next->last = entry->last;
     }
 
-    free(entry);
+    map->destroy(entry);
 
     map->size--;
     return true;
@@ -114,8 +114,8 @@ bool hashmap_containsKey(HashMap *map, void **value) {
     for (current_element = list_first(&map->hashTable->hashtable[current_container]);
          current_element != NULL; current_element = list_next(current_element)) {
         SimpleEntry *current_entry = (SimpleEntry *) list_value(current_element);
-        if (map->hashTable->equals(value, &current_entry->key)) {
-            *value = list_value(current_element);
+        if (map->hashTable->equals(*value, current_entry->key)) {
+            *value = ((SimpleEntry*)list_value(current_element))->value;
             return true;
         }
     }
@@ -218,21 +218,21 @@ bool hashmap_remove(HashMap *map, void **value) {
     if (map == NULL || map->size == 0) return false;
     bool result = false;
     void *temp = *value;
-    if (!hashmap_containsKey(map, value)) return result;
+    if (!hashmap_containsKey(map, &temp)) return result;
 
     LinkedElement *current_element, *last_element;
     int current_container;
-    current_container = map->hashTable->hash(temp) % map->hashTable->containers;
+    current_container = map->hashTable->hash(*value) % map->hashTable->containers;
 
     // Search for the value inside the current container
     last_element = NULL;
-
     for (current_element = list_first(&map->hashTable->hashtable[current_container]);
          current_element != NULL; current_element = list_next(current_element)) {
         // If the target value if equals to the current container element, then remove it
-        if (map->hashTable->equals(*value, &((SimpleEntry *) list_value(current_element))->key)) {
+        SimpleEntry  * current_entry = (SimpleEntry*) list_value(current_element);
+        if (map->hashTable->equals(*value, current_entry->key)) {
             // Remove the value from the current container
-            if (list_remove(&map->hashTable->hashtable[current_container], last_element, *value)) {
+            if (list_remove(&map->hashTable->hashtable[current_container], last_element, value)) {
                 map->hashTable->size--;
                 result = true;
                 break;
@@ -246,11 +246,9 @@ bool hashmap_remove(HashMap *map, void **value) {
     }
     // If a removed operation occurred inside the hashtable, then compute deletion inside the entries collection
     if (result) {
-        SimpleEntry *current_entry = (SimpleEntry *) *value;
         void *key_value;
-        result = hashmap_pop(map, current_entry, &key_value);
+        result = hashmap_pop(map, *value, &key_value);
         *value = key_value;
-        map->destroy(key_value);
     }
     return result;
 }
