@@ -77,7 +77,7 @@ void hashset_destroy(HashSet *hashset) {
     memset(hashset, 0, sizeof(HashSet));
 }
 
-bool hashset_contains(HashSet *hashset, void **value) {
+bool hashset_contains(const HashSet *hashset, void **value) {
     if (value == NULL || hashset == NULL) return false;
     LinkedElement *current_element;
     int current_container;
@@ -182,7 +182,7 @@ bool hashset_union(HashSet *union_result, const HashSet *left, const HashSet *ri
     // Insertion of right hashset elements
     for (current_element = hashset_first(right);
          current_element != NULL; current_element = hashset_next(current_element)) {
-        if (hashset_isMember(left, list_value(current_element))) continue;
+        if (hashset_contains(left, list_value(current_element))) continue;
         else {
             value = list_value(current_element);
             if (!dlist_add(union_result->elements, hashset_last(union_result), value)) {
@@ -208,7 +208,7 @@ bool hashset_intersection(HashSet *intersection_result, const HashSet *left, con
     for (current_element = hashset_first(left);
          current_element != NULL; current_element = hashset_next(current_element)) {
         // If the current left element is in the right HashSet
-        if (hashset_isMember(right, list_value(current_element))) {
+        if (hashset_contains(right, list_value(current_element))) {
             value = list_value(current_element);
             if (!dlist_add(intersection_result->elements, hashset_last(intersection_result), value)) {
                 hashset_destroy(intersection_result);
@@ -230,7 +230,7 @@ bool hashset_difference(HashSet *difference_result, const HashSet *left, const H
     for (current_element = hashset_first(left);
          current_element != NULL; current_element = hashset_next(current_element)) {
         // If the current left value is not in the right hashset
-        if (!hashset_isMember(right, list_value(current_element))) {
+        if (!hashset_contains(right, list_value(current_element))) {
             value = list_value(current_element);
             if (!dlist_add(difference_result->elements, hashset_last(difference_result), value)) {
                 hashset_destroy(difference_result);
@@ -239,21 +239,6 @@ bool hashset_difference(HashSet *difference_result, const HashSet *left, const H
         }
     }
     return true;
-}
-
-bool hashset_isMember(const HashSet *hashset, const void *value) {
-    DLinkedElement *current_element;
-
-    // Determine if the value is in hashset
-
-    for (current_element = hashset_first(hashset);
-         current_element != NULL; current_element = hashset_next(current_element)) {
-        // If any equals occur, then return true
-        if (hashset->equals(value, dlist_value(current_element))) {
-            return true;
-        }
-    }
-    return false;
 }
 
 bool hashset_isSubset(const HashSet *left, const HashSet *right) {
@@ -265,7 +250,7 @@ bool hashset_isSubset(const HashSet *left, const HashSet *right) {
     for (current_element = hashset_first(left);
          current_element != NULL; current_element = hashset_next(current_element)) {
         // Validate one by one left elements in right hashset independently of their order
-        if (!hashset_isMember(right, dlist_value(current_element))) return false;
+        if (!hashset_contains(right, dlist_value(current_element))) return false;
     }
     return true;
 }
@@ -280,7 +265,7 @@ bool hashset_equals(const HashSet *left, const HashSet *right) {
     for (current_element = hashset_first(left);
          current_element != NULL; current_element = hashset_next(current_element)) {
         // If there is one element of left not present in right, sets are not equal
-        if (!hashset_isMember(right, dlist_value(current_element))) return false;
+        if (!hashset_contains(right, dlist_value(current_element))) return false;
     }
 
     return true;

@@ -93,7 +93,7 @@ bool hashset_remove(HashSet *set, void **value);
  * @param value Double pointer to remove the key in the given hashset, if a delete occurs returns the pointer on it
  * @return true if the data table is present in the given hashset, false otherwise
  */
-bool hashset_contains(HashSet *set, void **value);
+bool hashset_contains(const HashSet *set, void **value);
 
 /**
  * @brief Build a HashSet resulting of the Union of left and right, left and right MUST stay accessible before result is destroy
@@ -125,14 +125,6 @@ bool hashset_intersection(HashSet *intersection_result, const HashSet *left, con
  */
 bool hashset_difference(HashSet *difference_result, const HashSet *left, const HashSet *right);
 
-/**
- * @brief Test if the value is in the given HashSet
- * @param set HashSet to search in
- * @param value Value to search in the set
- * @return true if the element is in the set, false otherwise
- * @complexity O(n) where n is the number of hashtable inside the given HashSet to compare with the parameter value
- */
-bool hashset_isMember(const HashSet *set, const void *value);
 
 /**
  * @brief Test if the left operand is a subset of the right operand
