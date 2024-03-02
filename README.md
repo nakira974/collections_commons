@@ -7,11 +7,12 @@ hash maps, and array lists. It allows you to efficiently manage and manipulate c
 
 - [x] Event / Event Bus for creating commands system
 - [x] Linked lists implementations (Simple / Double Chained and Circular) for storing and traversing data in a dynamic manner
-- [ ] (Not released yet) Hash map implementation for fast key-value lookups and storage
-- [x] Binary trees implementations for organizing and efficiently searching data
+- [x] Hash map and Hash set implementation for fast key-value lookups and storage and traversing data in a dynamic maner
+- [x] Chained (linked) Hash Tables, Open Addressing Hash tables for fast 
 - [x] Heap & Stack implementations for LIFO / FIFO data organization
-- [x] Data Sets (Simple and Randomized) implementations for storing and traversing data in a dynamic manner
-- [x] Deques / Queues (Simple, Priority) implementations  for storing elements in the order they were added
+- [x] Data Sets implementations for storing unique values and traversing data in a dynamic manner
+- [x] Deques / Queues implementations  for storing elements in the order they were added
+- [ ] (Not released yet) Binary trees implementations for organizing and efficiently searching data
 - [ ] (Not released yet) Graphs implementations for organizing and efficiently searching data
 - [ ] (Not released ) Sort & Search Algorithms associated to data structures mentionned bellow
 
