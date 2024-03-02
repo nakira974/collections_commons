@@ -107,7 +107,7 @@ bool hashset_add(HashSet *hashset, void *value) {
         int container;
 
         // Hash the given key with the user function
-        container = hashset->hashTable->hash(&value) % hashset->hashTable->containers;
+        container = hashset->hashTable->hash(value) % hashset->hashTable->containers;
 
         DLinkedElement *new_element;
         if ((new_element = (DLinkedElement *) malloc(sizeof(DLinkedElement))) == NULL) return false;

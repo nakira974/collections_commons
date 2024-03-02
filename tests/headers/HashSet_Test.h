@@ -49,9 +49,14 @@ TEST_F(HashSetTest, BasicTest) {
     ASSERT_TRUE(hashset_add(set, b3));
     ASSERT_FALSE(hashset_add(set, b4));
 
+    void *temp = b4;
     // True because b3 represent that literal value evaluate by cmp_block function
-    ASSERT_TRUE(hashset_contains(set, reinterpret_cast<void **>(b4)));
-    ASSERT_TRUE(hashset_contains(set, reinterpret_cast<void **>(b1)));
+    ASSERT_TRUE(hashset_contains(set, &temp));
+    // The returned value is b3 because b4 == b3 and b3 is the element in the set
+    ASSERT_EQ((Block*) temp,b3);
+    temp = b1;
+    ASSERT_TRUE(hashset_contains(set, &temp));
+    ASSERT_EQ((Block*) temp,b1);
     ASSERT_EQ(hashset_size(set), 3);
     free(b4);
     free(chunk1);
