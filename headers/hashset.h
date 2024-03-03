@@ -160,7 +160,7 @@ inline int hashset_size(HashSet *hashset) {
  * @complexity O(1)
  */
 inline DLinkedElement *hashset_first(HashSet *hashset) {
-    return hashset->elements->head;
+    return dlist_first(hashset->elements);
 } ;
 
 /**
@@ -169,7 +169,7 @@ inline DLinkedElement *hashset_first(HashSet *hashset) {
  * @complexity O(1)
  */
 inline DLinkedElement *hashset_last(HashSet *hashset) {
-    return hashset->elements->tail;
+    return dlist_last(hashset->elements);
 } ;
 
 /**
@@ -196,8 +196,7 @@ inline bool hashset_isLast(HashSet *hashset, DLinkedElement *entry) {
  * @complexity O(1)
  */
 inline DLinkedElement *hashset_next(DLinkedElement *entry) {
-    if (entry == nullptr) return nullptr;
-    else return (entry)->next == nullptr ? nullptr : (entry)->next;
+    return dlist_next(entry);
 }
 
 /**
@@ -246,7 +245,7 @@ inline bool hashset_get(HashSet *set, void **value) {
  * @return The reference to the next entry of the current hashset entry
  * @complexity O(1)
  */
-#define hashset_next(entry) ((entry)->next)
+#define hashset_next(entry) dlist_next(entry)
 
 /**
  * @brief  Macro that evaluates if the given value is present in the hashset, if a equals occurs value will contain the pointer on the equalsed value

@@ -70,8 +70,10 @@ bool hashset_create(HashSet *hashset,
 
 void hashset_destroy(HashSet *hashset) {
     if (hashset == NULL) return;
-    lhtbl_destroy(hashset->hashTable);
     dlist_destroy(hashset->elements);
+    list_destroy(hashset->hashTable->hashtable);
+    hashset->hashTable->size = 0;
+    lhtbl_destroy(hashset->hashTable);
     memset(hashset, 0, sizeof(HashSet));
 }
 
@@ -146,10 +148,10 @@ bool hashset_remove(HashSet *hashset, void **value) {
         DLinkedElement *current_setElement = ((DLinkedElement *) list_value(current_element));
         if (hashset->hashTable->equals(*value, current_setElement->value)) {
             // Remove the value from the current container
-            if (list_remove(&hashset->hashTable->hashtable[current_container], last_element, *value)) {
-                dlist_remove(hashset->elements, current_setElement, *value);
-                hashset->destroy(current_setElement);
+            if (list_remove(&hashset->hashTable->hashtable[current_container], last_element, value)) {
+                dlist_remove(hashset->elements, *value, value);
                 hashset->hashTable->size--;
+                hashset->size--;
                 result = true;
                 break;
                 // Can't remove the data from the current container
@@ -173,9 +175,9 @@ bool hashset_union(HashSet *union_result, const HashSet *left, const HashSet *ri
     // Insertion of left hashset elements
     for (current_element = hashset_first(left);
          current_element != NULL; current_element = hashset_next(current_element)) {
-        value = list_value(current_element);
+        value = dlist_value(current_element);
 
-        if (!dlist_add(union_result->elements, hashset_last(union_result), value)) {
+        if (!hashset_add(union_result, value)) {
             hashset_destroy(union_result);
             return false;
         }
@@ -184,10 +186,11 @@ bool hashset_union(HashSet *union_result, const HashSet *left, const HashSet *ri
     // Insertion of right hashset elements
     for (current_element = hashset_first(right);
          current_element != NULL; current_element = hashset_next(current_element)) {
-        if (hashset_contains(left, list_value(current_element))) continue;
+        void* currentRef = &((DLinkedElement *)list_value(current_element))->value;
+        if (hashset_contains(left, &currentRef)) continue;
         else {
             value = list_value(current_element);
-            if (!dlist_add(union_result->elements, hashset_last(union_result), value)) {
+            if (!hashset_add(union_result, value)) {
                 hashset_destroy(union_result);
                 return false;
             }
@@ -210,9 +213,9 @@ bool hashset_intersection(HashSet *intersection_result, const HashSet *left, con
     for (current_element = hashset_first(left);
          current_element != NULL; current_element = hashset_next(current_element)) {
         // If the current left element is in the right HashSet
-        if (hashset_contains(right, list_value(current_element))) {
-            value = list_value(current_element);
-            if (!dlist_add(intersection_result->elements, hashset_last(intersection_result), value)) {
+        value = dlist_value(current_element);
+        if (hashset_contains(right, &value)) {
+            if (!hashset_add(intersection_result, value)) {
                 hashset_destroy(intersection_result);
                 return false;
             }
@@ -232,9 +235,9 @@ bool hashset_difference(HashSet *difference_result, const HashSet *left, const H
     for (current_element = hashset_first(left);
          current_element != NULL; current_element = hashset_next(current_element)) {
         // If the current left value is not in the right hashset
-        if (!hashset_contains(right, list_value(current_element))) {
-            value = list_value(current_element);
-            if (!dlist_add(difference_result->elements, hashset_last(difference_result), value)) {
+        value =dlist_value(current_element);
+        if (!hashset_contains(right, &value)) {
+            if (!hashset_add(difference_result, value)) {
                 hashset_destroy(difference_result);
                 return false;
             }
@@ -252,7 +255,8 @@ bool hashset_isSubset(const HashSet *left, const HashSet *right) {
     for (current_element = hashset_first(left);
          current_element != NULL; current_element = hashset_next(current_element)) {
         // Validate one by one left elements in right hashset independently of their order
-        if (!hashset_contains(right, dlist_value(current_element))) return false;
+        void *value =dlist_value(current_element);
+        if (!hashset_contains(right, &value)) return false;
     }
     return true;
 }
