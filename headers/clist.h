@@ -23,7 +23,6 @@ extern "C" {
 #endif
 
 
-
 /**
  * @brief Data structure for circular linked list element
  */
@@ -42,7 +41,7 @@ typedef struct CLinkedElement {
  * @brief Data structure for a circular linked list
  */
 
-typedef struct ClinkedList {
+typedef struct CLinkedList {
     /**
      * @brief Current size of the list
      */
@@ -53,9 +52,9 @@ typedef struct ClinkedList {
     *
     * @param val1 Left value to compare
     * @param val2 Right value to compare
-    * @return true if left is equals to right, otherwise false
+    * @return true if left is equals to right, false otherwise
     */
-    int (*match)(const void *val1, const void *val2);
+    bool (*equals)(const void *val1, const void *val2);
 
     /**
      * @brief Destroy handle
@@ -83,8 +82,8 @@ void clist_create(CLinkedList *list, void (*destroy)(void *value));
 
 /**
  * @brief Destroy the specified list, after the call no other further operations will be permit
- * @param list Reference of the list to destroy otherwise false
- * @complexity O(n) where n is the number of elements in the current list
+ * @param list Reference of the list to destroy false otherwise
+ * @complexity O(n) where n is the number of hashtable in the current list
  */
 void clist_destroy(CLinkedList *list);
 
@@ -94,7 +93,7 @@ void clist_destroy(CLinkedList *list);
  * @param element Reference element of the current list to add after
  * @param value A generic data to add after the element parameter
  * @complexity O(1)
- * @return true if the element was added to the current list, otherwise false
+ * @return true if the element was added to the current list, false otherwise
  *
  */
 bool clist_add(CLinkedList *list, CLinkedElement *element, const void *value);
@@ -105,61 +104,78 @@ bool clist_add(CLinkedList *list, CLinkedElement *element, const void *value);
  * @param element Element of the list to be removed
  * @param value Output pointer on the value of the deleted list element reference
  * @complexity O(1)
- * @return true if the element was correctly removed, otherwise false
+ * @return true if the element was correctly removed, false otherwise
  */
 bool clist_remove(CLinkedList *list, CLinkedElement *element, void **value);
+
+/**
+ * @brief Returns a random element from the given list
+ * @param list List to return a random element from
+ * @param random_element Reference to a random element
+ * @return true if a random element has been returned, false otherwise
+ */
+CLinkedElement *clist_getRandom(CLinkedList *list);
+
+/**
+ * @brief Replace a specified element from the given list with the specified value
+ * @param list List where to replace the element value
+ * @param element Element to replace the value
+ * @param value Value to replace
+ * @return true if the given element's value was replaces, false otherwise
+ */
+bool clist_replace(CLinkedList *list, CLinkedElement *element, void **value);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 /***
- * Inline function that evaluates the number of elements inside the specified list
+ * Inline function that evaluates the number of hashtable inside the specified list
  * @return The current element count of the current list
  * @complexity O(1)
  */
-inline int clist_size(CLinkedList *list){
+inline int clist_size(CLinkedList *list) {
     return list->size;
-};
+} ;
 
 /***
  * Inline function that evaluates the first element of the specified list
  * @return The first element of the current list
  * @complexity O(1)
  */
-inline CLinkedElement* clist_first(CLinkedList * list){
+inline CLinkedElement *clist_first(CLinkedList *list) {
     return list->head;
-};
+} ;
 
 /***
  * Inline function that evaluates if the specified element is the first element of the specified list
- * @return true if the element is the first of the current list, otherwise false
+ * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool clist_is_first(CLinkedList * list, CLinkedElement  *element){
+inline bool clist_isFirst(CLinkedList *list, CLinkedElement *element) {
     return (list)->head == element;
-};
+} ;
 
 /***
  * Inline function that evaluates the value of a list element
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-inline void *clist_value(CLinkedElement  *element){
+inline void *clist_value(CLinkedElement *element) {
     return ((element)->value);
-};
+} ;
 
 /***
  * Inline function that evaluates the next element of the current list element
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline CLinkedElement *clist_next(CLinkedElement *element){
+inline CLinkedElement *clist_next(CLinkedElement *element) {
     return (element)->next;
 }
 
 /* ----- C MACRO  -----*/
 #else
 /**
- * @brief Macro that evaluates the number of elements inside the specified list
+ * @brief Macro that evaluates the number of hashtable inside the specified list
  * @return The current element count of the current list
  * @complexity O(1)
  */
@@ -174,10 +190,10 @@ inline CLinkedElement *clist_next(CLinkedElement *element){
 
 /**
  * @brief Macro that evaluates if the specified element is the first element of the specified list
- * @return true if the element is the first of the current list, otherwise false
+ * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-#define list_is_first(list, element) ((element) == (list)->head ? true : false )
+#define list_isFirst(list, element) ((element) == (list)->head ? true : false )
 
 /**
  * @brief Macro that evaluates the value of a list element
@@ -197,8 +213,6 @@ inline CLinkedElement *clist_next(CLinkedElement *element){
 #ifdef __cplusplus
 }
 #endif
-
-
 
 
 #endif //COLLECTIONS_COMMONS_CLIST_H

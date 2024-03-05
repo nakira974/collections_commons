@@ -7,6 +7,7 @@
 #include "dlist.h"
 #include <gtest/gtest.h>
 
+
 class DLinkedListTest : public testing::Test {
 protected:
     DLinkedList list;
@@ -22,21 +23,36 @@ protected:
 
 TEST_F(DLinkedListTest, PerformanceTest) {
     // Insertion test
-    for (int i = 0; i < 1000000; ++i) {
-        int *value = (int *)malloc(sizeof(int));
-        *value = i;
-        dlist_add(&list, NULL, value);
+
+    for (int i = 0; i < 100000; ++i) {
+        int *value = (int *) malloc(10* sizeof(int));
+        for(int j =0;j<10;j++)value[j] = i+j;
+        dlist_add(&list, dlist_first(&list), value);
     }
 
-    EXPECT_EQ(dlist_size(&list), 1);
+    EXPECT_EQ(dlist_size(&list), 100000);
 
     // Deletion test
-    DLinkedElement *cur = dlist_first(&list);
-    while (cur != nullptr) {
+    while(dlist_size(&list) != 0){
         void *value;
-        dlist_remove(&list, cur, &value);
+        dlist_remove(&list, dlist_getRandom(&list), &value);
         delete static_cast<int*>(value);
-        cur = dlist_next(cur);
+    }
+
+
+    EXPECT_EQ(dlist_size(&list), 0);
+
+    for (int i = 0; i < 100000; ++i) {
+        int *value = (int *) malloc(10* sizeof(int));
+        for(int j =0;j<10;j++)value[j] = i+j;
+        dlist_add(&list, dlist_first(&list), value);
+    }
+
+
+    while(dlist_size(&list) != 0){
+        void *value;
+        dlist_remove(&list, dlist_getRandom(&list), &value);
+        delete static_cast<int*>(value);
     }
 
     EXPECT_EQ(dlist_size(&list), 0);

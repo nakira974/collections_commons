@@ -5,14 +5,14 @@
 #include "page.h"
 
 
-int page_replace(CLinkedElement **current){
+int page_replace(CLinkedElement **current) {
     // Second chance algorithm
     // Infinite loop until one page has been replaced
 
-    while(((Page*)(*current)->value)->state){
-        ((Page*)(*current)->value)->state = false;
+    while (((Page *) (*current)->value)->state) {
+        ((Page *) (*current)->value)->state = false;
         *current = clist_next(*current);
     }
 
-    return ((Page*)(*current)->value)->id;
+    return ((Page *) (*current)->value)->id;
 }

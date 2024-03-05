@@ -16,14 +16,14 @@ public:
     } Page;
 
 protected:
-    ClinkedList* obj;
+    CLinkedList* obj;
 
     static void destroy(void *value);
     int replace_page(CLinkedElement **current);
 
     void SetUp() override {
 // Code exécuté avant chaque test
-        obj = (ClinkedList *)malloc(sizeof(ClinkedList));
+        obj = (CLinkedList *)malloc(sizeof(CLinkedList));
         clist_create(obj, destroy);
     }
 
@@ -46,7 +46,7 @@ TEST_F(CLinkedList_Test, PageTest) {
 
 TEST_F(CLinkedList_Test, ReplacePageTest) {
     for (int i = 10; i >= 0; --i) {
-        clist_add(obj, obj->head, new Page{i, i-1});
+        clist_add(obj, clist_first(obj), new Page{i, i-1});
     }
     CLinkedElement *current = obj->head;
     int replacedPage = replace_page(&current);
@@ -57,12 +57,14 @@ TEST_F(CLinkedList_Test, ReplacePageTest) {
 TEST_F(CLinkedList_Test, PerformanceTest) {
     // Vérifier les performances en ajoutant et supprimant un grand nombre d'éléments
     for (int i = 0; i < 100000; ++i) {
-        clist_add(obj, obj->head, new Page{i, i+1});
+        clist_add(obj, clist_first(obj), new Page{i, i+1});
     }
+    CLinkedElement *current_element;
 
-    for (int i = 0; i < 100000; ++i) {
+    // Remove random element until the list is not empty
+    for(current_element= clist_getRandom(obj); clist_size(obj) > 0; current_element= clist_next(current_element)){
         void *value = nullptr;
-        clist_remove(obj, obj->head, &value);
+        clist_remove(obj,current_element , &value);
         delete static_cast<Page*>(value);
     }
 

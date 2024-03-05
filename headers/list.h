@@ -20,7 +20,6 @@ extern "C" {
 #endif
 
 
-
 /**
  * @brief Data structure definition for a simple chained linked list generic element
  */
@@ -48,9 +47,9 @@ typedef struct LinkedList {
      * @brief Match handle
      * @param left Left value to compare
      * @param right Right value to compare
-     * @return true if left is equals to right, otherwise false
+     * @return true if left is equals to right, false otherwise
      */
-    int (*match)(const void *left, const void *right);
+    bool (*equals)(const void *left, const void *right);
 
     /**
      * @brief Destroy handle
@@ -82,8 +81,8 @@ void list_create(LinkedList *list, void( *destroy)(void *value));
 
 /**
  * @brief Destroy the specified list, after the call no other further operations will be permit
- * @param list Reference of the list to destroy otherwise false
- * @complexity O(n) where n is the number of elements in the current list
+ * @param list Reference of the list to destroy false otherwise
+ * @complexity O(n) where n is the number of hashtable in the current list
  */
 void list_destroy(LinkedList *list);
 
@@ -94,7 +93,7 @@ void list_destroy(LinkedList *list);
  * @param element Reference element of the current list to add after
  * @param value A generic data to add after the element parameter
  * @complexity O(1)
- * @return true if the element was added to the current list, otherwise false
+ * @return true if the element was added to the current list, false otherwise
  *
  */
 bool list_add(LinkedList *list, LinkedElement *element, const void *value);
@@ -105,20 +104,37 @@ bool list_add(LinkedList *list, LinkedElement *element, const void *value);
  * @param element Element of the list to be removed
  * @param value Output pointer on the value of the deleted list element reference
  * @complexity O(1)
- * @return true if the element was correctly removed, otherwise false
+ * @return true if the element was correctly removed, false otherwise
  */
 bool list_remove(LinkedList *list, LinkedElement *element, void **value);
+
+/**
+ * @brief Returns a random element from the given list
+ * @param list List to return a random element from
+ * @param random_element Reference to a random element
+ * @return true if a random element was returned, false otherwise
+ */
+LinkedElement *list_getRandom(LinkedList *list);
+
+/**
+ * @brief Replace a specified element from the given list with the specified value
+ * @param list List where to replace the element value
+ * @param element Element to replace the value
+ * @param value Value to replace
+ * @return true if the given element's value was replaces, false otherwise
+ */
+bool list_replace(LinkedList *list, LinkedElement *element, void **value);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 /**
- * @brief Inline function that evaluates the number of elements inside the specified list
+ * @brief Inline function that evaluates the number of hashtable inside the specified list
  * @return The current element count of the current list
  * @complexity O(1)
  */
-inline int list_size(LinkedList *list){
+inline int list_size(LinkedList *list) {
     return list->size;
-};
+} ;
 
 
 /**
@@ -126,52 +142,52 @@ inline int list_size(LinkedList *list){
  * @return The first element of the current list
  * @complexity O(1)
  */
-inline LinkedElement* list_first(LinkedList * list){
+inline LinkedElement *list_first(LinkedList *list) {
     return list->head;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates the last element of the specified list
  * @return The last element of the current list
  * @complexity O(1)
  */
-inline LinkedElement * list_last(LinkedList * list){
+inline LinkedElement *list_last(LinkedList *list) {
     return list->tail;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates if the specified element is the first element of the specified list
- * @return true if the element is the first of the current list, otherwise false
+ * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool list_is_first(LinkedList * list, LinkedElement  *element){
+inline bool list_isFirst(LinkedList *list, LinkedElement *element) {
     return (list)->head == element;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates if the specified element is the last element of the specified list
- * @return true if the element is the last of the current list, otherwise false
+ * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool list_is_last(LinkedList * list, LinkedElement  *element){
+inline bool list_isLast(LinkedList *list, LinkedElement *element) {
     return (list)->tail == element;
-};
+} ;
 
 /**
  * @brief Inline function that evaluates the value of a list element
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-inline void *list_value(LinkedElement  *element){
+inline void *list_value(LinkedElement *element) {
     return ((element)->value);
-};
+} ;
 
 /**
  * @brief Inline function that evaluates the next element of the current list element
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline LinkedElement *list_next(LinkedElement *element){
+inline LinkedElement *list_next(LinkedElement *element) {
     if (element == nullptr) return nullptr;
     else return (element)->next == nullptr ? nullptr : (element)->next;
 }
@@ -179,7 +195,7 @@ inline LinkedElement *list_next(LinkedElement *element){
 /* ----- C MACRO  -----*/
 #else
 /**
- * @brief Macro that evaluates the number of elements inside the specified list
+ * @brief Macro that evaluates the number of hashtable inside the specified list
  * @return The current element count of the current list
  * @complexity O(1)
  */
@@ -201,17 +217,17 @@ inline LinkedElement *list_next(LinkedElement *element){
 
 /**
  * @brief Macro that evaluates if the specified element is the first element of the specified list
- * @return true if the element is the first of the current list, otherwise false
+ * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-#define list_is_first(list, element) ((element) == (list)->head ? true : false )
+#define list_isFirst(list, element) ((element) == (list)->head ? true : false )
 
 /**
  * @brief Macro that evaluates if the specified element is the last element of the specified list
- * @return true if the element is the last of the current list, otherwise false
+ * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
-#define list_is_last(list, element) ((element) == (list)->tail ? true : false )
+#define list_isLast(list, element) ((element) == (list)->tail ? true : false )
 
 /**
  * @brief Macro that evaluates the value of a list element

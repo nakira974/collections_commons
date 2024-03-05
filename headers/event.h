@@ -25,26 +25,26 @@ extern "C" {
 /**
  * @brief Data structure definition of an event
  */
-typedef struct Event{
+typedef struct Event {
     int eventType;
-    void* eventData;
+    void *eventData;
 } Event;
 
 /**
  * @brief A subscriber add an event into the queue for witch he subscribed
  * @param events Events queue
  * @param event Event to save into the queue
- * @return true if the event was added in events, otherwise false
+ * @return true if the event was added in events, false otherwise
  */
- bool event_receive(Queue * events, const Event *event);
+bool event_receive(Queue *events, const Event *event);
 
- /**
-  * @brief Interruption handle to process subscribed events
-  * @param events Events queue
-  * @param on_event_received User function to process the event
-  * @return true if the event was computed, otherwise false
-  */
- bool event_process(Queue *events, int(* on_event_received) (Event * event));
+/**
+ * @brief Interruption handle to process subscribed events
+ * @param events Events queue
+ * @param on_event_received User function to process the event
+ * @return true if the event was computed, false otherwise
+ */
+bool event_process(Queue *events, int(*on_event_received)(Event *event));
 
 #ifdef __cplusplus
 }

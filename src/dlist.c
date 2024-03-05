@@ -28,7 +28,7 @@ void dlist_destroy(DLinkedList *list) {
 
 bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value) {
     DLinkedElement *new_element = NULL;
-    // Reject null elements except if list is empty
+    // Reject null hashtable except if list is empty
     if (element == NULL && dlist_size(list) != 0) return false;
 
     // Allocate a new memory space for the element
@@ -41,22 +41,24 @@ bool dlist_add(DLinkedList *list, DLinkedElement *element, const void *value) {
         list->head = new_element;
         list->head->previous = NULL;
         list->head->next = NULL;
-        list->tail = NULL;
+        list->tail = new_element;
     } else {
         // Non-empty list case
         new_element->next = element->next;
         new_element->previous = element;
         if (element->next == NULL) list->tail = new_element;
-        else element->next = new_element;
+        else element->next->previous = new_element;
+
+        element->next = new_element;
     }
 
     list->size++;
     return true;
 }
 
-bool dlist_add_before(DLinkedList *list, DLinkedElement *element, const void *value) {
+bool dlist_addBefore(DLinkedList *list, DLinkedElement *element, const void *value) {
     DLinkedElement *new_element = NULL;
-    // Reject null elements except if list is empty
+    // Reject null hashtable except if list is empty
     if (element == NULL && dlist_size(list) != 0) return false;
 
     // Allocate a new memory space for the element
@@ -101,7 +103,7 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value) {
 
     // Remove the element from the list
     *value = element->value;
-    if (element == list->head) {
+    if (dlist_isFirst(list, element)) {
         // The list become after deletion empty case
         list->head = element->next;
         if (list->head == NULL)
@@ -110,7 +112,7 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value) {
             element->next->previous = NULL;
     } else {
         // The list does not become empty after deletion case
-        element->previous->next = element->previous;
+        element->previous->next = element->next;
 
         if (element->next == NULL)
             list->tail = element->previous;
@@ -120,5 +122,38 @@ bool dlist_remove(DLinkedList *list, DLinkedElement *element, void **value) {
     free(element);
 
     list->size--;
+    return true;
+}
+
+DLinkedElement *dlist_getRandom(DLinkedList *list) {
+    DLinkedElement *random_element;
+    if (dlist_size(list) == 0) return NULL;
+    // Génère un index aléatoire dans la plage des indices valides du tableau.
+    int rd_index = rand() % dlist_size(list);
+    int count = 0;
+
+    for (random_element = dlist_first(list); random_element != NULL; random_element = dlist_next(random_element)) {
+        if (rd_index == count) {
+            break;
+        }
+        count++;
+    }
+    return random_element;
+}
+
+bool dlist_replace(DLinkedList *list, DLinkedElement *element, void **value) {
+    if (list == NULL || element == NULL) return false;
+    DLinkedElement *current_element;
+    for (current_element = dlist_first(list); current_element != NULL; current_element = dlist_next(current_element)) {
+        if (current_element == element) {
+            void **temp = current_element->value;
+            current_element->value = *value;
+            value = temp;
+            free(temp);
+            break;
+        }
+    }
+
+    free(current_element);
     return true;
 }

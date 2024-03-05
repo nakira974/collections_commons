@@ -12,7 +12,7 @@ int **levelOrder(struct TreeNode *root, int *returnSize,
     }
 
     // Crée une file pour stocker les nœuds
-    Queue * queue = (Queue*) malloc(sizeof (Queue));
+    Queue *queue = (Queue *) malloc(sizeof(Queue));
     queue_create(queue, free);
     // Ajoute la racine à la file
     queue_enqueue(queue, root);
@@ -27,15 +27,15 @@ int **levelOrder(struct TreeNode *root, int *returnSize,
     int levelIndex = 0; // Indice du niveau actuel
 
     // On instancie une autre file pour stocker les noeuds du prochain niveau
-    Queue *nextQueue = (Queue*) malloc(sizeof (Queue));
+    Queue *nextQueue = (Queue *) malloc(sizeof(Queue));
 
-    while (list_first(queue)!= NULL) {
+    while (list_first(queue) != NULL) {
         // Taille arbitraire pour le tableau du niveau actuel
         int *currentLevel = (int *) malloc(1000 * sizeof(int));
         int count = 0; // Compteur pour les nœuds dans chaque niveau
 
         // Parcourt le niveau actuel jusqu'à ce que la file soit vide
-        while (list_first(queue)!= NULL) {
+        while (list_first(queue) != NULL) {
             // Récupère le nœud en tête de file
             struct TreeNode *currNode;
             queue_dequeue(queue, &currNode);

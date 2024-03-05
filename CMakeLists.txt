@@ -10,7 +10,7 @@ endif ()
 cmake_minimum_required(VERSION 3.27)
 project(collections_commons C)
 
-set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_STANDARD 99)
 if (CMAKE_GENERATOR MATCHES "Visual Studio")
     set(CMAKE_ROOT_DIRECTORY ${CMAKE_SOURCE_DIR})
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/)

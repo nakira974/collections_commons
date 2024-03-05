@@ -61,3 +61,37 @@ bool clist_remove(CLinkedList *list, CLinkedElement *element, void **value) {
     list->size--;
     return true;
 }
+
+CLinkedElement *clist_getRandom(CLinkedList *list) {
+    CLinkedElement *random_element;
+    if (clist_size(list) == 0) return NULL;
+    int rd_index = rand() % clist_size(list);
+    int count = 0;
+
+    for (random_element = clist_first(list); random_element = clist_next(random_element)) {
+        if (rd_index == count) {
+            break;
+        }
+        count++;
+    }
+    return random_element;
+}
+
+bool clist_replace(CLinkedList *list, CLinkedElement *element, void **value) {
+    if (list == NULL || element == NULL) return false;
+    int i;
+    CLinkedElement *current_element = clist_first(list);
+    for (i = 0; i < clist_size(list); i++) {
+        if (current_element == element) {
+            void **temp = current_element->value;
+            current_element->value = *value;
+            value = temp;
+            free(temp);
+            break;
+        }
+        current_element = clist_next(current_element);
+    }
+
+    free(current_element);
+    return true;
+}

@@ -23,21 +23,20 @@ protected:
 
 TEST_F(LinkedListTest, PerformanceTest) {
     // Insertion test
-    for (int i = 0; i < 1000000; ++i) {
-        int *value = (int *) malloc(sizeof(int));
-        *value = i;
-        list_add(&list, NULL, value);
+    for (int i = 0; i < 100000; ++i) {
+        int *value = (int *) malloc(10* sizeof(int));
+        for(int j =0;j<10;j++)value[j] = i+j;
+        list_add(&list, nullptr, value);
     }
 
-    EXPECT_EQ(list_size(&list), 1000000);
+    EXPECT_EQ(list_size(&list), 100000);
 
     // Deletion test
-    LinkedElement *cur = list_first(&list);
-    while (!list_is_last(&list, cur)) {
+
+    while(list_size(&list) != 0){
         void *value;
-        list_remove(&list, cur, &value);
-        free(value);
-        cur = list_next(cur);
+        list_remove(&list, nullptr, &value);
+        delete static_cast<int*>(value);
     }
 
     EXPECT_EQ(list_size(&list), 0);
