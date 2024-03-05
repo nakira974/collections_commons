@@ -55,7 +55,7 @@ TEST_F(LinkedHashTableTest, TestLhtblPutAndGet) {
     ASSERT_TRUE(lhtbl_put(lhtbl, page));
 
     void* value = page;
-    ASSERT_TRUE(lhtbl_containsKey(lhtbl, &value));
+    ASSERT_TRUE(lhtbl_contains(lhtbl, &value));
     Page* retrieved_page = (Page*)value;
     EXPECT_EQ(retrieved_page->numero, page->numero);
     EXPECT_EQ(retrieved_page->reference, page->reference);

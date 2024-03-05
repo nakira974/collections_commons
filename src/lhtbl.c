@@ -52,7 +52,7 @@ bool lhtbl_put(LinkedHashTable *lhtbl, const void *value) {
 
     temp = (void *) value;
     // If the value is already in the table return false
-    if (lhtbl_containsKey(lhtbl, &temp)) return result;
+    if (lhtbl_contains(lhtbl, &temp)) return result;
 
     // Hash the given key with the user function
     container = lhtbl->hash(value) % lhtbl->containers;
@@ -90,7 +90,7 @@ bool lhtbl_remove(LinkedHashTable *lhtbl, void **value) {
     return false;
 }
 
-bool lhtbl_containsKey(const LinkedHashTable *lhtbl, void **value) {
+bool lhtbl_contains(const LinkedHashTable *lhtbl, void **value) {
     LinkedElement *current_element;
     int current_container;
 

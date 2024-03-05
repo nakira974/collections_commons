@@ -66,9 +66,8 @@ typedef struct LinkedHashTable {
 
 #ifdef __cplusplus
 /***
-* @brief Inline function that evaluates the number of hashtable inside the specified queue
-* @return The current element count of the current list
-* @complexity O(1)
+* @brief Inline function that evaluates the number of elements inside the specified hash table
+* @return The current element count of the current hash table
 */
 inline int lhtbl_size(LinkedHashTable *queue) {
     return queue->size;
@@ -76,9 +75,8 @@ inline int lhtbl_size(LinkedHashTable *queue) {
 #else
 
 /***
-* @brief Inline function that evaluates the number of hashtable inside the specified queue
-* @return The current element count of the current chained hash table
-* @complexity O(1)
+* @brief Macro that evaluates the number of elements inside the specified hash table
+* @return The current element count of the current hash table
 */
 #define lhtbl_size(table) list_size;
 #endif
@@ -126,7 +124,7 @@ bool lhtbl_remove(LinkedHashTable *lhtbl, void **value);
  * @param value Double pointer to lookup the value in the given data table, if a equals occurs returns the pointer on it
  * @return true if the data table is present in the given data table, false otherwise
  */
-bool lhtbl_containsKey(const LinkedHashTable *lhtbl, void **value);
+bool lhtbl_contains(const LinkedHashTable *lhtbl, void **value);
 
 #ifdef __cplusplus
 }
