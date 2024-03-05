@@ -2,6 +2,7 @@
 // Created by maxim on 28/02/2024.
 //
 #include "hash_utils.h"
+#include <stddef.h>
 
 bool cmp_int(const void *a, const void *b) {
     if (a == NULL || b == NULL) return false;
