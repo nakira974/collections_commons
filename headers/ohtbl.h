@@ -35,7 +35,7 @@ typedef struct OAHashTable{
 
     int (*h1)(const void *key);
     int (*h2) (const void *key);
-    int (*equals)(const void *key1, const void *key2);
+    bool (*equals)(const void *key1, const void *key2);
     void (*destroy)(void *value);
     int size;
     void **hashtable;
@@ -54,7 +54,7 @@ typedef struct OAHashTable{
 bool ohtbl_create(OAHashTable *hashTable, int postions,
                   int (*h1)(const void *key),
                   int (*h2) (const void *key),
-                  int (*equals)(const void *key1, const void *key2),
+                  bool (*equals)(const void *key1, const void *key2),
                   void (*destroy)(void *value));
 
 /**
@@ -69,7 +69,7 @@ void ohtbl_destroy(OAHashTable *hashTable);
  * @param value Value to be added
  * @return true if the value was inserted, false otherwise
  */
-bool ohtbl_add(OAHashTable *hashTable, const void *value);
+bool ohtbl_put(OAHashTable *hashTable, const void *value);
 
 /**
  * @brief Remove an element from the given Open Addressing hash table

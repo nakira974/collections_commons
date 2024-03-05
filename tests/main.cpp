@@ -13,6 +13,8 @@
 #include "HashMap_Test.h"
 #include "Set_Test.h"
 #include "HashSet_Test.h"
+#include "OAHashTable_Test.h"
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

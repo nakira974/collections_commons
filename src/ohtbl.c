@@ -2,12 +2,16 @@
 // Created by maxim on 5/03/2024.
 //
 #include "ohtbl.h"
+
+/**
+ * @brief Private memory address for vacant hash table elements
+ */
 static char vacant;
 
 bool ohtbl_create(OAHashTable *hashTable, int postions,
                   int (*h1)(const void *key),
                   int (*h2) (const void *key),
-                  int (*equals)(const void *key1, const void *key2),
+                  bool (*equals)(const void *key1, const void *key2),
                   void (*destroy)(void *value)){
     int i;
     if((hashTable->hashtable = (void**) malloc(postions * sizeof (void*))) == NULL) return false;
@@ -39,7 +43,7 @@ void ohtbl_destroy(OAHashTable *hashTable){
     memset(hashTable, 0, sizeof (OAHashTable));
 }
 
-bool ohtbl_add(OAHashTable *hashTable, const void *value){
+bool ohtbl_put(OAHashTable *hashTable, const void *value){
     void *temp;
     int position, i;
 
