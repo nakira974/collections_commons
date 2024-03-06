@@ -45,6 +45,9 @@ jobs:
             c_compiler: cl
 
     steps:
+    - uses: ssciwr/doxygen-install@v1
+      with:
+        version: "1.10.0"
     - uses: actions/checkout@v3
 
     - name: Set reusable strings
