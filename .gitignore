@@ -4,3 +4,6 @@
 /thrid-party/
 /build/mingw32_x86/
 /third-party/
+/cmake-build-debug-mingw/
+/cmake-build-debug-risc-v/
+/cmake-build-release-visual-studio/
