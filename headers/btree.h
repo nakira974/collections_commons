@@ -84,7 +84,7 @@ typedef struct BinaryTreeNode{
   * @param value Value to be added
   * @return true if the left node was created, false otherwise
   */
- bool btree_add_left(BinaryTree *tree, BinaryTreeNode *node, const void *value);
+ bool btree_addLeft(BinaryTree *tree, BinaryTreeNode *node, const void *value);
 
 /**
 * @brief Try to create a new right child node of the given node in the given tree
@@ -93,21 +93,21 @@ typedef struct BinaryTreeNode{
 * @param value Value to be added
 * @return true if the right node was created, false otherwise
 */
-bool btree_add_right(BinaryTree *tree, BinaryTreeNode *node, const void *value);
+bool btree_addRight(BinaryTree *tree, BinaryTreeNode *node, const void *value);
 
 /**
  * @brief Remove the left child of the given node in the given binary tree
  * @param tree Binary tree where to remove the left node's value
  * @param node Node to remove the left child
  */
-void btree_remove_left(BinaryTree *tree, BinaryTreeNode *node);
+void btree_removeLeft(BinaryTree *tree, BinaryTreeNode *node);
 
 /**
  * @brief Remove the right child of the given node in the given binary tree
  * @param tree Binary tree where to remove the right node's value
  * @param node Node to remove the right child
  */
-void btree_remove_right(BinaryTree *tree, BinaryTreeNode *node);
+void btree_removeRight(BinaryTree *tree, BinaryTreeNode *node);
 
 /**
  * @brief Merges the left and right binary tress into out where value will be set as root's value
@@ -117,6 +117,45 @@ void btree_remove_right(BinaryTree *tree, BinaryTreeNode *node);
  * @param value Value to be designated as out root's node value
  */
 void btree_merge(BinaryTree *out, BinaryTree *left, BinaryTree *right, const void *value);
+
+/**
+ * @brief Returns the current maximum depth of the given binary tree
+ * @param tree Binary tree to get the maximum depth
+ * @return The maximum depth of the given binary tree
+ */
+int btree_maxDepth(BinaryTree * tree);
+
+/**
+ * @brief Determines if two nodes are in the same binary tree or not
+ * @param left Left node to be compared
+ * @param right Right node to be compared
+ * @return true if two nodes are in the same tree, false otherwise
+ */
+bool btree_isSameTree(BinaryTreeNode* left, BinaryTreeNode* right);
+
+/**
+ * @brief Invert the given binary tree
+ * @param out Inverted binary tree
+ * @param tree Binary tree to invert
+ */
+void btree_invert(BinaryTree *out, BinaryTree * tree);
+
+/**
+ * @brief Determine if two nodes are symmetric or not
+ * @param left Left node to be compared
+ * @param right Right node to be compared
+ * @return true if given nodes are symmetric, false otherwise
+ */
+bool btree_isMirror(BinaryTreeNode* left, BinaryTreeNode* right);
+
+/**
+ * @brief Returns a binary tree by level
+ * @param tree Tree to return as an array of arrays
+ * @param returnSize Number of levels in the binary tree
+ * @param returnColumnSizes Number of elements per level
+ * @return Array of values per level in the given binary tree
+ */
+void **btree_levelOrder(BinaryTree *tree, int *returnSize, int **returnColumnSizes);
 
 #ifdef __cplusplus
 /**
@@ -142,7 +181,7 @@ static inline BinaryTreeNode * btree_root(BinaryTree *tree){
  * @param node Node to determine if it's a root
  * @return true if the given node is the root of its binary tree, false otherwise
  */
-static inline bool btree_is_EOB(BinaryTreeNode *node){
+static inline bool btree_isNodeEOB(BinaryTreeNode *node){
     return ((node)== nullptr);
 }
 
@@ -151,7 +190,7 @@ static inline bool btree_is_EOB(BinaryTreeNode *node){
  * @param node Node to determine if it's a leaf
  * @return true if is the given node is a leaf, false otherwise
  */
-static inline bool btree_is_leaf(BinaryTreeNode *node){
+static inline bool btree_isNodeLeaf(BinaryTreeNode *node){
     return ((node)->left == nullptr && (node)->right == nullptr);
 }
 
@@ -181,7 +220,17 @@ static inline  BinaryTreeNode  *btree_right(BinaryTreeNode *node){
 static inline BinaryTreeNode  *btree_left(BinaryTreeNode *node){
     return ((node)->left);
 }
+
+/**
+ * @brief Inline function that evaluates if the given tree is symmetric or not
+ */
+static inline bool btree_isSymmetric(BinaryTree * tree) { return btree_isMirror((tree)->root, (tree)->root); }
 #else
+
+/**
+ * @brief Macro that evaluates if the given tree is symmetric or not
+ */
+#define btree_isSymmetric(tree) (btree_isMirror((tree)->root, (tree)->root))
 
 /**
  * @brief Macro that evaluates the size of the given binary tree
@@ -202,14 +251,14 @@ static inline BinaryTreeNode  *btree_left(BinaryTreeNode *node){
  * @param node Node to determine if it's a root
  * @return true if the given node is the root of its binary tree, false otherwise
  */
-#define btree_is_EOB(node) ((node) == NULL)
+#define btree_isNodeEOB(node) ((node) == NULL)
 
 /**
  * @brief Macro that evaluates if a node is leaf in its tree
  * @param node Node to determine if it's a leaf
  * @return true if is the given node is a leaf, false otherwise
  */
-#define btree_is_leaf(node) ((node)->left == NULL (node)->right == NULL)
+#define btree_isNodeLeaf(node) ((node)->left == NULL (node)->right == NULL)
 
 /**
  * @brief Macro that evaluates the value of a given node
