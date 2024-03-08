@@ -116,7 +116,7 @@ void bitree_removeRight(BinaryTree *tree, BinaryTreeNode *node);
  * @param right Right binary tree to be merged
  * @param value Value to be designated as out root's node value
  */
-void bitree_merge(BinaryTree *out, BinaryTree *left, BinaryTree *right, const void *value);
+bool bitree_merge(BinaryTree *out, BinaryTree *left, BinaryTree *right, const void *value);
 
 /**
  * @brief Returns the current maximum depth of the given binary tree
@@ -126,27 +126,42 @@ void bitree_merge(BinaryTree *out, BinaryTree *left, BinaryTree *right, const vo
 int bitree_maxDepth(BinaryTree * tree);
 
 /**
+ * @brief Returns the current maximum depth of the given binary tree
+ * @param tree Binary tree to get the maximum depth
+ * @return The maximum depth of the given binary tree
+ */
+int bitree_maxDepthBranch(BinaryTreeNode * root);
+
+/**
  * @brief Determines if two nodes are in the same binary tree or not
+ * @param equals Node compare function
  * @param left Left node to be compared
  * @param right Right node to be compared
  * @return true if two nodes are in the same tree, false otherwise
  */
-bool bitree_isSameTree(BinaryTreeNode* left, BinaryTreeNode* right);
+bool bitree_isSameTree(bool (*equals)(const void *value1, const void* value2), BinaryTreeNode* left, BinaryTreeNode* right);
 
 /**
  * @brief Invert the given binary tree
  * @param out Inverted binary tree
  * @param tree Binary tree to invert
  */
-void bitree_invert(BinaryTree *out, BinaryTree * tree);
+bool bitree_invert(BinaryTree *out, BinaryTree * tree);
 
 /**
+ * @brief Invert the current branch starting from the given node
+ * @param root Relative root where to start to invert the binary tree
+ * @return The reversed branch
+ */
+BinaryTreeNode * bitree_invertBranch(BinaryTreeNode* root);
+/**
  * @brief Determine if two nodes are symmetric or not
+ * @param equals Nodes value compare function, usefully used to add some other nodes comparer
  * @param left Left node to be compared
  * @param right Right node to be compared
  * @return true if given nodes are symmetric, false otherwise
  */
-bool bitree_isMirror(BinaryTreeNode* left, BinaryTreeNode* right);
+bool bitree_isMirror(bool (*equals)(const void *value1, const void* value2), BinaryTreeNode* left, BinaryTreeNode* right);
 
 /**
  * @brief Returns a binary tree by level
@@ -157,6 +172,31 @@ bool bitree_isMirror(BinaryTreeNode* left, BinaryTreeNode* right);
  */
 void **bitree_levelOrder(BinaryTree *tree, int *returnSize, int **returnColumnSizes);
 
+/**
+ * @brief Construct a binary tree from preorder and inorder traversal.
+ *
+ * @param preorder An array representing the preorder traversal of the tree.
+ * @param preorder_size The size of the preorder array.
+ * @param inorder An array representing the inorder traversal of the tree.
+ * @param inorder_size The size of the inorder array.
+ *
+ * @return A pointer to the root node of the constructed binary tree.
+ */
+BinaryTreeNode * bitree_buildBranch(void** preorder, int preorder_size, void** inorder, int inorder_size);
+
+
+/**
+ * @brief Construct a binary tree from preorder and inorder traversal.
+ *
+ * @param preorder An array representing the preorder traversal of the tree.
+ * @param preorder_size The size of the preorder array.
+ * @param inorder An array representing the inorder traversal of the tree.
+ * @param inorder_size The size of the inorder array.
+ * @param destroy The destroy function of the created binary tree
+ *
+ * @return A pointer to the constructed binary tree.
+ */
+BinaryTree * bitree_build(void** preorder, int preorder_size, void** inorder, int inorder_size, void(*destroy)(void* value));
 #ifdef __cplusplus
 /**
  * @brief Inline function that evaluates the size of the given binary tree

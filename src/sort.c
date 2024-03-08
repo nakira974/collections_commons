@@ -33,3 +33,19 @@ array_is_sort(void *value, int element_count, size_t element_size, int (*compare
 
     return true;
 }
+
+void array_split(void ***out, int *out_size, void *in, int start_index, int stop_index) {
+    void **out_ptr = *out;
+    char *in_ptr = (char *)in;
+
+    int size = stop_index - start_index;
+    for (int i = 0; i < size; i++) {
+        // Allocate space for a void* element
+        if((out_ptr[*out_size] = malloc(sizeof(void*)))==NULL){
+            free(in_ptr);
+            return;
+        };
+        (*out_size)++;
+        out_ptr[*out_size - 1] = in_ptr + start_index + i;
+    }
+}
