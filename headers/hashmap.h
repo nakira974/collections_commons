@@ -12,6 +12,7 @@ extern "C" {
 #endif
 
 #include "lhtbl.h"
+#include "hashset.h"
 
 /**
  * @brief Hashmap Key-Value pair entry
@@ -156,6 +157,26 @@ bool hashmap_removeEntry(HashMap *map, SimpleEntry *entry, void **value);
  */
 bool hashmap_containsKey(HashMap *map, void **value);
 
+/**
+ * @brief Returns keys from the given hashmap as a hashset
+ * @param map Hashmap to return keys as set
+ * @return The keys of the given hashmap as set
+ */
+HashSet *hashmap_keySet(HashMap *map);
+
+/**
+ * @brief Returns SimpleEntry entries from the given hashmap as a hashset
+ * @param map Hashmap to return entries as set
+ * @return The entries of the given hashmap as set
+ */
+HashSet *hashmap_entrySet(HashMap *map);
+
+/**
+ * @brief Returns the hashmap
+ * @param map
+ * @return
+ */
+DLinkedList * hashmap_values(HashMap *map);
 #ifdef __cplusplus
 /**
  * @brief Inline function that evaluates the number of hashtable inside the specified hashmap

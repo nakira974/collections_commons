@@ -90,6 +90,15 @@ inline void queue_destroy(Queue *queue) {
 static inline LinkedElement *queue_peekRandom(Queue *queue) {
     return list_getRandom(queue);
 }
+
+/**
+ * @brief Inline function that evaluates the current queue into an array
+ * @param queue Queue to be converted to array
+ * @return Converted queue to array
+ */
+static inline void** queue_toArray(Queue * queue){
+    return list_toArray(queue);
+}
 #else
 
 /**
@@ -123,6 +132,13 @@ static inline LinkedElement *queue_peekRandom(Queue *queue) {
  * @brief Macro that evaluates a random element from the queue and returns it
  */
 #define queue_peekRandom(queue) list_getRandom
+
+/**
+ * @brief Macro that evaluates the current queue into an array
+ * @param queue Queue to be converted to array
+ * @return Converted queue to array
+ */
+#define queue_toArray(queue) list_toArray
 #endif
 
 

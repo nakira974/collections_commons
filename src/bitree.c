@@ -2,6 +2,7 @@
 // Created by maxim on 8/03/2024.
 //
 #include <memory.h>
+#include <minmax.h>
 #include "bitree.h"
 #include "queue.h"
 
@@ -14,13 +15,13 @@ bool bitree_isMirror(bool (*equals)(const void *value1, const void* value2), Bin
             bitree_isMirror(equals, left->left, right->right));
 }
 
-BinaryTreeNode * bitree_invertBranch(BinaryTreeNode* root) {
-    if (root == NULL)
+BinaryTreeNode * bitree_invertBranch(BinaryTreeNode* branchRoot) {
+    if (branchRoot == NULL)
         return NULL;
-    BinaryTreeNode* temp = root->left;
-    root->left = bitree_invertBranch(root->right);
-    root->right = bitree_invertBranch(temp);
-    return root;
+    BinaryTreeNode* temp = branchRoot->left;
+    branchRoot->left = bitree_invertBranch(branchRoot->right);
+    branchRoot->right = bitree_invertBranch(temp);
+    return branchRoot;
 }
 
 bool bitree_isSameTree(bool (*equals)(const void *value1, const void* value2), BinaryTreeNode* left, BinaryTreeNode* right){
@@ -32,11 +33,11 @@ bool bitree_isSameTree(bool (*equals)(const void *value1, const void* value2), B
         return false;
     return bitree_isSameTree(equals, left->left, right->left) && bitree_isSameTree(equals, left->right, right->right);
 }
-int bitree_maxDepthBranch(BinaryTreeNode * root){
- if (root == NULL)
+int bitree_maxDepthBranch(BinaryTreeNode * branchRoot){
+ if (branchRoot == NULL)
         return 0;
-    int left_depth = bitree_maxDepthBranch(root->left);
-    int right_depth = bitree_maxDepthBranch(root->right);
+    int left_depth = bitree_maxDepthBranch(branchRoot->left);
+    int right_depth = bitree_maxDepthBranch(branchRoot->right);
     return (left_depth > right_depth ? left_depth : right_depth) + 1;
 }
 
@@ -287,21 +288,21 @@ void **bitree_levelOrder(BinaryTree *tree, int *returnSize, int **returnColumnSi
 }
 
 
-BinaryTreeNode * bitree_buildBranch(void** preorder, int preorder_size, void** inorder, int inorder_size){
+BinaryTreeNode * bitree_build_from_preorder_inorder_branch(void** preorder, int preorder_size, void** inorder, int inorder_size,bool (*equals)(const void *value1, const void* value2)){
     if (preorder_size == 0) {
         return NULL;
     }
 
-    BinaryTreeNode * root;
-    if((root = malloc(sizeof(struct BinaryTreeNode)))== NULL) return NULL;
-    root->value = preorder[0];
+    BinaryTreeNode * branchRoot;
+    if((branchRoot = malloc(sizeof(struct BinaryTreeNode))) == NULL) return NULL;
+    branchRoot->value = preorder[0];
 
     /*
-     * We know root exists in our inorder array, so we can find the size of the
+     * We know branchRoot exists in our inorder array, so we can find the size of the
      * left subtree by searching for it
      */
     int left_size = 0;
-    while (inorder[left_size] != root->value) {
+    while (!equals(inorder[left_size], branchRoot->value)) {
         left_size++;
     }
     int right_size = preorder_size - left_size - 1;
@@ -314,17 +315,79 @@ BinaryTreeNode * bitree_buildBranch(void** preorder, int preorder_size, void** i
      *      (preorder[left_size], preorder[preorder_size])
      *      (inorder[left_size], inorder[inorder_size])
      */
-    root->left = bitree_buildBranch(preorder + 1, left_size, inorder, left_size);
-    root->right = bitree_buildBranch(preorder + left_size + 1, right_size,
-                                     inorder + left_size + 1, right_size);
+    branchRoot->left = bitree_build_from_preorder_inorder_branch(preorder + 1, left_size, inorder, left_size, equals);
+    branchRoot->right = bitree_build_from_preorder_inorder_branch(preorder + left_size + 1, right_size,
+                                     inorder + left_size + 1, right_size, equals);
 
-    return root;
+    return branchRoot;
 }
 
-BinaryTree * bitree_build(void** preorder, int preorder_size, void** inorder, int inorder_size, void(*destroy)(void* value)){
+BinaryTree * bitree_build_from_preorder_inorder(void** preorder, int preorder_size, void** inorder, int inorder_size, void(*destroy)(void* value), bool (*equals)(const void *value1, const void* value2)){
     BinaryTree  *result;
     if((result = (BinaryTree*) malloc(sizeof (BinaryTree))) == NULL) return NULL;
     bitree_create(result, destroy);
-    result->root = bitree_buildBranch(preorder, preorder_size, inorder, inorder_size);
+    result->equals = equals;
+    result->root = bitree_build_from_preorder_inorder_branch(preorder, preorder_size, inorder, inorder_size, result->equals);
     return result;
+}
+
+BinaryTreeNode* bitree_build_from_inorder_postorder_branch(void** inorder, int inorderSize, int** postorder,
+                                                           int postorderSize, bool (*equals)(const void *value1, const void* value2)){
+     if (postorderSize == 0)
+        return NULL;
+
+    BinaryTreeNode* branchRoot;
+    if((branchRoot=(BinaryTreeNode*)malloc(sizeof(struct BinaryTreeNode))) == NULL) return NULL;
+
+    branchRoot->value = *(postorder + postorderSize - 1);
+    int index;
+
+    for (index = 0; index < inorderSize; index++) {
+        if (equals(inorder[index], branchRoot->value))
+            break;
+    }
+
+    branchRoot->left = bitree_build_from_inorder_postorder_branch(inorder, index, postorder, index, equals);
+    branchRoot->right = bitree_build_from_inorder_postorder_branch(inorder + index + 1, inorderSize - index - 1,
+                            postorder + index, postorderSize - index - 1, equals);
+
+    return branchRoot;
+}
+
+BinaryTree* bitree_build_from_inorder_postorder(void** inorder,
+                                                    int inorderSize,
+                                                    int** postorder,
+                                                    int postorderSize,
+                                                    void(*destroy)(void* value),
+                                                    bool (*equals)(const void *value1, const void* value2)){
+    BinaryTree  *result;
+    if((result = (BinaryTree*) malloc(sizeof (BinaryTree))) == NULL) return NULL;
+    bitree_create(result, destroy);
+    result->equals = equals;
+    result->root = bitree_build_from_inorder_postorder_branch(inorder, 0, postorder, 0, result->equals);
+    return result;
+}
+
+int bitree_height(BinaryTreeNode * root, int* diameter){
+    if (root == NULL) {
+        return 0;
+    }
+
+    int leftHeight = bitree_height(root->left, diameter);
+    int rightHeight = bitree_height(root->right, diameter);
+
+    *diameter = max(*diameter, leftHeight + rightHeight);
+
+    return 1 + max(leftHeight, rightHeight);
+}
+
+int bitree_diameter(BinaryTree * tree){
+ if (tree == NULL) {
+        return 0;
+    }
+
+    int diameter = 0;
+    bitree_height(tree->root, &diameter);
+
+    return diameter;
 }

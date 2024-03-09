@@ -2,8 +2,8 @@
 // Created by maxim on 8/03/2024.
 //
 
-#ifndef COLLECTIONS_COMMONS_SORT_TEST_H
-#define COLLECTIONS_COMMONS_SORT_TEST_H
+#ifndef COLLECTIONS_COMMONS_ARRAY_TEST_H
+#define COLLECTIONS_COMMONS_ARRAY_TEST_H
 #include "gtest/gtest.h"
 #include "sort.h"
 
@@ -36,4 +36,4 @@ TEST(ArraySplitTest, SimpleStructTest) {
     }
     free(split_blocks);
 }
-#endif //COLLECTIONS_COMMONS_SORT_TEST_H
+#endif //COLLECTIONS_COMMONS_ARRAY_TEST_H

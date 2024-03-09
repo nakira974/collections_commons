@@ -130,7 +130,7 @@ int bitree_maxDepth(BinaryTree * tree);
  * @param tree Binary tree to get the maximum depth
  * @return The maximum depth of the given binary tree
  */
-int bitree_maxDepthBranch(BinaryTreeNode * root);
+int bitree_maxDepthBranch(BinaryTreeNode * branchRoot);
 
 /**
  * @brief Determines if two nodes are in the same binary tree or not
@@ -150,10 +150,10 @@ bool bitree_invert(BinaryTree *out, BinaryTree * tree);
 
 /**
  * @brief Invert the current branch starting from the given node
- * @param root Relative root where to start to invert the binary tree
+ * @param branchRoot Relative branchRoot where to start to invert the binary tree
  * @return The reversed branch
  */
-BinaryTreeNode * bitree_invertBranch(BinaryTreeNode* root);
+BinaryTreeNode * bitree_invertBranch(BinaryTreeNode* branchRoot);
 /**
  * @brief Determine if two nodes are symmetric or not
  * @param equals Nodes value compare function, usefully used to add some other nodes comparer
@@ -179,12 +179,24 @@ void **bitree_levelOrder(BinaryTree *tree, int *returnSize, int **returnColumnSi
  * @param preorder_size The size of the preorder array.
  * @param inorder An array representing the inorder traversal of the tree.
  * @param inorder_size The size of the inorder array.
+ * @param equals Node value equals function
  *
  * @return A pointer to the root node of the constructed binary tree.
  */
-BinaryTreeNode * bitree_buildBranch(void** preorder, int preorder_size, void** inorder, int inorder_size);
+BinaryTreeNode * bitree_build_from_preorder_inorder_branch(void** preorder, int preorder_size, void** inorder, int inorder_size, bool (*equals)(const void *value1, const void* value2));
 
-
+/**
+ * @brief Construct a binary tree from inorder and postorder traversal.
+ *
+ * @param inorder An array representing the inorder traversal of the tree.
+ * @param inorderSize The size of the inorder array.
+ * @param postorder An array representing the postorder traversal of the tree.
+ * @param postorderSize The size of the postorder array.
+ * @param equals Node value equals function
+ * @return A pointer to the root node of the constructed binary tree.
+ */
+BinaryTreeNode* bitree_build_from_inorder_postorder_branch(void** inorder, int inorderSize, int** postorder,
+                           int postorderSize, bool (*equals)(const void *value1, const void* value2));
 /**
  * @brief Construct a binary tree from preorder and inorder traversal.
  *
@@ -193,10 +205,45 @@ BinaryTreeNode * bitree_buildBranch(void** preorder, int preorder_size, void** i
  * @param inorder An array representing the inorder traversal of the tree.
  * @param inorder_size The size of the inorder array.
  * @param destroy The destroy function of the created binary tree
+ * @param equals Node value equals function
  *
  * @return A pointer to the constructed binary tree.
  */
-BinaryTree * bitree_build(void** preorder, int preorder_size, void** inorder, int inorder_size, void(*destroy)(void* value));
+BinaryTree * bitree_build_from_preorder_inorder(void** preorder, int preorder_size, void** inorder, int inorder_size, void(*destroy)(void* value), bool (*equals)(const void *value1, const void* value2));
+
+/**
+* @brief Construct a binary tree from inorder and postorder traversal.
+*
+* @param inorder An array representing the inorder traversal of the tree.
+* @param inorderSize The size of the inorder array.
+* @param postorder An array representing the postorder traversal of the tree.
+* @param postorderSize The size of the postorder array.
+* @param destroy The destroy function of the created binary tree
+* @param equals Node value equals function
+* @return A pointer to the root node of the constructed binary tree.
+*/
+BinaryTree* bitree_build_from_inorder_postorder(void** inorder,
+                                                    int inorderSize,
+                                                    int** postorder,
+                                                    int postorderSize,
+                                                    void(*destroy)(void* value),
+                                                    bool (*equals)(const void *value1, const void* value2));
+
+/**
+ * @brief Returns the longest path length in the given branch
+ * @param root Root node of the given branch to find longest path
+ * @param diameter Pointer to the returned longest path length
+ * @return
+ */
+int bitree_height(BinaryTreeNode * root, int* diameter);
+
+/**
+ * @brief Returns the longest path length in the given binary tree
+ * @param tree Tree to get the longest path on
+ * @return The longest path length of the given binary tree
+ */
+int bitree_diameter(BinaryTree * tree);
+
 #ifdef __cplusplus
 /**
  * @brief Inline function that evaluates the size of the given binary tree
