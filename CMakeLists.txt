@@ -7,7 +7,7 @@ else ()
     message(STATUS "Tests not included. Set BUILD_TESTS=ON to build tests.")
 endif ()
 
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.25.1)
 project(collections_commons C)
 
 set(CMAKE_C_STANDARD 99)
