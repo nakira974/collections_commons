@@ -148,7 +148,7 @@ Set* list_toSet(LinkedList *list, bool(*equals) (const void* value1, const void 
  * @param list List to be converted to a double linked list
  * @return Converted list to double linked list
  */
-DLinkedList *list_toList(LinkedList *list);
+DLinkedList *list_toDList(LinkedList *list);
 
 /**
  * @brief Convert the given list into a circular list
