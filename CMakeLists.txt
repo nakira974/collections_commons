@@ -23,6 +23,7 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
             set(DOXYGEN_IN doc/Doxyfile.in)
             set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 
+
             # request to configure the file
             configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
             message(STATUS "Doxygen build started")
