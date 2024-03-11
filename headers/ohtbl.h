@@ -15,6 +15,8 @@
  #include <stdlib.h>
 #include <stdbool.h>
 #include <memory.h>
+#include "dlist.h"
+
 #endif
 
 #ifdef __cplusplus
@@ -86,6 +88,20 @@ bool ohtbl_remove(OAHashTable * hashTable, void **value);
  * @return true if the element is present in the given hash table, false otherwise
  */
 bool ohtbl_contains(OAHashTable * hashTable, void **value);
+
+/**
+ * @brief Convert the given hash table into an array
+ * @param hashTable Hash table to be converted to array
+ * @return Converted hash table to array
+ */
+void** ohtbl_toArray(OAHashTable *hashTable);
+
+/**
+ * @brief Convert the hash table into a list
+ * @param hashTable Hash table to be converted to list
+ * @return Converted hash table to list
+ */
+DLinkedList *ohtbl_toList(OAHashTable *hashTable);
 
 #ifdef __cplusplus
 /***

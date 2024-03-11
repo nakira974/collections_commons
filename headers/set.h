@@ -19,6 +19,23 @@ extern "C" {
 typedef LinkedList Set;
 
 /**
+ * @brief Data structure for a set identify by a generic key
+ */
+typedef struct KeySetEntry {
+    void *key;
+    Set set;
+} KeySetEntry;
+
+/**
+ * @brief Determine if sets from hashtable to equals are covering ALL hashtable, if true return the best solution
+ * @param elements Elements to be covered
+ * @param elements_to_equals Sub sets to determine if they can cover ALL hashtable
+ * @param equalsed_elements Shortest list of hashtable that equals ALL hashtable
+ * @return True if hashtable to equals are covering ALL hashtable, false otherwise
+ */
+bool set_equals_entries(Set *elements, Set *elements_to_equals, Set *equalsed_elements);
+
+/**
  * @brief Create a Set
  * @param set Set reference to create
  * @param equals User equals function to determine if hashtable are equals or not
@@ -102,6 +119,13 @@ bool set_isSubset(const Set *left, const Set *right);
  */
 bool set_equals(const Set *left, const Set *right);
 
+/**
+ * @brief Convert the given set into a hashset
+ * @param set Set to be converted to hashset
+ * @return Converted set to hashset
+ */
+Set* set_toHashSet(Set *set, int (*hash)(const void *key));
+
 #ifdef __cplusplus
 /**
  * @brief Inline function to get the current Set size
@@ -128,6 +152,15 @@ static inline void set_destroy(Set *set) {
 static inline LinkedElement *set_getRandom(Set *set) {
     return list_getRandom(set);
 }
+
+/**
+ * @brief Inline function that evaluates the current set into an array
+ * @param stack Set to be converted to array
+ * @return Converted set to array
+ */
+static inline void** set_toArray(Set * set){
+    return list_toArray(set);
+}
 #else
 /**
  * @brief Macro that evaluates the size of a given Set
@@ -148,6 +181,13 @@ static inline LinkedElement *set_getRandom(Set *set) {
  * @brief Macro that evaluates a random element from the set and returns it
  */
 #define set_get_random(set) list_getRandom
+
+/**
+ * @brief Macro that evaluates the current set into an array
+ * @param stack Set to be converted to array
+ * @return Converted set to array
+ */
+#define set_toArray(set) list_toArray
 #endif
 
 #ifdef __cplusplus

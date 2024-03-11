@@ -2,5 +2,8 @@
 /cmake-build-release
 /bin
 /thrid-party/
-/mingw32_x86_build/
+/build/mingw32_x86/
 /third-party/
+/cmake-build-debug-mingw/
+/cmake-build-debug-risc-v/
+/cmake-build-release-visual-studio/
