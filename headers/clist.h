@@ -20,6 +20,9 @@ extern "C" {
 #include <stdlib.h>
 #include <memory.h>
 #include <stdbool.h>
+#include "list.h"
+#include "dlist.h"
+
 #endif
 
 
@@ -124,6 +127,34 @@ CLinkedElement *clist_getRandom(CLinkedList *list);
  * @return true if the given element's value was replaces, false otherwise
  */
 bool clist_replace(CLinkedList *list, CLinkedElement *element, void **value);
+
+/**
+ * @brief Convert the given list into an array
+ * @param list List to be converted to array
+ * @return Converted list to array
+ */
+void ** clist_toArray(CLinkedList *list);
+
+/**
+ * @brief Convert the given list into a set
+ * @param list List to be converted to set
+ * @return Converted list to set
+ */
+Set* clist_toSet(LinkedList *list, bool(*equals) (const void* value1, const void * value2));
+
+/**
+ * @brief Convert the given circular list into a list
+ * @param list List to be converted to list
+ * @return Converted circular list to list
+ */
+LinkedList *clist_toList(CLinkedList *list);
+
+/**
+ * @brief Convert the given circular list into a double linked list
+ * @param list List to be converted to a double linked list
+ * @return Converted circular list to double linked list
+ */
+DLinkedList *clist_toDList(CLinkedList *list);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus

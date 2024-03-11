@@ -1,10 +1,9 @@
 /**
- * @file btree.h
- * @brief This file contains the API for binary trees
+ * @file bitree.h
+ * @brief This file contains the API for balanced trees
  * @author Maxime Loukhal
- * @date 06/03/2024
+ * @date 08/03/2024
  */
-
 #ifndef COLLECTIONS_COMMONS_BTREE_H
 #define COLLECTIONS_COMMONS_BTREE_H
 

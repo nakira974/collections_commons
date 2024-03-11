@@ -1,13 +1,14 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.25.1)
 
 project(collections_commons C)
 
-OPTION(BUILD_TESTS "Build unit tests" ON)
-
-OPTION(BUILD_DOC "Build documentation" ON)
-
 # check if Doxygen is installed
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+
+    OPTION(BUILD_TESTS "Build unit tests" ON)
+
+    OPTION(BUILD_DOC "Build documentation" ON)
+
     if (BUILD_TESTS)
         message(STATUS "Tests are included. Set BUILD_TESTS to OFF to diable.")
     else ()

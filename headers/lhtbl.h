@@ -126,6 +126,19 @@ bool lhtbl_remove(LinkedHashTable *lhtbl, void **value);
  */
 bool lhtbl_contains(const LinkedHashTable *lhtbl, void **value);
 
+/**
+ * @brief Convert the given hash table into an array
+ * @param hashTable Hash table to be converted to array
+ * @return Converted hash table to array
+ */
+void** ohtbl_toArray(LinkedHashTable *hashTable);
+
+/**
+ * @brief Convert the hash table into a list
+ * @param hashTable Hash table to be converted to list
+ * @return Converted hash table to list
+ */
+DLinkedList *lhtbl_toList(LinkedHashTable *hashTable);
 #ifdef __cplusplus
 }
 #endif

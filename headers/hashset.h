@@ -143,6 +143,14 @@ bool hashset_isSubset(const HashSet *left, const HashSet *right);
  * @complexity O(n ^ 2 ) where n is the number of hashtable inside left AND right
  */
 bool hashset_equals(const HashSet *left, const HashSet *right);
+
+/**
+ * @brief Convert the hashset into a list
+ * @param set Hashset to be converted to list
+ * @return Converted hashset to list
+ */
+DLinkedList *hashset_toList(HashSet *set);
+
 #ifdef __cplusplus
 /**
  * @brief Inline function that evaluates the number of hashtable inside the specified hashset
@@ -209,6 +217,14 @@ inline bool hashset_get(HashSet *set, void **value) {
     return hashset_contains(set, value);
 } ;
 
+/**
+ * @brief Inline function that evaluates the current hashset into an array
+ * @param set Hashset to be converted to array
+ * @return Converted hashset to array
+ */
+static inline void** hashset_toArray(HashSet * set){
+    return dlist_toArray(set->elements);
+}
 #else
 /**
  * @brief Macro that evaluates the number of hashtable inside the specified hashset
@@ -266,6 +282,13 @@ inline bool hashset_get(HashSet *set, void **value) {
  * @param set HashSet to evaluate the first element in
  */
 #define hashset_last(set) dlist_last(set->elements)
+
+/**
+ * @brief Macro that evaluates the current hashset into an array
+ * @param set Hashset to be converted to array
+ * @return Converted hashset to array
+ */
+#define hashset_toArray(set) dlist_toArray((set)->elements)
 #endif
 
 #ifdef __cplusplus

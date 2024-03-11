@@ -56,7 +56,7 @@ TEST_F(CLinkedList_Test, ReplacePageTest) {
 
 TEST_F(CLinkedList_Test, PerformanceTest) {
     // Vérifier les performances en ajoutant et supprimant un grand nombre d'éléments
-    for (int i = 0; i < 100000; ++i) {
+    for (int i = 0; i < 1000000; ++i) {
         clist_add(obj, clist_first(obj), new Page{i, i+1});
     }
     CLinkedElement *current_element;
