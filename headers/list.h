@@ -7,6 +7,8 @@
 #ifndef COLLECTIONS_COMMONS_LIST_H
 #define COLLECTIONS_COMMONS_LIST_H
 
+#include "clist.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

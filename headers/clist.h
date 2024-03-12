@@ -185,21 +185,21 @@ inline CLinkedElement *clist_next(CLinkedElement *element) {
  * @return The first element of the current list
  * @complexity O(1)
  */
-#define clist_first(list) ((list)->head);
+#define clist_first(list) ((list)->head)
 
 /**
  * @brief Macro that evaluates if the specified element is the first element of the specified list
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-#define list_isFirst(list, element) ((element) == (list)->head ? true : false )
+#define clist_isFirst(list, element) ((element) == (list)->head ? true : false )
 
 /**
  * @brief Macro that evaluates the value of a list element
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-#define clist_value(element) ((element)->value);
+#define clist_value(element) ((element)->value)
 
 /**
  * @brief Macro that evaluates the previous element of the current list element
