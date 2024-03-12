@@ -150,7 +150,7 @@ bool dlist_replace(DLinkedList *list, DLinkedElement *element, void **value);
  * @return The current element count of the current list
  * @complexity O(1)
  */
-inline int dlist_size(DLinkedList *list) {
+static inline int dlist_size(DLinkedList *list) {
     return list->size;
 } ;
 
@@ -159,7 +159,7 @@ inline int dlist_size(DLinkedList *list) {
  * @return The first element of the current list
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_first(DLinkedList *list) {
+static inline DLinkedElement *dlist_first(DLinkedList *list) {
     return list->head;
 } ;
 
@@ -168,7 +168,7 @@ inline DLinkedElement *dlist_first(DLinkedList *list) {
  * @return The last element of the current list
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_last(DLinkedList *list) {
+static inline DLinkedElement *dlist_last(DLinkedList *list) {
     return list->tail;
 } ;
 
@@ -177,7 +177,7 @@ inline DLinkedElement *dlist_last(DLinkedList *list) {
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool dlist_isFirst(DLinkedList *list, DLinkedElement *element) {
+static inline bool dlist_isFirst(DLinkedList *list, DLinkedElement *element) {
     return (element)->previous == nullptr;
 } ;
 
@@ -186,7 +186,7 @@ inline bool dlist_isFirst(DLinkedList *list, DLinkedElement *element) {
  * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool dlist_isLast(DLinkedList *list, DLinkedElement *element) {
+static inline bool dlist_isLast(DLinkedList *list, DLinkedElement *element) {
     return (element)->next == nullptr;
 } ;
 
@@ -195,7 +195,7 @@ inline bool dlist_isLast(DLinkedList *list, DLinkedElement *element) {
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-inline void *dlist_value(DLinkedElement *element) {
+static inline void *dlist_value(DLinkedElement *element) {
     return ((element)->value);
 } ;
 
@@ -204,7 +204,7 @@ inline void *dlist_value(DLinkedElement *element) {
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_next(DLinkedElement *element) {
+static inline DLinkedElement *dlist_next(DLinkedElement *element) {
     return (element)->next;
 }
 
@@ -213,7 +213,7 @@ inline DLinkedElement *dlist_next(DLinkedElement *element) {
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_previous(DLinkedElement *element) {
+static inline DLinkedElement *dlist_previous(DLinkedElement *element) {
     return (element)->previous;
 }
 

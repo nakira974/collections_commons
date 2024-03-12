@@ -133,7 +133,7 @@ bool list_replace(LinkedList *list, LinkedElement *element, void **value);
  * @return The current element count of the current list
  * @complexity O(1)
  */
-inline int list_size(LinkedList *list) {
+static inline int list_size(LinkedList *list) {
     return list->size;
 } ;
 
@@ -143,7 +143,7 @@ inline int list_size(LinkedList *list) {
  * @return The first element of the current list
  * @complexity O(1)
  */
-inline LinkedElement *list_first(LinkedList *list) {
+static inline LinkedElement *list_first(LinkedList *list) {
     return list->head;
 } ;
 
@@ -152,7 +152,7 @@ inline LinkedElement *list_first(LinkedList *list) {
  * @return The last element of the current list
  * @complexity O(1)
  */
-inline LinkedElement *list_last(LinkedList *list) {
+static inline LinkedElement *list_last(LinkedList *list) {
     return list->tail;
 } ;
 
@@ -161,7 +161,7 @@ inline LinkedElement *list_last(LinkedList *list) {
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool list_isFirst(LinkedList *list, LinkedElement *element) {
+static inline bool list_isFirst(LinkedList *list, LinkedElement *element) {
     return (list)->head == element;
 } ;
 
@@ -170,7 +170,7 @@ inline bool list_isFirst(LinkedList *list, LinkedElement *element) {
  * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool list_isLast(LinkedList *list, LinkedElement *element) {
+static inline bool list_isLast(LinkedList *list, LinkedElement *element) {
     return (list)->tail == element;
 } ;
 
@@ -179,7 +179,7 @@ inline bool list_isLast(LinkedList *list, LinkedElement *element) {
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-inline void *list_value(LinkedElement *element) {
+static inline void *list_value(LinkedElement *element) {
     return ((element)->value);
 } ;
 
@@ -188,7 +188,7 @@ inline void *list_value(LinkedElement *element) {
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline LinkedElement *list_next(LinkedElement *element) {
+static inline LinkedElement *list_next(LinkedElement *element) {
     if (element == nullptr) return nullptr;
     else return (element)->next == nullptr ? nullptr : (element)->next;
 }

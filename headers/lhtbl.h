@@ -71,7 +71,7 @@ typedef struct LinkedHashTable {
 * @brief Inline function that evaluates the number of elements inside the specified hash table
 * @return The current element count of the current hash table
 */
-inline int lhtbl_size(LinkedHashTable *queue) {
+static inline int lhtbl_size(LinkedHashTable *queue) {
     return queue->size;
 } ;
 #else
