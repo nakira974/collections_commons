@@ -1,6 +1,6 @@
 /**
- * @file bitree.h
- * @brief This file contains the API for binary search trees
+ * @file bistree.h
+ * @brief This file contains the API for binary search trees using AVL nodes
  * @author Maxime Loukhal
  * @date 08/03/2024
  */

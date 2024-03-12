@@ -1,5 +1,5 @@
 /**
- * @file bitree.h
+ * @file btree.h
  * @brief This file contains the API for balanced trees
  * @author Maxime Loukhal
  * @date 08/03/2024
