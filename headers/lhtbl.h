@@ -138,7 +138,7 @@ void** ohtbl_toArray(LinkedHashTable *hashTable);
  * @param hashTable Hash table to be converted to list
  * @return Converted hash table to list
  */
-DLinkedList *lhtbl_toList(LinkedHashTable *hashTable);
+struct DLinkedList *lhtbl_toList(LinkedHashTable *hashTable);
 #ifdef __cplusplus
 }
 #endif

@@ -52,7 +52,7 @@ CLinkedList *array_toCList(void **array);
  * @param array Array to be converted to set
  * @return Converted array to set
  */
-Set* array_toSet(void **array, bool(*equals) (const void* value1, const void * value2));
+struct Set* array_toSet(void **array, bool(*equals) (const void* value1, const void * value2));
 
 #ifdef __cplusplus
 }

@@ -20,9 +20,6 @@ extern "C" {
 #include <stdlib.h>
 #include <memory.h>
 #include <stdbool.h>
-#include "list.h"
-#include "dlist.h"
-
 #endif
 
 
@@ -139,21 +136,21 @@ void ** clist_toArray(CLinkedList *list);
  * @param list List to be converted to set
  * @return Converted list to set
  */
-Set* clist_toSet(LinkedList *list, bool(*equals) (const void* value1, const void * value2));
+struct Set* clist_toSet(struct LinkedList *list, bool(*equals) (const void* value1, const void * value2));
 
 /**
  * @brief Convert the given circular list into a list
  * @param list List to be converted to list
  * @return Converted circular list to list
  */
-LinkedList *clist_toList(CLinkedList *list);
+struct LinkedList *clist_toList(CLinkedList *list);
 
 /**
  * @brief Convert the given circular list into a double linked list
  * @param list List to be converted to a double linked list
  * @return Converted circular list to double linked list
  */
-DLinkedList *clist_toDList(CLinkedList *list);
+struct DLinkedList *clist_toDList(CLinkedList *list);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
