@@ -17,12 +17,7 @@ extern "C" {
 #else
 #include <stdlib.h>
 #include <stdbool.h>
-#include "clist.h"
-#include "set.h"
-
 #endif
-
-
 /**
  * @brief Data structure definition for a simple chained linked list generic element
  */
@@ -140,7 +135,7 @@ void** list_toArray(LinkedList *list);
  * @param list List to be converted to set
  * @return Converted list to set
  */
-Set* list_toSet(LinkedList *list, bool(*equals) (const void* value1, const void * value2));
+struct Set* list_toSet(LinkedList *list, bool(*equals) (const void* value1, const void * value2));
 
 
 /**
@@ -148,14 +143,14 @@ Set* list_toSet(LinkedList *list, bool(*equals) (const void* value1, const void 
  * @param list List to be converted to a double linked list
  * @return Converted list to double linked list
  */
-DLinkedList *list_toDList(LinkedList *list);
+struct DLinkedList *list_toDList(LinkedList *list);
 
 /**
  * @brief Convert the given list into a circular list
  * @param list List to be converted to a circular list
  * @return Converted list to circular list
  */
-CLinkedList *list_toCList(LinkedList *list);
+struct CLinkedList *list_toCList(LinkedList *list);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus

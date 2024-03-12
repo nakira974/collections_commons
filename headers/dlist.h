@@ -19,9 +19,9 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "clist.h"
-
 #endif
+
+#include "clist.h"
 
 
 /**
@@ -157,14 +157,14 @@ void** dlist_toArray(DLinkedList *list);
  * @param list List to be converted to set
  * @return Converted list to set
  */
-Set* dlist_toSet(LinkedList *list, bool(*equals) (const void* value1, const void * value2));
+struct Set* dlist_toSet(struct LinkedList *list, bool(*equals) (const void* value1, const void * value2));
 
 /**
  * @brief Convert the double linked list into a list
  * @param list List to be converted to list
  * @return Converted double linked list to list
  */
-LinkedList *dlist_toList(DLinkedList *list);
+struct LinkedList *dlist_toList(DLinkedList *list);
 
 /**
  * @brief Convert the double linked list into a circular list
