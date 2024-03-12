@@ -40,7 +40,7 @@ typedef struct CLinkedElement {
     struct CLinkedElement *next;
 } CLinkedElement;
 
-/***
+/**
  * @brief Data structure for a circular linked list
  */
 typedef struct CLinkedList {
