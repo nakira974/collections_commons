@@ -1,5 +1,5 @@
 /**
- * @file sort.h
+ * @file hashset.h
  * @brief This file contains the API for hash sets
  * @author Maxime Loukhal
  * @date 27/02/2024

@@ -1,5 +1,5 @@
 /**
- * @file clist.h
+ * @file list.h
  * @brief This file contains the API for simple chained Linked List collections
  * @author Maxime Loukhal
  * @date 20/02/2024
