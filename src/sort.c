@@ -4,6 +4,7 @@
 
 #include "sort.h"
 #include "arrays_utils.h"
+
 bool
 array_is_sort(void *value, int element_count, size_t element_size, int (*compare)(const void *key1, const void *key2)) {
     char *array = value;
@@ -36,12 +37,12 @@ array_is_sort(void *value, int element_count, size_t element_size, int (*compare
 
 void array_split(void ***out, int *out_size, void *in, int start_index, int stop_index) {
     void **out_ptr = *out;
-    char *in_ptr = (char *)in;
+    char *in_ptr = (char *) in;
 
     int size = stop_index - start_index;
     for (int i = 0; i < size; i++) {
         // Allocate space for a void* element
-        if((out_ptr[*out_size] = malloc(sizeof(void*)))==NULL){
+        if ((out_ptr[*out_size] = malloc(sizeof(void *))) == NULL) {
             free(in_ptr);
             return;
         };

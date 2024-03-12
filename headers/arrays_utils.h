@@ -26,6 +26,7 @@ extern "C" {
  */
 void array_split(void ***out, int *out_size, void *in, int start_index, int stop_index);
 
+
 /**
  * @brief Convert the given array into a list
  * @param array Array to be converted to list
@@ -54,6 +55,22 @@ CLinkedList *array_toCList(void **array);
  */
 struct Set *array_toSet(void **array, bool(*equals)(const void *value1, const void *value2));
 
+#ifdef __cpluscplus
+/**
+ * @brief Inline function that evaluates the size of an array
+ * @param array Array to determine the size
+ */
+static inline size_t array_length(void** array){
+    return sizeof(array) / sizeof(array[0]);
+}
+#else
+/**
+ * @brief Macro that evaluates the size of an array
+ * @param array Array to determine the size
+ */
+#define array_length(array) sizeof(array) / sizeof(array[0])
+
+#endif
 #ifdef __cplusplus
 }
 #endif

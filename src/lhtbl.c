@@ -2,7 +2,7 @@
 // Created by maxim on 28/02/2024.
 //
 
-#include "lhtbl.h"
+#include "collections_utils.h"
 
 bool lhtbl_create(LinkedHashTable *lhtbl,
                   int containers,
@@ -108,4 +108,42 @@ bool lhtbl_contains(const LinkedHashTable *lhtbl, void **value) {
     }
 
     return false;
+}
+
+
+void **lhtbl_toArray(LinkedHashTable *hashTable) {
+    if (hashTable == NULL || hashTable->size == 0) return NULL;
+    void **result;
+    if ((result = (void **) malloc(hashTable->size * sizeof(void *))) == NULL) return NULL;
+    int count = 0;
+    LinkedElement *current_element;
+    for (int i = 0; i < hashTable->size; i++) {
+        if (list_size(&hashTable->hashtable[i]) > 0) {
+            for (current_element = list_first(&hashTable->hashtable[i]);
+                 current_element != NULL; current_element = list_next(current_element)) {
+                result[count] = current_element->value;
+                count++;
+            }
+            count = 0;
+        }
+    }
+    return result;
+}
+
+
+DLinkedList *lhtbl_toList(LinkedHashTable *hashTable) {
+    if (hashTable == NULL || hashTable->size == 0) return NULL;
+    DLinkedList *result;
+    if ((result = (DLinkedList *) malloc(sizeof(DLinkedList))) == NULL) return NULL;
+    dlist_create(result, hashTable->destroy);
+    LinkedElement *current_element;
+    for (int i = 0; i < hashTable->size; i++) {
+        if (list_size(&hashTable->hashtable[i]) > 0) {
+            for (current_element = list_first(&hashTable->hashtable[i]);
+                 current_element != NULL; current_element = list_next(current_element)) {
+                dlist_add(result, dlist_first(result), current_element->value);
+            }
+        }
+    }
+    return result;
 }

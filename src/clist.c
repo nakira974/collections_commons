@@ -68,7 +68,7 @@ CLinkedElement *clist_getRandom(CLinkedList *list) {
     int rd_index = rand() % clist_size(list);
     int count = 0;
 
-    for (random_element = clist_first(list);;random_element = clist_next(random_element)) {
+    for (random_element = clist_first(list);; random_element = clist_next(random_element)) {
         if (rd_index == count) {
             break;
         }
@@ -97,13 +97,13 @@ bool clist_replace(CLinkedList *list, CLinkedElement *element, void **value) {
 }
 
 
-void **clist_toArray(CLinkedList *list){
-    if(list == NULL || list->size == 0) return NULL;
-    void** result;
-    if((result = (void**) malloc(list->size*sizeof (void*))) == NULL) return NULL;
+void **clist_toArray(CLinkedList *list) {
+    if (list == NULL || list->size == 0) return NULL;
+    void **result;
+    if ((result = (void **) malloc(list->size * sizeof(void *))) == NULL) return NULL;
     CLinkedElement *current_element;
-    int count =0;
-    for(current_element= clist_first(list);count < list->size-1; current_element= clist_next(current_element)){
+    int count = 0;
+    for (current_element = clist_first(list); count < list->size - 1; current_element = clist_next(current_element)) {
         result[count] = current_element->value;
         count++;
     }
@@ -112,14 +112,14 @@ void **clist_toArray(CLinkedList *list){
 }
 
 
-Set *clist_toSet(CLinkedList *list, bool(*equals)(const void *value1, const void *value2)){
-    if(list == NULL || list->size == 0) return NULL;
+Set *clist_toSet(CLinkedList *list, bool(*equals)(const void *value1, const void *value2)) {
+    if (list == NULL || list->size == 0) return NULL;
     Set *result;
-    if((result = (Set*) malloc(sizeof (Set))) == NULL) return NULL;
+    if ((result = (Set *) malloc(sizeof(Set))) == NULL) return NULL;
     set_create(result, equals, list->destroy);
     CLinkedElement *current_element;
     int count = 0;
-    for(current_element= clist_first(list); count < list->size-1; current_element= clist_next(current_element)){
+    for (current_element = clist_first(list); count < list->size - 1; current_element = clist_next(current_element)) {
         set_add(result, current_element->value);
     }
     free(current_element);
@@ -127,15 +127,15 @@ Set *clist_toSet(CLinkedList *list, bool(*equals)(const void *value1, const void
 }
 
 
-LinkedList *clist_toList(CLinkedList *list){
-    if(list == NULL || list->size == 0) return NULL;
+LinkedList *clist_toList(CLinkedList *list) {
+    if (list == NULL || list->size == 0) return NULL;
     LinkedList *result;
-    if((result = (LinkedList*) malloc(sizeof (LinkedList))) == NULL) return NULL;
+    if ((result = (LinkedList *) malloc(sizeof(LinkedList))) == NULL) return NULL;
     list_create(result, list->destroy);
     CLinkedElement *current_element;
-    int count =0;
-    for(current_element= clist_first(list); count < list->size-1; current_element= clist_next(current_element)){
-        list_add(result,NULL, current_element->value);
+    int count = 0;
+    for (current_element = clist_first(list); count < list->size - 1; current_element = clist_next(current_element)) {
+        list_add(result, NULL, current_element->value);
         count++;
     }
     free(current_element);
@@ -143,15 +143,15 @@ LinkedList *clist_toList(CLinkedList *list){
 }
 
 
-DLinkedList *clist_toDList(CLinkedList *list){
-    if(list == NULL || list->size == 0) return NULL;
+DLinkedList *clist_toDList(CLinkedList *list) {
+    if (list == NULL || list->size == 0) return NULL;
     DLinkedList *result;
-    if((result = (DLinkedList*) malloc(sizeof (DLinkedList))) == NULL) return NULL;
+    if ((result = (DLinkedList *) malloc(sizeof(DLinkedList))) == NULL) return NULL;
     dlist_create(result, list->destroy);
     CLinkedElement *current_element;
     int count = 0;
-    for(current_element= clist_first(list); count < list->size-1; current_element= clist_next(current_element)){
-        dlist_add(result,dlist_first(result), current_element->value);
+    for (current_element = clist_first(list); count < list->size - 1; current_element = clist_next(current_element)) {
+        dlist_add(result, dlist_first(result), current_element->value);
         count++;
     }
     free(current_element);

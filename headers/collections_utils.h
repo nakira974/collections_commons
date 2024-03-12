@@ -4,8 +4,13 @@
  * @author Maxime Loukhal
  * @date 12/03/2024
  */
+
 #ifndef COLLECTIONS_COMMONS_COLLECTIONS_UTILS_H
 #define COLLECTIONS_COMMONS_COLLECTIONS_UTILS_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "list.h"
 #include "dlist.h"
@@ -17,6 +22,11 @@
 #include "ohtbl.h"
 #include "stack.h"
 #include "hashset.h"
+#include "hashmap.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * @brief Convert the given list into an array
@@ -117,6 +127,19 @@ void **ohtbl_toArray(OAHashTable *hashTable);
  */
 DLinkedList *ohtbl_toList(OAHashTable *hashTable);
 
+/**
+ * @brief Convert the given hash table into an array
+ * @param hashTable Hash table to be converted to array
+ * @return Converted hash table to array
+ */
+void **lhtbl_toArray(LinkedHashTable *hashTable);
+
+/**
+ * @brief Convert the hash table into a list
+ * @param hashTable Hash table to be converted to list
+ * @return Converted hash table to list
+ */
+DLinkedList *lhtbl_toList(LinkedHashTable *hashTable);
 
 #ifdef __cplusplus
 
@@ -200,6 +223,11 @@ static inline void **hashset_toArray(HashSet *set) {
  * @return Converted hashset to array
  */
 #define hashset_toArray(set) dlist_toArray((set)->elements)
-
 #endif
+
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif //COLLECTIONS_COMMONS_COLLECTIONS_UTILS_H

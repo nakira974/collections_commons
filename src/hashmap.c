@@ -115,7 +115,7 @@ bool hashmap_containsKey(HashMap *map, void **value) {
          current_element != NULL; current_element = list_next(current_element)) {
         SimpleEntry *current_entry = (SimpleEntry *) list_value(current_element);
         if (map->hashTable->equals(*value, current_entry->key)) {
-            *value = ((SimpleEntry*)list_value(current_element))->value;
+            *value = ((SimpleEntry *) list_value(current_element))->value;
             return true;
         }
     }
@@ -141,6 +141,7 @@ bool hashmap_put(HashMap *map, void *key, void *value) {
         SimpleEntry *new_entry = (SimpleEntry *) malloc(sizeof(SimpleEntry));
         new_entry->key = key;
         new_entry->value = value;
+        new_entry->compareTo = map->equals;
         // Add the current key value pair to the container
         if ((result = list_add(&map->hashTable->hashtable[container], NULL, new_entry))) {
             map->hashTable->size++;
@@ -229,7 +230,7 @@ bool hashmap_remove(HashMap *map, void **value) {
     for (current_element = list_first(&map->hashTable->hashtable[current_container]);
          current_element != NULL; current_element = list_next(current_element)) {
         // If the target value if equals to the current container element, then remove it
-        SimpleEntry  * current_entry = (SimpleEntry*) list_value(current_element);
+        SimpleEntry *current_entry = (SimpleEntry *) list_value(current_element);
         if (map->hashTable->equals(*value, current_entry->key)) {
             // Remove the value from the current container
             if (list_remove(&map->hashTable->hashtable[current_container], last_element, value)) {
@@ -259,5 +260,76 @@ bool hashmap_removeEntry(HashMap *map, SimpleEntry *entry, void **value) {
     if (!hashmap_containsKey(map, &temp)) return result;
     result = hashmap_remove(map, temp);
     value = temp;
+    return result;
+}
+
+/**
+ * Private function to compare two entries based on their compareTo method inside a hashset
+ * @return true if entries are equals false otherwise
+ */
+bool cmp_entry(const void *entry1, const void *entry2) {
+    if (entry1 == NULL || entry2 == NULL) return false;
+    SimpleEntry *a = ((SimpleEntry *) entry1);
+    SimpleEntry *b = ((SimpleEntry *) entry2);
+
+    if (a->compareTo(a->key, b->key)) {
+        return true;
+    } else {
+        return false;
+    }
+
+};
+
+HashSet *hashmap_keySet(HashMap *map) {
+    if (map == NULL || map->size == 0) return NULL;
+    HashSet *result;
+    if ((result = (HashSet *) malloc(sizeof(HashSet))) == NULL) return NULL;
+    if (!hashset_create(result, map->hashTable->containers, map->hashTable->hash, map->equals, map->destroy)) {
+        hashset_destroy(result);
+        return NULL;
+    }
+    SimpleEntry *current_entry;
+    for (current_entry = hashmap_first(map); current_entry != NULL; current_entry = hashmap_next(current_entry)) {
+        if (!hashset_add(result, current_entry->key)) {
+            hashset_destroy(result);
+            free(current_entry);
+            return NULL;
+        };
+    }
+    return result;
+}
+
+HashSet *hashmap_entrySet(HashMap *map) {
+    if (map == NULL || map->size == 0) return NULL;
+    HashSet *result;
+    if ((result = (HashSet *) malloc(sizeof(HashSet))) == NULL) return NULL;
+    if (!hashset_create(result, map->hashTable->containers, map->hashTable->hash, cmp_entry, map->destroy)) {
+        hashset_destroy(result);
+        return NULL;
+    }
+
+    SimpleEntry *current_entry;
+    for (current_entry = hashmap_first(map); current_entry != NULL; current_entry = hashmap_next(current_entry)) {
+        if (!hashset_add(result, current_entry)) {
+            hashset_destroy(result);
+            free(current_entry);
+            return NULL;
+        };
+    }
+    return result;
+}
+
+DLinkedList *hashmap_values(HashMap *map) {
+    if (map == NULL || map->size == 0) return NULL;
+    DLinkedList *result;
+    if ((result = (DLinkedList *) malloc(sizeof(DLinkedList))) == NULL) return NULL;
+    SimpleEntry *current_entry;
+    for (current_entry = hashmap_first(map); current_entry != NULL; current_entry = hashmap_next(current_entry)) {
+        if (!dlist_add(result, dlist_first(result), current_entry->value)) {
+            dlist_destroy(result);
+            free(current_entry);
+            return NULL;
+        };
+    }
     return result;
 }
