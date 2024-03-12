@@ -2,7 +2,7 @@
 // Created by maxim on 8/03/2024.
 //
 #include <memory.h>
-#include <minmax.h>
+#include <math.h>
 #include "bitree.h"
 #include "queue.h"
 
@@ -376,9 +376,9 @@ int bitree_height(BinaryTreeNode * root, int* diameter){
     int leftHeight = bitree_height(root->left, diameter);
     int rightHeight = bitree_height(root->right, diameter);
 
-    *diameter = max(*diameter, leftHeight + rightHeight);
+    *diameter = (int) fmax(*diameter, (leftHeight + rightHeight));
 
-    return 1 + max(leftHeight, rightHeight);
+    return 1 + (int) fmax(leftHeight, rightHeight);
 }
 
 int bitree_diameter(BinaryTree * tree){
