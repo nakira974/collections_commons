@@ -1,5 +1,5 @@
 /**
- * @file sort.h
+ * @file hashmap.h
  * @brief This file contains the API for hashmaps in C
  * @author Maxime Loukhal
  * @date 28/02/2024

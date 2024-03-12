@@ -1,5 +1,5 @@
 /**
- * @file clist.h
+ * @file stack.h
  * @brief This file contains the API for Stacks collections
  * @author Maxime Loukhal
  * @date 21/02/2024
