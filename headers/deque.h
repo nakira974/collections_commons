@@ -1,7 +1,9 @@
-//
-// Created by maxim on 8/03/2024.
-//
-
+/**
+ * @file queue.h
+ * @brief This file contains the API for abstract Dequeue collections
+ * @author Maxime Loukhal
+ * @date 01/03/2024
+ */
 #ifndef COLLECTIONS_COMMONS_DEQUE_H
 #define COLLECTIONS_COMMONS_DEQUE_H
 #ifdef __cplusplus
