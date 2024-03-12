@@ -28,6 +28,14 @@ typedef struct SimpleEntry {
     void *value;
 
     /**
+     * @brief Pointer to the User Keys equals function for hashmap
+     * @param key1 The first key to be compared
+     * @param key2 The second key to be compared
+     * @return true if the keys equals, false otherwise
+     */
+    bool (*compareTo)(const void *key1, const void *key2);
+
+    /**
      * @brief Next entry in the hashmap
      */
     struct SimpleEntry *next;
@@ -176,7 +184,7 @@ HashSet *hashmap_entrySet(HashMap *map);
  * @param map
  * @return
  */
-DLinkedList * hashmap_values(HashMap *map);
+DLinkedList *hashmap_values(HashMap *map);
 #ifdef __cplusplus
 /**
  * @brief Inline function that evaluates the number of hashtable inside the specified hashmap

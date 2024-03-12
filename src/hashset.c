@@ -62,7 +62,7 @@ bool hashset_create(HashSet *hashset,
         // Destroy the hashtable before leaving
         lhtbl_destroy(hashset->hashTable);
         return false;
-    }else dlist_create(hashset->elements, free);
+    } else dlist_create(hashset->elements, free);
 
 
     return true;
@@ -119,7 +119,7 @@ bool hashset_add(HashSet *hashset, void *value) {
         // Add the current key value pair to the container
         if ((result = list_add(&hashset->hashTable->hashtable[container], NULL, new_element))) {
             result = hashset_addBefore(hashset->elements, dlist_first(hashset->elements), new_element);
-            if(result){
+            if (result) {
                 hashset->hashTable->size++;
                 hashset->size++;
             }
@@ -186,7 +186,7 @@ bool hashset_union(HashSet *union_result, const HashSet *left, const HashSet *ri
     // Insertion of right hashset elements
     for (current_element = hashset_first(right);
          current_element != NULL; current_element = hashset_next(current_element)) {
-        void* currentRef = &((DLinkedElement *)list_value(current_element))->value;
+        void *currentRef = &((DLinkedElement *) list_value(current_element))->value;
         if (hashset_contains(left, &currentRef)) continue;
         else {
             value = list_value(current_element);
@@ -235,7 +235,7 @@ bool hashset_difference(HashSet *difference_result, const HashSet *left, const H
     for (current_element = hashset_first(left);
          current_element != NULL; current_element = hashset_next(current_element)) {
         // If the current left value is not in the right hashset
-        value =dlist_value(current_element);
+        value = dlist_value(current_element);
         if (!hashset_contains(right, &value)) {
             if (!hashset_add(difference_result, value)) {
                 hashset_destroy(difference_result);
@@ -255,7 +255,7 @@ bool hashset_isSubset(const HashSet *left, const HashSet *right) {
     for (current_element = hashset_first(left);
          current_element != NULL; current_element = hashset_next(current_element)) {
         // Validate one by one left elements in right hashset independently of their order
-        void *value =dlist_value(current_element);
+        void *value = dlist_value(current_element);
         if (!hashset_contains(right, &value)) return false;
     }
     return true;

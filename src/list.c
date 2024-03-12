@@ -3,7 +3,7 @@
 //
 
 #include <memory.h>
-#include "list.h"
+#include "collections_utils.h"
 
 void list_create(LinkedList *list, void( *destroy)(void *value)) {
     // Init the list
@@ -116,4 +116,57 @@ bool list_replace(LinkedList *list, LinkedElement *element, void **value) {
 
     free(current_element);
     return true;
+}
+
+void **list_toArray(LinkedList *list) {
+    if (list == NULL || list->size == 0) return NULL;
+    void **result;
+    if ((result = (void **) malloc(list->size * sizeof(void *))) == NULL) return NULL;
+    LinkedElement *current_element;
+    int count = 0;
+    for (current_element = list_first(list); current_element != NULL; current_element = list_next(current_element)) {
+        result[count] = current_element->value;
+        count++;
+    }
+    free(current_element);
+    return result;
+}
+
+Set *list_toSet(LinkedList *list, bool(*equals)(const void *value1, const void *value2)) {
+    if (list == NULL || list->size == 0) return NULL;
+    Set *result;
+    if ((result = (Set *) malloc(sizeof(Set))) == NULL) return NULL;
+    set_create(result, equals, list->destroy);
+    LinkedElement *current_element;
+    for (current_element = list_first(list); current_element != NULL; current_element = list_next(current_element)) {
+        set_add(result, current_element->value);
+    }
+    free(current_element);
+    return result;
+}
+
+DLinkedList *list_toDList(LinkedList *list) {
+    if (list == NULL || list->size == 0) return NULL;
+    DLinkedList *result;
+    if ((result = (DLinkedList *) malloc(sizeof(DLinkedList))) == NULL) return NULL;
+    dlist_create(result, list->destroy);
+    LinkedElement *current_element;
+    for (current_element = list_first(list); current_element != NULL; current_element = list_next(current_element)) {
+        dlist_add(result, dlist_first(result), current_element->value);
+    }
+    free(current_element);
+    return result;
+}
+
+CLinkedList *list_toCList(LinkedList *list) {
+    if (list == NULL || list->size == 0) return NULL;
+    CLinkedList *result;
+    if ((result = (CLinkedList *) malloc(sizeof(CLinkedList))) == NULL) return NULL;
+    clist_create(result, list->destroy);
+    LinkedElement *current_element;
+    for (current_element = list_first(list); current_element != NULL; current_element = list_next(current_element)) {
+        clist_add(result, clist_first(result), current_element->value);
+    }
+    free(current_element);
+    return result;
 }

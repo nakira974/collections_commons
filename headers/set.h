@@ -124,7 +124,7 @@ bool set_equals(const Set *left, const Set *right);
  * @param set Set to be converted to hashset
  * @return Converted set to hashset
  */
-Set* set_toHashSet(Set *set, int (*hash)(const void *key));
+Set *set_toHashSet(Set *set, int (*hash)(const void *key));
 
 #ifdef __cplusplus
 /**
@@ -152,15 +152,6 @@ static inline void set_destroy(Set *set) {
 static inline LinkedElement *set_getRandom(Set *set) {
     return list_getRandom(set);
 }
-
-/**
- * @brief Inline function that evaluates the current set into an array
- * @param stack Set to be converted to array
- * @return Converted set to array
- */
-static inline void** set_toArray(Set * set){
-    return list_toArray(set);
-}
 #else
 /**
  * @brief Macro that evaluates the size of a given Set
@@ -182,12 +173,6 @@ static inline void** set_toArray(Set * set){
  */
 #define set_get_random(set) list_getRandom
 
-/**
- * @brief Macro that evaluates the current set into an array
- * @param stack Set to be converted to array
- * @return Converted set to array
- */
-#define set_toArray(set) list_toArray
 #endif
 
 #ifdef __cplusplus

@@ -7,6 +7,8 @@
 #ifndef COLLECTIONS_COMMONS_LIST_H
 #define COLLECTIONS_COMMONS_LIST_H
 
+#include "clist.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -18,6 +20,7 @@ extern "C" {
 #include <stdlib.h>
 #include <stdbool.h>
 #endif
+
 /**
  * @brief Data structure definition for a simple chained linked list generic element
  */
@@ -122,35 +125,6 @@ LinkedElement *list_getRandom(LinkedList *list);
  * @return true if the given element's value was replaces, false otherwise
  */
 bool list_replace(LinkedList *list, LinkedElement *element, void **value);
-
-/**
- * @brief Convert the given list into an array
- * @param list List to be converted to array
- * @return Converted list to array
- */
-void** list_toArray(LinkedList *list);
-
-/**
- * @brief Convert the given list into a set
- * @param list List to be converted to set
- * @return Converted list to set
- */
-struct Set* list_toSet(LinkedList *list, bool(*equals) (const void* value1, const void * value2));
-
-
-/**
- * @brief Convert the given list into a double linked list
- * @param list List to be converted to a double linked list
- * @return Converted list to double linked list
- */
-struct DLinkedList *list_toDList(LinkedList *list);
-
-/**
- * @brief Convert the given list into a circular list
- * @param list List to be converted to a circular list
- * @return Converted list to circular list
- */
-struct CLinkedList *list_toCList(LinkedList *list);
 
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus

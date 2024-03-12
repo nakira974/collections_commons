@@ -215,15 +215,6 @@ inline DLinkedElement *hashset_next(DLinkedElement *entry) {
  */
 inline bool hashset_get(HashSet *set, void **value) {
     return hashset_contains(set, value);
-} ;
-
-/**
- * @brief Inline function that evaluates the current hashset into an array
- * @param set Hashset to be converted to array
- * @return Converted hashset to array
- */
-static inline void** hashset_toArray(HashSet * set){
-    return dlist_toArray(set->elements);
 }
 #else
 /**
@@ -283,12 +274,6 @@ static inline void** hashset_toArray(HashSet * set){
  */
 #define hashset_last(set) dlist_last(set->elements)
 
-/**
- * @brief Macro that evaluates the current hashset into an array
- * @param set Hashset to be converted to array
- * @return Converted hashset to array
- */
-#define hashset_toArray(set) dlist_toArray((set)->elements)
 #endif
 
 #ifdef __cplusplus
