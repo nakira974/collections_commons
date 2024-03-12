@@ -191,7 +191,7 @@ DLinkedList *hashmap_values(HashMap *map);
  * @return The current entry count of the current hashmap
  * @complexity O(1)
  */
-inline int hashmap_size(HashMap *hashmap) {
+static inline int hashmap_size(HashMap *hashmap) {
     return hashmap->size;
 } ;
 
@@ -201,7 +201,7 @@ inline int hashmap_size(HashMap *hashmap) {
  * @return The first entry of the current hashmap
  * @complexity O(1)
  */
-inline SimpleEntry *hashmap_first(HashMap *hashmap) {
+static inline SimpleEntry *hashmap_first(HashMap *hashmap) {
     return hashmap->head;
 } ;
 
@@ -210,7 +210,7 @@ inline SimpleEntry *hashmap_first(HashMap *hashmap) {
  * @return The last entry of the current hashmap
  * @complexity O(1)
  */
-inline SimpleEntry *hashmap_last(HashMap *hashmap) {
+static inline SimpleEntry *hashmap_last(HashMap *hashmap) {
     return hashmap->tail;
 } ;
 
@@ -219,7 +219,7 @@ inline SimpleEntry *hashmap_last(HashMap *hashmap) {
  * @return true if the entry is the first of the current hashmap, false otherwise
  * @complexity O(1)
  */
-inline bool hashmap_isFirst(HashMap *hashmap, SimpleEntry *entry) {
+static inline bool hashmap_isFirst(HashMap *hashmap, SimpleEntry *entry) {
     return (hashmap)->head == entry;
 } ;
 
@@ -228,7 +228,7 @@ inline bool hashmap_isFirst(HashMap *hashmap, SimpleEntry *entry) {
  * @return true if the entry is the last of the current hashmap, false otherwise
  * @complexity O(1)
  */
-inline bool hashmap_isLast(HashMap *hashmap, SimpleEntry *entry) {
+static inline bool hashmap_isLast(HashMap *hashmap, SimpleEntry *entry) {
     return (hashmap)->tail == entry;
 } ;
 
@@ -237,7 +237,7 @@ inline bool hashmap_isLast(HashMap *hashmap, SimpleEntry *entry) {
  * @return The reference to the next entry of the current hashmap entry
  * @complexity O(1)
  */
-inline SimpleEntry *hashmap_next(SimpleEntry *entry) {
+static inline SimpleEntry *hashmap_next(SimpleEntry *entry) {
     if (entry == nullptr) return nullptr;
     else return (entry)->next == nullptr ? nullptr : (entry)->next;
 }
@@ -248,7 +248,7 @@ inline SimpleEntry *hashmap_next(SimpleEntry *entry) {
  * @param value Double pointer to remove the key in the given hashmap, if a equals occurs returns the pointer on it
  * @return true if the data table is present in the given hashmap, false otherwise
  */
-inline bool hashmap_get(HashMap *map, void **value) {
+static inline bool hashmap_get(HashMap *map, void **value) {
     return hashmap_containsKey(map, value);
 } ;
 #else

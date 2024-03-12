@@ -130,7 +130,7 @@ bool clist_replace(CLinkedList *list, CLinkedElement *element, void **value);
  * @return The current element count of the current list
  * @complexity O(1)
  */
-inline int clist_size(CLinkedList *list) {
+static inline int clist_size(CLinkedList *list) {
     return list->size;
 } ;
 
@@ -139,7 +139,7 @@ inline int clist_size(CLinkedList *list) {
  * @return The first element of the current list
  * @complexity O(1)
  */
-inline CLinkedElement *clist_first(CLinkedList *list) {
+static inline CLinkedElement *clist_first(CLinkedList *list) {
     return list->head;
 } ;
 
@@ -148,7 +148,7 @@ inline CLinkedElement *clist_first(CLinkedList *list) {
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool clist_isFirst(CLinkedList *list, CLinkedElement *element) {
+static inline bool clist_isFirst(CLinkedList *list, CLinkedElement *element) {
     return (list)->head == element;
 } ;
 
@@ -157,7 +157,7 @@ inline bool clist_isFirst(CLinkedList *list, CLinkedElement *element) {
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-inline void *clist_value(CLinkedElement *element) {
+static inline void *clist_value(CLinkedElement *element) {
     return ((element)->value);
 } ;
 
@@ -166,7 +166,7 @@ inline void *clist_value(CLinkedElement *element) {
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline CLinkedElement *clist_next(CLinkedElement *element) {
+static inline CLinkedElement *clist_next(CLinkedElement *element) {
     return (element)->next;
 }
 

@@ -157,7 +157,7 @@ DLinkedList *hashset_toList(HashSet *set);
  * @return The current entry count of the current hashset
  * @complexity O(1)
  */
-inline int hashset_size(HashSet *hashset) {
+static inline int hashset_size(HashSet *hashset) {
     return hashset->size;
 } ;
 
@@ -167,7 +167,7 @@ inline int hashset_size(HashSet *hashset) {
  * @return The first entry of the current hashset
  * @complexity O(1)
  */
-inline DLinkedElement *hashset_first(HashSet *hashset) {
+static inline DLinkedElement *hashset_first(HashSet *hashset) {
     return dlist_first(hashset->elements);
 } ;
 
@@ -176,7 +176,7 @@ inline DLinkedElement *hashset_first(HashSet *hashset) {
  * @return The last entry of the current hashset
  * @complexity O(1)
  */
-inline DLinkedElement *hashset_last(HashSet *hashset) {
+static inline DLinkedElement *hashset_last(HashSet *hashset) {
     return dlist_last(hashset->elements);
 } ;
 
@@ -185,7 +185,7 @@ inline DLinkedElement *hashset_last(HashSet *hashset) {
  * @return true if the entry is the first of the current hashset, false otherwise
  * @complexity O(1)
  */
-inline bool hashset_isFirst(HashSet *hashset, DLinkedElement *entry) {
+static inline bool hashset_isFirst(HashSet *hashset, DLinkedElement *entry) {
     return (hashset)->elements->head == entry;
 } ;
 
@@ -194,7 +194,7 @@ inline bool hashset_isFirst(HashSet *hashset, DLinkedElement *entry) {
  * @return true if the entry is the last of the current hashset, false otherwise
  * @complexity O(1)
  */
-inline bool hashset_isLast(HashSet *hashset, DLinkedElement *entry) {
+static inline bool hashset_isLast(HashSet *hashset, DLinkedElement *entry) {
     return (hashset)->elements->tail == entry;
 } ;
 
@@ -203,7 +203,7 @@ inline bool hashset_isLast(HashSet *hashset, DLinkedElement *entry) {
  * @return The reference to the next entry of the current hashset entry
  * @complexity O(1)
  */
-inline DLinkedElement *hashset_next(DLinkedElement *entry) {
+static inline DLinkedElement *hashset_next(DLinkedElement *entry) {
     return dlist_next(entry);
 }
 
@@ -213,7 +213,7 @@ inline DLinkedElement *hashset_next(DLinkedElement *entry) {
  * @param value Double pointer to remove the key in the given hashset, if a equals occurs returns the pointer on it
  * @return true if the data table is present in the given hashset, false otherwise
  */
-inline bool hashset_get(HashSet *set, void **value) {
+static inline bool hashset_get(HashSet *set, void **value) {
     return hashset_contains(set, value);
 }
 #else
