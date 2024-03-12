@@ -1,5 +1,5 @@
 /**
- * @file btree.h
+ * @file rbtree.h
  * @brief This file contains the API for Red-Black trees
  * @author Maxime Loukhal
  * @date 08/03/2024

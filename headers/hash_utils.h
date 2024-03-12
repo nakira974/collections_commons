@@ -1,7 +1,9 @@
-//
-// Created by maxim on 28/02/2024.
-//
-
+/**
+ * @file hash_utils.h
+ * @brief This file contains the API for basic hash functions
+ * @author Maxime Loukhal
+ * @date 09/03/2024
+ */
 #ifndef COLLECTIONS_COMMONS_HASH_UTILS_H
 #define COLLECTIONS_COMMONS_HASH_UTILS_H
 #ifdef __cplusplus
