@@ -1,5 +1,5 @@
 /**
- * @file queue.h
+ * @file deque.h
  * @brief This file contains the API for abstract Dequeue collections
  * @author Maxime Loukhal
  * @date 01/03/2024
