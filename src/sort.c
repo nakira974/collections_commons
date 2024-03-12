@@ -3,7 +3,7 @@
 //
 
 #include "sort.h"
-#include "array.h"
+#include "arrays_utils.h"
 bool
 array_is_sort(void *value, int element_count, size_t element_size, int (*compare)(const void *key1, const void *key2)) {
     char *array = value;

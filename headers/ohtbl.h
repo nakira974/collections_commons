@@ -8,11 +8,13 @@
 #define COLLECTIONS_COMMONS_OHTBL_H
 
 #ifdef __cplusplus
+
 #include <cstdlib>
 #include <cstdbool>
 #include <cstring>
+
 #else
- #include <stdlib.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <memory.h>
 #include "dlist.h"
@@ -20,12 +22,12 @@
 #endif
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 /**
  * @brief Data structure for an Open Addressing Hash Table
  */
-typedef struct OAHashTable{
+typedef struct OAHashTable {
     /**
      * @brief Number of positions inside the hash table
      */
@@ -36,9 +38,13 @@ typedef struct OAHashTable{
     void *vacant;
 
     int (*h1)(const void *key);
-    int (*h2) (const void *key);
+
+    int (*h2)(const void *key);
+
     bool (*equals)(const void *key1, const void *key2);
+
     void (*destroy)(void *value);
+
     int size;
     void **hashtable;
 } OAHashTable;
@@ -55,7 +61,7 @@ typedef struct OAHashTable{
  */
 bool ohtbl_create(OAHashTable *hashTable, int postions,
                   int (*h1)(const void *key),
-                  int (*h2) (const void *key),
+                  int (*h2)(const void *key),
                   bool (*equals)(const void *key1, const void *key2),
                   void (*destroy)(void *value));
 
@@ -79,7 +85,7 @@ bool ohtbl_put(OAHashTable *hashTable, const void *value);
  * @param value Pointer to the element to be destroyed and returned value
  * @return true if the element was removed from the given Open Addressing hash table, false otherwise
  */
-bool ohtbl_remove(OAHashTable * hashTable, void **value);
+bool ohtbl_remove(OAHashTable *hashTable, void **value);
 
 /**
  * @brief Determine if an element is present or not in the given hash table
@@ -87,38 +93,24 @@ bool ohtbl_remove(OAHashTable * hashTable, void **value);
  * @param value The value to determine if it's present or not in the given hash table
  * @return true if the element is present in the given hash table, false otherwise
  */
-bool ohtbl_contains(OAHashTable * hashTable, void **value);
-
-/**
- * @brief Convert the given hash table into an array
- * @param hashTable Hash table to be converted to array
- * @return Converted hash table to array
- */
-void** ohtbl_toArray(OAHashTable *hashTable);
-
-/**
- * @brief Convert the hash table into a list
- * @param hashTable Hash table to be converted to list
- * @return Converted hash table to list
- */
-DLinkedList *ohtbl_toList(OAHashTable *hashTable);
+bool ohtbl_contains(OAHashTable *hashTable, void **value);
 
 #ifdef __cplusplus
 /***
 * @brief Inline function that evaluates the number of elements inside the specified hash table
 * @return The current element count of the current hash table
 */
-static inline int ohtbl_size(OAHashTable *hashTable){
+static inline int ohtbl_size(OAHashTable *hashTable) {
     return hashTable->size;
 }
 #else
- /***
+/***
 * @brief Macro that evaluates the number of elements inside the specified hash table
 * @return The current element count of the current hash table
 */
 #define ohtbl_size(hashTable) ((hashTable)->size)
 #endif
 #ifdef __cplusplus
- }
+}
 #endif
 #endif //COLLECTIONS_COMMONS_OHTBL_H

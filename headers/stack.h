@@ -86,15 +86,6 @@ inline void stack_destory(Stack *stack) {
 static inline LinkedElement *stack_peekRandom(Stack *stack) {
     return list_getRandom(stack);
 }
-
-/**
- * @brief Inline function that evaluates the current stack into an array
- * @param stack Stack to be converted to array
- * @return Converted list to array
- */
-static inline void** stack_toArray(Stack * stack){
-    return list_toArray(stack);
-}
 #else
 
 /**
@@ -126,13 +117,6 @@ static inline void** stack_toArray(Stack * stack){
  * @brief Macro that evaluates a random element from the queue and returns it
  */
 #define stack_peek_random(stack) list_getRandom
-
-/**
- * @brief Macro that evaluates the current stack into an array
- * @param stack Stack to be converted to array
- * @return Converted stack to array
- */
-#define stack_toArray(stack) list_toArray
 
 #endif
 

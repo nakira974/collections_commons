@@ -1,6 +1,6 @@
 /**
- * @file array.h
- * @brief This file contains the API for arrays
+ * @file arrays_utils.h
+ * @brief This file contains the API for arrays utility methods
  * @author Maxime Loukhal
  * @date 09/03/2024
  */
@@ -52,7 +52,7 @@ CLinkedList *array_toCList(void **array);
  * @param array Array to be converted to set
  * @return Converted array to set
  */
-struct Set* array_toSet(void **array, bool(*equals) (const void* value1, const void * value2));
+struct Set *array_toSet(void **array, bool(*equals)(const void *value1, const void *value2));
 
 #ifdef __cplusplus
 }

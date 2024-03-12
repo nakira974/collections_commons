@@ -23,6 +23,8 @@ extern "C" {
 #endif
 
 #include "list.h"
+#include "dlist.h"
+
 /**
  * @brief Data structure definition for a linked hash table
  */
@@ -131,14 +133,14 @@ bool lhtbl_contains(const LinkedHashTable *lhtbl, void **value);
  * @param hashTable Hash table to be converted to array
  * @return Converted hash table to array
  */
-void** ohtbl_toArray(LinkedHashTable *hashTable);
+void **lhtbl_toArray(LinkedHashTable *hashTable);
 
 /**
  * @brief Convert the hash table into a list
  * @param hashTable Hash table to be converted to list
  * @return Converted hash table to list
  */
-struct DLinkedList *lhtbl_toList(LinkedHashTable *hashTable);
+DLinkedList *lhtbl_toList(LinkedHashTable *hashTable);
 #ifdef __cplusplus
 }
 #endif

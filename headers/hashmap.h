@@ -176,7 +176,7 @@ HashSet *hashmap_entrySet(HashMap *map);
  * @param map
  * @return
  */
-DLinkedList * hashmap_values(HashMap *map);
+DLinkedList *hashmap_values(HashMap *map);
 #ifdef __cplusplus
 /**
  * @brief Inline function that evaluates the number of hashtable inside the specified hashmap
