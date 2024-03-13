@@ -6,6 +6,15 @@
 #include "bitree.h"
 #include "queue.h"
 
+int bitree_branchNodeCount( BinaryTreeNode* root) {
+    if (root == NULL)
+        return 0;
+    int count = 1;
+    count += bitree_branchNodeCount(root->left);
+    count += bitree_branchNodeCount(root->right);
+    return count;
+}
+
 bool
 bitree_isMirror(bool (*equals)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right) {
     if (left == NULL && right == NULL)
@@ -401,4 +410,10 @@ int bitree_diameter(BinaryTree *tree) {
     bitree_height(tree->root, &diameter);
 
     return diameter;
+}
+
+int bitree_nodeCount(BinaryTree *tree){
+ if (tree == NULL)
+        return 0;
+    return bitree_branchNodeCount(tree->root);
 }

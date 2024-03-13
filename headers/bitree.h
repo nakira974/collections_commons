@@ -256,6 +256,20 @@ int bitree_height(BinaryTreeNode *root, int *diameter);
  */
 int bitree_diameter(BinaryTree *tree);
 
+/**
+ * @brief Count the number of nodes in the given binary tree
+ * @param tree Binary tree to count nodes
+ * @return Node count of the given binary tree
+ */
+int bitree_nodeCount(BinaryTree *tree);
+
+/**
+ * @brief Count the number of nodes in the given branch
+ * @param node Binary tree to count nodes
+ * @return Node count of the given branch
+ */
+int bitree_branchNodeCount(BinaryTreeNode *node);
+
 #ifdef __cplusplus
 /**
  * @brief Inline function that evaluates the size of the given binary tree
