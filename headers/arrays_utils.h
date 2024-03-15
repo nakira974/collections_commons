@@ -1,6 +1,6 @@
 /**
- * @file array.h
- * @brief This file contains the API for arrays
+ * @file arrays_utils.h
+ * @brief This file contains the API for arrays utility methods
  * @author Maxime Loukhal
  * @date 09/03/2024
  */
@@ -25,6 +25,7 @@ extern "C" {
  * @param stop_index Index to end the split at (exclusive).
  */
 void array_split(void ***out, int *out_size, void *in, int start_index, int stop_index);
+
 
 /**
  * @brief Convert the given array into a list
@@ -52,8 +53,24 @@ CLinkedList *array_toCList(void **array);
  * @param array Array to be converted to set
  * @return Converted array to set
  */
-struct Set* array_toSet(void **array, bool(*equals) (const void* value1, const void * value2));
+struct Set *array_toSet(void **array, bool(*equals)(const void *value1, const void *value2));
 
+#ifdef __cpluscplus
+/**
+ * @brief Inline function that evaluates the size of an array
+ * @param array Array to determine the size
+ */
+static inline size_t array_length(void** array){
+    return sizeof(array) / sizeof(array[0]);
+}
+#else
+/**
+ * @brief Macro that evaluates the size of an array
+ * @param array Array to determine the size
+ */
+#define array_length(array) sizeof(array) / sizeof(array[0])
+
+#endif
 #ifdef __cplusplus
 }
 #endif

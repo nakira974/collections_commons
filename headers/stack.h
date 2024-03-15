@@ -49,14 +49,14 @@ bool stack_pop(Stack *stack, void **value);
 /**
  * @brief Peek the first element of the stack without unstacking it
  */
-inline void *stack_peek(Stack *stack) {
+static inline void *stack_peek(Stack *stack) {
     return ((stack)->head == nullptr ? nullptr : (stack)->head->value);
 }
 
 /**
  * @brief Return the current stack size
  */
-inline int stack_size(Stack *stack) {
+static inline int stack_size(Stack *stack) {
     return list_size(stack);
 }
 
@@ -66,7 +66,7 @@ inline int stack_size(Stack *stack) {
  * @param destroy Delegate user function for later destruction of a single element the current stack
  * @complexity O(1)
  */
-inline void stack_create(Stack *stack, void( *destroy)(void *value)) {
+static inline void stack_create(Stack *stack, void( *destroy)(void *value)) {
     list_create(stack, destroy);
 }
 
@@ -76,7 +76,7 @@ inline void stack_create(Stack *stack, void( *destroy)(void *value)) {
  * @complexity O(n) where n is the number of hashtable in the current list
  */
 
-inline void stack_destory(Stack *stack) {
+static inline void stack_destory(Stack *stack) {
     list_destroy(stack);
 }
 
@@ -85,15 +85,6 @@ inline void stack_destory(Stack *stack) {
  */
 static inline LinkedElement *stack_peekRandom(Stack *stack) {
     return list_getRandom(stack);
-}
-
-/**
- * @brief Inline function that evaluates the current stack into an array
- * @param stack Stack to be converted to array
- * @return Converted list to array
- */
-static inline void** stack_toArray(Stack * stack){
-    return list_toArray(stack);
 }
 #else
 
@@ -126,13 +117,6 @@ static inline void** stack_toArray(Stack * stack){
  * @brief Macro that evaluates a random element from the queue and returns it
  */
 #define stack_peek_random(stack) list_getRandom
-
-/**
- * @brief Macro that evaluates the current stack into an array
- * @param stack Stack to be converted to array
- * @return Converted stack to array
- */
-#define stack_toArray(stack) list_toArray
 
 #endif
 

@@ -46,7 +46,7 @@ int hashpjw(const void *key) {
 }
 
 int hashint(const void *integer) {
-    int x = *((int*) integer);
+    int x = *((int *) integer);
     x = ((x >> 16) ^ x) * 0x45d9f3b;
     x = ((x >> 16) ^ x) * 0x45d9f3b;
     x = (x >> 16) ^ x;

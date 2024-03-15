@@ -21,9 +21,6 @@ extern "C" {
 #include <stdbool.h>
 #endif
 
-#include "clist.h"
-
-
 /**
  * @brief Data structure definition for a double chained linked list generic element
  */
@@ -145,34 +142,6 @@ DLinkedElement *dlist_getRandom(DLinkedList *list);
  */
 bool dlist_replace(DLinkedList *list, DLinkedElement *element, void **value);
 
-/**
- * @brief Convert the given list into an array
- * @param list List to be converted to array
- * @return Converted list to array
- */
-void** dlist_toArray(DLinkedList *list);
-
-/**
- * @brief Convert the given list into a set
- * @param list List to be converted to set
- * @return Converted list to set
- */
-struct Set* dlist_toSet(struct LinkedList *list, bool(*equals) (const void* value1, const void * value2));
-
-/**
- * @brief Convert the double linked list into a list
- * @param list List to be converted to list
- * @return Converted double linked list to list
- */
-struct LinkedList *dlist_toList(DLinkedList *list);
-
-/**
- * @brief Convert the double linked list into a circular list
- * @param list List to be converted to a circular list
- * @return Converted double linked list to circular list
- */
-CLinkedList *dlist_toCList(DLinkedList *list);
-
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 
@@ -181,7 +150,7 @@ CLinkedList *dlist_toCList(DLinkedList *list);
  * @return The current element count of the current list
  * @complexity O(1)
  */
-inline int dlist_size(DLinkedList *list) {
+static inline int dlist_size(DLinkedList *list) {
     return list->size;
 } ;
 
@@ -190,7 +159,7 @@ inline int dlist_size(DLinkedList *list) {
  * @return The first element of the current list
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_first(DLinkedList *list) {
+static inline DLinkedElement *dlist_first(DLinkedList *list) {
     return list->head;
 } ;
 
@@ -199,7 +168,7 @@ inline DLinkedElement *dlist_first(DLinkedList *list) {
  * @return The last element of the current list
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_last(DLinkedList *list) {
+static inline DLinkedElement *dlist_last(DLinkedList *list) {
     return list->tail;
 } ;
 
@@ -208,7 +177,7 @@ inline DLinkedElement *dlist_last(DLinkedList *list) {
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool dlist_isFirst(DLinkedList *list, DLinkedElement *element) {
+static inline bool dlist_isFirst(DLinkedList *list, DLinkedElement *element) {
     return (element)->previous == nullptr;
 } ;
 
@@ -217,7 +186,7 @@ inline bool dlist_isFirst(DLinkedList *list, DLinkedElement *element) {
  * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool dlist_isLast(DLinkedList *list, DLinkedElement *element) {
+static inline bool dlist_isLast(DLinkedList *list, DLinkedElement *element) {
     return (element)->next == nullptr;
 } ;
 
@@ -226,7 +195,7 @@ inline bool dlist_isLast(DLinkedList *list, DLinkedElement *element) {
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-inline void *dlist_value(DLinkedElement *element) {
+static inline void *dlist_value(DLinkedElement *element) {
     return ((element)->value);
 } ;
 
@@ -235,7 +204,7 @@ inline void *dlist_value(DLinkedElement *element) {
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_next(DLinkedElement *element) {
+static inline DLinkedElement *dlist_next(DLinkedElement *element) {
     return (element)->next;
 }
 
@@ -244,7 +213,7 @@ inline DLinkedElement *dlist_next(DLinkedElement *element) {
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline DLinkedElement *dlist_previous(DLinkedElement *element) {
+static inline DLinkedElement *dlist_previous(DLinkedElement *element) {
     return (element)->previous;
 }
 

@@ -50,7 +50,7 @@ bool deque_dequeue(Deque *deque, void *value);
 * @return The current element count of the current list
 * @complexity O(1)
 */
-inline int deque_size(Deque *deque) {
+static inline int deque_size(Deque *deque) {
     return deque->size;
 } ;
 
@@ -60,7 +60,7 @@ inline int deque_size(Deque *deque) {
  * @return The current first element of the deque
  * @complexity O(1)
  */
-inline void *deque_peek(Deque *deque) {
+static inline void *deque_peek(Deque *deque) {
     return ((deque)->head == nullptr ? nullptr : (deque)->head->value);
 }
 
@@ -70,7 +70,7 @@ inline void *deque_peek(Deque *deque) {
  * @param destroy Delegate user function for later destruction of a single element the current deque
  * @complexity O(1)
  */
-inline void deque_create(Deque *deque, void( *destroy)(void *value)) {
+static inline void deque_create(Deque *deque, void( *destroy)(void *value)) {
     dlist_create(deque, destroy);
 }
 
@@ -80,7 +80,7 @@ inline void deque_create(Deque *deque, void( *destroy)(void *value)) {
  * @complexity O(n) where n is the number of hashtable in the current list
  */
 
-inline void deque_destroy(Deque *deque) {
+static inline void deque_destroy(Deque *deque) {
     dlist_destroy(deque);
 }
 

@@ -20,9 +20,10 @@ extern "C" {
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+
 #endif
 
-#include "array.h"
+#include "arrays_utils.h"
 
 /**
  * @brief Determine if a generic array is sorted or not

@@ -23,6 +23,8 @@ extern "C" {
 #endif
 
 #include "list.h"
+#include "dlist.h"
+
 /**
  * @brief Data structure definition for a linked hash table
  */
@@ -69,7 +71,7 @@ typedef struct LinkedHashTable {
 * @brief Inline function that evaluates the number of elements inside the specified hash table
 * @return The current element count of the current hash table
 */
-inline int lhtbl_size(LinkedHashTable *queue) {
+static inline int lhtbl_size(LinkedHashTable *queue) {
     return queue->size;
 } ;
 #else
@@ -126,19 +128,6 @@ bool lhtbl_remove(LinkedHashTable *lhtbl, void **value);
  */
 bool lhtbl_contains(const LinkedHashTable *lhtbl, void **value);
 
-/**
- * @brief Convert the given hash table into an array
- * @param hashTable Hash table to be converted to array
- * @return Converted hash table to array
- */
-void** ohtbl_toArray(LinkedHashTable *hashTable);
-
-/**
- * @brief Convert the hash table into a list
- * @param hashTable Hash table to be converted to list
- * @return Converted hash table to list
- */
-struct DLinkedList *lhtbl_toList(LinkedHashTable *hashTable);
 #ifdef __cplusplus
 }
 #endif

@@ -16,14 +16,16 @@ extern "C" {
 #include <cstdlib>
 #include <cstdbool>
 #else
+
 #include <stdlib.h>
 #include <stdbool.h>
+
 #endif
 
 /**
  * @brief Data structure definition for a binary tree node
  */
-typedef struct BinaryTreeNode{
+typedef struct BinaryTreeNode {
     /**
      * @brief Node's value
      */
@@ -31,60 +33,62 @@ typedef struct BinaryTreeNode{
     /**
      * @brief Node's left child
      */
-    struct BinaryTreeNode* left;
+    struct BinaryTreeNode *left;
     /**
      * @brief Node's right child
      */
-    struct BinaryTreeNode* right;
+    struct BinaryTreeNode *right;
 } BinaryTreeNode;
 
 /**
  * @brief Data structure definition for a binary tree
  */
- typedef struct BinaryTree{
-     /**
-      * @brief Binary tree current size
-      */
-     int size;
-     /**
-      * @brief User equals handle for stored values
-      * @param value1 Value 1 to be compared
-      * @param value2 Value 2 to be compared
-      * @return true if values are equal, false otherwise
-      */
-     bool (*equals) (const void* value1, const void *value2);
-     /**
-      * @brief User destroy method to clean node's value
-      * @param value Value to be removed from the tree
-      */
-     void (*destroy)(void* value);
-     /**
-      * @brief Binary tree current root node
-      */
-     BinaryTreeNode* root;
- }BinaryTree;
+typedef struct BinaryTree {
+    /**
+     * @brief Binary tree current size
+     */
+    int size;
+    /**
+     * @brief User equals handle for stored values
+     * @param value1 Value 1 to be compared
+     * @param value2 Value 2 to be compared
+     * @return true if values are equal, false otherwise
+     */
+    bool (*equals)(const void *value1, const void *value2);
 
- /**
-  * @brief Creates a given binary tree with default values
-  * @param tree Tree to be created
-  * @param destroy Destroy user handle
-  */
- void bitree_create(BinaryTree *tree, void(*destroy)(void* value));
+    /**
+     * @brief User destroy method to clean node's value
+     * @param value Value to be removed from the tree
+     */
+    void (*destroy)(void *value);
 
- /**
-  * @brief Destroys and clean memory of a given binary tree
-  * @param tree Binary tree to be destroyed
-  */
- void bitree_destroy(BinaryTree *tree);
+    /**
+     * @brief Binary tree current root node
+     */
+    BinaryTreeNode *root;
+} BinaryTree;
 
- /**
-  * @brief Try to create a new left child node of the given node in the given tree
-  * @param tree Tree to add a left node
-  * @param node Node to add a left child
-  * @param value Value to be added
-  * @return true if the left node was created, false otherwise
-  */
- bool bitree_addLeft(BinaryTree *tree, BinaryTreeNode *node, const void *value);
+/**
+ * @brief Creates a given binary tree with default values
+ * @param tree Tree to be created
+ * @param destroy Destroy user handle
+ */
+void bitree_create(BinaryTree *tree, void(*destroy)(void *value));
+
+/**
+ * @brief Destroys and clean memory of a given binary tree
+ * @param tree Binary tree to be destroyed
+ */
+void bitree_destroy(BinaryTree *tree);
+
+/**
+ * @brief Try to create a new left child node of the given node in the given tree
+ * @param tree Tree to add a left node
+ * @param node Node to add a left child
+ * @param value Value to be added
+ * @return true if the left node was created, false otherwise
+ */
+bool bitree_addLeft(BinaryTree *tree, BinaryTreeNode *node, const void *value);
 
 /**
 * @brief Try to create a new right child node of the given node in the given tree
@@ -123,14 +127,14 @@ bool bitree_merge(BinaryTree *out, BinaryTree *left, BinaryTree *right, const vo
  * @param tree Binary tree to get the maximum depth
  * @return The maximum depth of the given binary tree
  */
-int bitree_maxDepth(BinaryTree * tree);
+int bitree_maxDepth(BinaryTree *tree);
 
 /**
  * @brief Returns the current maximum depth of the given binary tree
  * @param tree Binary tree to get the maximum depth
  * @return The maximum depth of the given binary tree
  */
-int bitree_maxDepthBranch(BinaryTreeNode * branchRoot);
+int bitree_maxDepthBranch(BinaryTreeNode *branchRoot);
 
 /**
  * @brief Determines if two nodes are in the same binary tree or not
@@ -139,21 +143,22 @@ int bitree_maxDepthBranch(BinaryTreeNode * branchRoot);
  * @param right Right node to be compared
  * @return true if two nodes are in the same tree, false otherwise
  */
-bool bitree_isSameTree(bool (*equals)(const void *value1, const void* value2), BinaryTreeNode* left, BinaryTreeNode* right);
+bool
+bitree_isSameTree(bool (*equals)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right);
 
 /**
  * @brief Invert the given binary tree
  * @param out Inverted binary tree
  * @param tree Binary tree to invert
  */
-bool bitree_invert(BinaryTree *out, BinaryTree * tree);
+bool bitree_invert(BinaryTree *out, BinaryTree *tree);
 
 /**
  * @brief Invert the current branch starting from the given node
  * @param branchRoot Relative branchRoot where to start to invert the binary tree
  * @return The reversed branch
  */
-BinaryTreeNode * bitree_invertBranch(BinaryTreeNode* branchRoot);
+BinaryTreeNode *bitree_invertBranch(BinaryTreeNode *branchRoot);
 /**
  * @brief Determine if two nodes are symmetric or not
  * @param equals Nodes value compare function, usefully used to add some other nodes comparer
@@ -161,7 +166,8 @@ BinaryTreeNode * bitree_invertBranch(BinaryTreeNode* branchRoot);
  * @param right Right node to be compared
  * @return true if given nodes are symmetric, false otherwise
  */
-bool bitree_isMirror(bool (*equals)(const void *value1, const void* value2), BinaryTreeNode* left, BinaryTreeNode* right);
+bool
+bitree_isMirror(bool (*equals)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right);
 
 /**
  * @brief Returns a binary tree by level
@@ -183,7 +189,9 @@ void **bitree_levelOrder(BinaryTree *tree, int *returnSize, int **returnColumnSi
  *
  * @return A pointer to the root node of the constructed binary tree.
  */
-BinaryTreeNode * bitree_build_from_preorder_inorder_branch(void** preorder, int preorder_size, void** inorder, int inorder_size, bool (*equals)(const void *value1, const void* value2));
+BinaryTreeNode *
+bitree_build_from_preorder_inorder_branch(void **preorder, int preorder_size, void **inorder, int inorder_size,
+                                          bool (*equals)(const void *value1, const void *value2));
 
 /**
  * @brief Construct a binary tree from inorder and postorder traversal.
@@ -195,8 +203,10 @@ BinaryTreeNode * bitree_build_from_preorder_inorder_branch(void** preorder, int 
  * @param equals Node value equals function
  * @return A pointer to the root node of the constructed binary tree.
  */
-BinaryTreeNode* bitree_build_from_inorder_postorder_branch(void** inorder, int inorderSize, int** postorder,
-                           int postorderSize, bool (*equals)(const void *value1, const void* value2));
+BinaryTreeNode *bitree_build_from_inorder_postorder_branch(void **inorder, int inorderSize, int **postorder,
+                                                           int postorderSize,
+                                                           bool (*equals)(const void *value1, const void *value2));
+
 /**
  * @brief Construct a binary tree from preorder and inorder traversal.
  *
@@ -209,7 +219,9 @@ BinaryTreeNode* bitree_build_from_inorder_postorder_branch(void** inorder, int i
  *
  * @return A pointer to the constructed binary tree.
  */
-BinaryTree * bitree_build_from_preorder_inorder(void** preorder, int preorder_size, void** inorder, int inorder_size, void(*destroy)(void* value), bool (*equals)(const void *value1, const void* value2));
+BinaryTree *bitree_build_from_preorder_inorder(void **preorder, int preorder_size, void **inorder, int inorder_size,
+                                               void(*destroy)(void *value),
+                                               bool (*equals)(const void *value1, const void *value2));
 
 /**
 * @brief Construct a binary tree from inorder and postorder traversal.
@@ -222,12 +234,12 @@ BinaryTree * bitree_build_from_preorder_inorder(void** preorder, int preorder_si
 * @param equals Node value equals function
 * @return A pointer to the root node of the constructed binary tree.
 */
-BinaryTree* bitree_build_from_inorder_postorder(void** inorder,
-                                                    int inorderSize,
-                                                    int** postorder,
-                                                    int postorderSize,
-                                                    void(*destroy)(void* value),
-                                                    bool (*equals)(const void *value1, const void* value2));
+BinaryTree *bitree_build_from_inorder_postorder(void **inorder,
+                                                int inorderSize,
+                                                int **postorder,
+                                                int postorderSize,
+                                                void(*destroy)(void *value),
+                                                bool (*equals)(const void *value1, const void *value2));
 
 /**
  * @brief Returns the longest path length in the given branch
@@ -235,14 +247,28 @@ BinaryTree* bitree_build_from_inorder_postorder(void** inorder,
  * @param diameter Pointer to the returned longest path length
  * @return
  */
-int bitree_height(BinaryTreeNode * root, int* diameter);
+int bitree_height(BinaryTreeNode *root, int *diameter);
 
 /**
  * @brief Returns the longest path length in the given binary tree
  * @param tree Tree to get the longest path on
  * @return The longest path length of the given binary tree
  */
-int bitree_diameter(BinaryTree * tree);
+int bitree_diameter(BinaryTree *tree);
+
+/**
+ * @brief Count the number of nodes in the given binary tree
+ * @param tree Binary tree to count nodes
+ * @return Node count of the given binary tree
+ */
+int bitree_nodeCount(BinaryTree *tree);
+
+/**
+ * @brief Count the number of nodes in the given branch
+ * @param node Binary tree to count nodes
+ * @return Node count of the given branch
+ */
+int bitree_branchNodeCount(BinaryTreeNode *node);
 
 #ifdef __cplusplus
 /**

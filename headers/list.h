@@ -7,6 +7,8 @@
 #ifndef COLLECTIONS_COMMONS_LIST_H
 #define COLLECTIONS_COMMONS_LIST_H
 
+#include "clist.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -18,6 +20,7 @@ extern "C" {
 #include <stdlib.h>
 #include <stdbool.h>
 #endif
+
 /**
  * @brief Data structure definition for a simple chained linked list generic element
  */
@@ -123,35 +126,6 @@ LinkedElement *list_getRandom(LinkedList *list);
  */
 bool list_replace(LinkedList *list, LinkedElement *element, void **value);
 
-/**
- * @brief Convert the given list into an array
- * @param list List to be converted to array
- * @return Converted list to array
- */
-void** list_toArray(LinkedList *list);
-
-/**
- * @brief Convert the given list into a set
- * @param list List to be converted to set
- * @return Converted list to set
- */
-struct Set* list_toSet(LinkedList *list, bool(*equals) (const void* value1, const void * value2));
-
-
-/**
- * @brief Convert the given list into a double linked list
- * @param list List to be converted to a double linked list
- * @return Converted list to double linked list
- */
-struct DLinkedList *list_toDList(LinkedList *list);
-
-/**
- * @brief Convert the given list into a circular list
- * @param list List to be converted to a circular list
- * @return Converted list to circular list
- */
-struct CLinkedList *list_toCList(LinkedList *list);
-
 /* ----- MACRO C++ COMPATIBILITY -----*/
 #ifdef __cplusplus
 /**
@@ -159,7 +133,7 @@ struct CLinkedList *list_toCList(LinkedList *list);
  * @return The current element count of the current list
  * @complexity O(1)
  */
-inline int list_size(LinkedList *list) {
+static inline int list_size(LinkedList *list) {
     return list->size;
 } ;
 
@@ -169,7 +143,7 @@ inline int list_size(LinkedList *list) {
  * @return The first element of the current list
  * @complexity O(1)
  */
-inline LinkedElement *list_first(LinkedList *list) {
+static inline LinkedElement *list_first(LinkedList *list) {
     return list->head;
 } ;
 
@@ -178,7 +152,7 @@ inline LinkedElement *list_first(LinkedList *list) {
  * @return The last element of the current list
  * @complexity O(1)
  */
-inline LinkedElement *list_last(LinkedList *list) {
+static inline LinkedElement *list_last(LinkedList *list) {
     return list->tail;
 } ;
 
@@ -187,7 +161,7 @@ inline LinkedElement *list_last(LinkedList *list) {
  * @return true if the element is the first of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool list_isFirst(LinkedList *list, LinkedElement *element) {
+static inline bool list_isFirst(LinkedList *list, LinkedElement *element) {
     return (list)->head == element;
 } ;
 
@@ -196,7 +170,7 @@ inline bool list_isFirst(LinkedList *list, LinkedElement *element) {
  * @return true if the element is the last of the current list, false otherwise
  * @complexity O(1)
  */
-inline bool list_isLast(LinkedList *list, LinkedElement *element) {
+static inline bool list_isLast(LinkedList *list, LinkedElement *element) {
     return (list)->tail == element;
 } ;
 
@@ -205,7 +179,7 @@ inline bool list_isLast(LinkedList *list, LinkedElement *element) {
  * @return The value stored inside a list element
  * @complexity O(1)
  */
-inline void *list_value(LinkedElement *element) {
+static inline void *list_value(LinkedElement *element) {
     return ((element)->value);
 } ;
 
@@ -214,7 +188,7 @@ inline void *list_value(LinkedElement *element) {
  * @return The reference to the next element of the current list element
  * @complexity O(1)
  */
-inline LinkedElement *list_next(LinkedElement *element) {
+static inline LinkedElement *list_next(LinkedElement *element) {
     if (element == nullptr) return nullptr;
     else return (element)->next == nullptr ? nullptr : (element)->next;
 }

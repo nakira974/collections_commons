@@ -50,7 +50,7 @@ bool queue_dequeue(Queue *queue, void *value);
 * @return The current element count of the current list
 * @complexity O(1)
 */
-inline int queue_size(Queue *queue) {
+static inline int queue_size(Queue *queue) {
     return queue->size;
 } ;
 
@@ -60,7 +60,7 @@ inline int queue_size(Queue *queue) {
  * @return The current first element of the queue
  * @complexity O(1)
  */
-inline void *queue_peek(Queue *queue) {
+static inline void *queue_peek(Queue *queue) {
     return ((queue)->head == nullptr ? nullptr : (queue)->head->value);
 }
 
@@ -70,7 +70,7 @@ inline void *queue_peek(Queue *queue) {
  * @param destroy Delegate user function for later destruction of a single element the current queue
  * @complexity O(1)
  */
-inline void queue_create(Queue *queue, void( *destroy)(void *value)) {
+static inline void queue_create(Queue *queue, void( *destroy)(void *value)) {
     list_create(queue, destroy);
 }
 
@@ -80,7 +80,7 @@ inline void queue_create(Queue *queue, void( *destroy)(void *value)) {
  * @complexity O(n) where n is the number of hashtable in the current list
  */
 
-inline void queue_destroy(Queue *queue) {
+static inline void queue_destroy(Queue *queue) {
     list_destroy(queue);
 }
 
@@ -91,14 +91,6 @@ static inline LinkedElement *queue_peekRandom(Queue *queue) {
     return list_getRandom(queue);
 }
 
-/**
- * @brief Inline function that evaluates the current queue into an array
- * @param queue Queue to be converted to array
- * @return Converted queue to array
- */
-static inline void** queue_toArray(Queue * queue){
-    return list_toArray(queue);
-}
 #else
 
 /**
@@ -133,12 +125,7 @@ static inline void** queue_toArray(Queue * queue){
  */
 #define queue_peekRandom(queue) list_getRandom
 
-/**
- * @brief Macro that evaluates the current queue into an array
- * @param queue Queue to be converted to array
- * @return Converted queue to array
- */
-#define queue_toArray(queue) list_toArray
+
 #endif
 
 
