@@ -6,7 +6,7 @@
 #include "bitree.h"
 #include "queue.h"
 
-int bitree_branchNodeCount( BinaryTreeNode* root) {
+int bitree_branchNodeCount(BinaryTreeNode *root) {
     if (root == NULL)
         return 0;
     int count = 1;
@@ -412,8 +412,8 @@ int bitree_diameter(BinaryTree *tree) {
     return diameter;
 }
 
-int bitree_nodeCount(BinaryTree *tree){
- if (tree == NULL)
+int bitree_nodeCount(BinaryTree *tree) {
+    if (tree == NULL)
         return 0;
     return bitree_branchNodeCount(tree->root);
 }

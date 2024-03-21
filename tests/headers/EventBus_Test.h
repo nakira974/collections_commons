@@ -16,8 +16,8 @@ public:
     static Queue *events;
 protected:
     void SetUp() override {
-        EventBusTest::events = (Queue*)malloc(sizeof(Queue));
-        if(EventBusTest::events)
+        EventBusTest::events = (Queue *) malloc(sizeof(Queue));
+        if (EventBusTest::events)
             queue_create(EventBusTest::events, free);
     }
 
@@ -26,7 +26,7 @@ protected:
         free(EventBusTest::events);
     }
 
-    static Event create_event(int type, void* data) {
+    static Event create_event(int type, void *data) {
         Event e;
         e.eventType = type;
         e.eventData = data;
@@ -47,7 +47,7 @@ protected:
     }
 };
 
-Queue* EventBusTest::events;
+Queue *EventBusTest::events;
 
 TEST_F(EventBusTest, TestEventProcess) {
     Event e1 = create_event(1, nullptr);
@@ -68,4 +68,5 @@ TEST_F(EventBusTest, TestInterrupt) {
     int result = event_process(events, process_event);
     ASSERT_EQ(result, true);
 }
+
 #endif //COLLECTIONS_COMMONS_EVENTBUS_TEST_H

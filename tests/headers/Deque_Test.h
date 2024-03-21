@@ -4,6 +4,7 @@
 
 #ifndef COLLECTIONS_COMMONS_DEQUE_TEST_H
 #define COLLECTIONS_COMMONS_DEQUE_TEST_H
+
 #include <gtest/gtest.h>
 #include "deque.h"
 
@@ -17,7 +18,7 @@ protected:
 
     static void free_minecart(void *value) {
         if (value != nullptr) {
-            free((Minecart*)value);
+            free((Minecart *) value);
         }
     }
 
@@ -33,7 +34,7 @@ protected:
 };
 
 TEST_F(DequeTest, EnqueueDequeueTest) {
-    Minecart *cart = (Minecart*)malloc(sizeof(Minecart));
+    Minecart *cart = (Minecart *) malloc(sizeof(Minecart));
     cart->id = 1;
     cart->weight = 100.5;
 
@@ -49,7 +50,7 @@ TEST_F(DequeTest, EnqueueDequeueTest) {
 TEST_F(DequeTest, SizeTest) {
     ASSERT_EQ(deque_size(&deque), 0);
 
-    Minecart *cart = (Minecart*)malloc(sizeof(Minecart));
+    Minecart *cart = (Minecart *) malloc(sizeof(Minecart));
     cart->id = 1;
     cart->weight = 100.5;
 
@@ -61,7 +62,7 @@ TEST_F(DequeTest, SizeTest) {
 TEST_F(DequeTest, PeekTest) {
     ASSERT_EQ(deque_peek(&deque), nullptr);
 
-    Minecart *cart = (Minecart*)malloc(sizeof(Minecart));
+    Minecart *cart = (Minecart *) malloc(sizeof(Minecart));
     cart->id = 1;
     cart->weight = 100.5;
 

@@ -4,9 +4,9 @@
 
 #ifndef COLLECTIONS_COMMONS_QUEUE_TEST_H
 #define COLLECTIONS_COMMONS_QUEUE_TEST_H
+
 #include <gtest/gtest.h>
 #include "queue.h"
-
 
 
 class QueueTest : public ::testing::Test {
@@ -19,7 +19,7 @@ protected:
 
     static void free_minecart(void *value) {
         if (value != nullptr) {
-            free((Minecart*)value);
+            free((Minecart *) value);
         }
     }
 
@@ -35,7 +35,7 @@ protected:
 };
 
 TEST_F(QueueTest, EnqueueDequeueTest) {
-    Minecart *cart = (Minecart*)malloc(sizeof(Minecart));
+    Minecart *cart = (Minecart *) malloc(sizeof(Minecart));
     cart->id = 1;
     cart->weight = 100.5;
 
@@ -51,7 +51,7 @@ TEST_F(QueueTest, EnqueueDequeueTest) {
 TEST_F(QueueTest, SizeTest) {
     ASSERT_EQ(queue_size(&queue), 0);
 
-    Minecart *cart = (Minecart*)malloc(sizeof(Minecart));
+    Minecart *cart = (Minecart *) malloc(sizeof(Minecart));
     cart->id = 1;
     cart->weight = 100.5;
 
@@ -63,7 +63,7 @@ TEST_F(QueueTest, SizeTest) {
 TEST_F(QueueTest, PeekTest) {
     ASSERT_EQ(queue_peek(&queue), nullptr);
 
-    Minecart *cart = (Minecart*)malloc(sizeof(Minecart));
+    Minecart *cart = (Minecart *) malloc(sizeof(Minecart));
     cart->id = 1;
     cart->weight = 100.5;
 
@@ -71,4 +71,5 @@ TEST_F(QueueTest, PeekTest) {
 
     ASSERT_NE(queue_peek(&queue), nullptr);
 }
+
 #endif //COLLECTIONS_COMMONS_QUEUE_TEST_H

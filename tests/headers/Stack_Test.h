@@ -4,6 +4,7 @@
 
 #ifndef COLLECTIONS_COMMONS_STACK_TEST_H
 #define COLLECTIONS_COMMONS_STACK_TEST_H
+
 #include "stack.h"
 #include <gtest/gtest.h>
 
@@ -16,7 +17,7 @@ protected:
     }
 
     void TearDown() override {
-        if(stack_size(&stack)>0)
+        if (stack_size(&stack) > 0)
             stack_destory(&stack);
     }
 };
@@ -29,8 +30,8 @@ TEST_F(StackTest, PushPopTest) {
     stack_push(&stack, &value2);
 
     int *poppedValue1, *poppedValue2;
-    stack_pop(&stack, (void **)&poppedValue1);
-    stack_pop(&stack, (void **)&poppedValue2);
+    stack_pop(&stack, (void **) &poppedValue1);
+    stack_pop(&stack, (void **) &poppedValue2);
 
     EXPECT_EQ(*poppedValue1, value2);
     EXPECT_EQ(*poppedValue2, value1);
@@ -41,10 +42,10 @@ TEST_F(StackTest, PeekTest) {
     int *poppedValue1;
     stack_push(&stack, &value);
 
-    int *peekedValue = (int *)stack_peek(&stack);
+    int *peekedValue = (int *) stack_peek(&stack);
 
     EXPECT_EQ(*peekedValue, value);
-    stack_pop(&stack, (void **)&poppedValue1);
+    stack_pop(&stack, (void **) &poppedValue1);
 }
 
 TEST_F(StackTest, SizeTest) {
@@ -57,10 +58,11 @@ TEST_F(StackTest, SizeTest) {
     EXPECT_EQ(stack_size(&stack), 2);
 
     int *poppedValue1, *poppedValue2;
-    stack_pop(&stack, (void **)&poppedValue2);
-    stack_pop(&stack, (void **)&poppedValue1);
+    stack_pop(&stack, (void **) &poppedValue2);
+    stack_pop(&stack, (void **) &poppedValue1);
 
     EXPECT_EQ(stack_size(&stack), 0);
 
 }
+
 #endif //COLLECTIONS_COMMONS_STACK_TEST_H
