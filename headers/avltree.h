@@ -58,7 +58,7 @@ typedef struct AvlNode{
  * @param compare User compare function
  * @param destroy User destroy function
  */
-void avltree_create(AvlTree *tree, void (*compare)(const void* key1, const void* key2), void(*destroy) (void* value));
+void avltree_create(AvlTree *tree, int (*compare)(const void* key1, const void* key2), void(*destroy) (void* value));
 
 /**
  * @brief Destroys a given AvlTree
