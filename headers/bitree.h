@@ -1,6 +1,6 @@
 /**
  * @file bitree.h
- * @brief This file contains the API for binary trees
+ * @brief This file contains the API for an abstract binary tree
  * @author Maxime Loukhal
  * @date 06/03/2024
  */
@@ -49,12 +49,12 @@ typedef struct BinaryTree {
      */
     int size;
     /**
-     * @brief User equals handle for stored values
+     * @brief User compareTo handle for stored values > (-1) , = (0) or < (1)
      * @param value1 Value 1 to be compared
      * @param value2 Value 2 to be compared
      * @return true if values are equal, false otherwise
      */
-    bool (*equals)(const void *value1, const void *value2);
+    int (*compareTo)(const void *value1, const void *value2);
 
     /**
      * @brief User destroy method to clean node's value
@@ -138,13 +138,13 @@ int bitree_maxDepthBranch(BinaryTreeNode *branchRoot);
 
 /**
  * @brief Determines if two nodes are in the same binary tree or not
- * @param equals Node compare function
+ * @param compareTo Node compare function
  * @param left Left node to be compared
  * @param right Right node to be compared
  * @return true if two nodes are in the same tree, false otherwise
  */
 bool
-bitree_isSameTree(bool (*equals)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right);
+bitree_isSameTree(int (*compareTo)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right);
 
 /**
  * @brief Invert the given binary tree
@@ -161,13 +161,13 @@ bool bitree_invert(BinaryTree *out, BinaryTree *tree);
 BinaryTreeNode *bitree_invertBranch(BinaryTreeNode *branchRoot);
 /**
  * @brief Determine if two nodes are symmetric or not
- * @param equals Nodes value compare function, usefully used to add some other nodes comparer
+ * @param compareTo Nodes value compare function, usefully used to add some other nodes comparer
  * @param left Left node to be compared
  * @param right Right node to be compared
  * @return true if given nodes are symmetric, false otherwise
  */
 bool
-bitree_isMirror(bool (*equals)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right);
+bitree_isMirror(int (*compareTo)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right);
 
 /**
  * @brief Returns a binary tree by level
@@ -185,13 +185,13 @@ void **bitree_levelOrder(BinaryTree *tree, int *returnSize, int **returnColumnSi
  * @param preorder_size The size of the preorder array.
  * @param inorder An array representing the inorder traversal of the tree.
  * @param inorder_size The size of the inorder array.
- * @param equals Node value equals function
+ * @param compareTo Node value compareTo function
  *
  * @return A pointer to the root node of the constructed binary tree.
  */
 BinaryTreeNode *
 bitree_build_from_preorder_inorder_branch(void **preorder, int preorder_size, void **inorder, int inorder_size,
-                                          bool (*equals)(const void *value1, const void *value2));
+                                          int (*compareTo)(const void *value1, const void *value2));
 
 /**
  * @brief Construct a binary tree from inorder and postorder traversal.
@@ -200,12 +200,12 @@ bitree_build_from_preorder_inorder_branch(void **preorder, int preorder_size, vo
  * @param inorderSize The size of the inorder array.
  * @param postorder An array representing the postorder traversal of the tree.
  * @param postorderSize The size of the postorder array.
- * @param equals Node value equals function
+ * @param compareTo Node value equals function
  * @return A pointer to the root node of the constructed binary tree.
  */
 BinaryTreeNode *bitree_build_from_inorder_postorder_branch(void **inorder, int inorderSize, int **postorder,
                                                            int postorderSize,
-                                                           bool (*equals)(const void *value1, const void *value2));
+                                                           int (*compareTo)(const void *value1, const void *value2));
 
 /**
  * @brief Construct a binary tree from preorder and inorder traversal.
@@ -215,13 +215,13 @@ BinaryTreeNode *bitree_build_from_inorder_postorder_branch(void **inorder, int i
  * @param inorder An array representing the inorder traversal of the tree.
  * @param inorder_size The size of the inorder array.
  * @param destroy The destroy function of the created binary tree
- * @param equals Node value equals function
+ * @param compareTo Node value compareTo function
  *
  * @return A pointer to the constructed binary tree.
  */
 BinaryTree *bitree_build_from_preorder_inorder(void **preorder, int preorder_size, void **inorder, int inorder_size,
                                                void(*destroy)(void *value),
-                                               bool (*equals)(const void *value1, const void *value2));
+                                               int (*compareTo)(const void *value1, const void *value2));
 
 /**
 * @brief Construct a binary tree from inorder and postorder traversal.
@@ -231,7 +231,7 @@ BinaryTree *bitree_build_from_preorder_inorder(void **preorder, int preorder_siz
 * @param postorder An array representing the postorder traversal of the tree.
 * @param postorderSize The size of the postorder array.
 * @param destroy The destroy function of the created binary tree
-* @param equals Node value equals function
+* @param compareTo Node value compareTo function
 * @return A pointer to the root node of the constructed binary tree.
 */
 BinaryTree *bitree_build_from_inorder_postorder(void **inorder,
@@ -239,7 +239,7 @@ BinaryTree *bitree_build_from_inorder_postorder(void **inorder,
                                                 int **postorder,
                                                 int postorderSize,
                                                 void(*destroy)(void *value),
-                                                bool (*equals)(const void *value1, const void *value2));
+                                                int (*compareTo)(const void *value1, const void *value2));
 
 /**
  * @brief Returns the longest path length in the given branch

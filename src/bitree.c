@@ -16,13 +16,13 @@ int bitree_branchNodeCount(BinaryTreeNode *root) {
 }
 
 bool
-bitree_isMirror(bool (*equals)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right) {
+bitree_isMirror(int (*compareTo)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right) {
     if (left == NULL && right == NULL)
         return true;
     if (left == NULL || right == NULL)
         return false;
-    return (equals(left->value, right->value) && bitree_isMirror(equals, left->right, right->left) &&
-            bitree_isMirror(equals, left->left, right->right));
+    return (compareTo(left->value, right->value) == 0 && bitree_isMirror(compareTo, left->right, right->left) &&
+            bitree_isMirror(compareTo, left->left, right->right));
 }
 
 BinaryTreeNode *bitree_invertBranch(BinaryTreeNode *branchRoot) {
@@ -35,14 +35,14 @@ BinaryTreeNode *bitree_invertBranch(BinaryTreeNode *branchRoot) {
 }
 
 bool
-bitree_isSameTree(bool (*equals)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right) {
+bitree_isSameTree(int (*compareTo)(const void *value1, const void *value2), BinaryTreeNode *left, BinaryTreeNode *right) {
     if (left == NULL && right == NULL)
         return true;
     if (left == NULL || right == NULL)
         return false;
-    if (!equals(left->value, right->value))
+    if (compareTo(left->value, right->value) != 0)
         return false;
-    return bitree_isSameTree(equals, left->left, right->left) && bitree_isSameTree(equals, left->right, right->right);
+    return bitree_isSameTree(compareTo, left->left, right->left) && bitree_isSameTree(compareTo, left->right, right->right);
 }
 
 int bitree_maxDepthBranch(BinaryTreeNode *branchRoot) {
@@ -303,7 +303,7 @@ void **bitree_levelOrder(BinaryTree *tree, int *returnSize, int **returnColumnSi
 
 BinaryTreeNode *
 bitree_build_from_preorder_inorder_branch(void **preorder, int preorder_size, void **inorder, int inorder_size,
-                                          bool (*equals)(const void *value1, const void *value2)) {
+                                          int (*compareTo)(const void *value1, const void *value2)) {
     if (preorder_size == 0) {
         return NULL;
     }
@@ -317,7 +317,7 @@ bitree_build_from_preorder_inorder_branch(void **preorder, int preorder_size, vo
      * left subtree by searching for it
      */
     int left_size = 0;
-    while (!equals(inorder[left_size], branchRoot->value)) {
+    while (compareTo(inorder[left_size], branchRoot->value) != 0) {
         left_size++;
     }
     int right_size = preorder_size - left_size - 1;
@@ -330,28 +330,28 @@ bitree_build_from_preorder_inorder_branch(void **preorder, int preorder_size, vo
      *      (preorder[left_size], preorder[preorder_size])
      *      (inorder[left_size], inorder[inorder_size])
      */
-    branchRoot->left = bitree_build_from_preorder_inorder_branch(preorder + 1, left_size, inorder, left_size, equals);
+    branchRoot->left = bitree_build_from_preorder_inorder_branch(preorder + 1, left_size, inorder, left_size, compareTo);
     branchRoot->right = bitree_build_from_preorder_inorder_branch(preorder + left_size + 1, right_size,
-                                                                  inorder + left_size + 1, right_size, equals);
+                                                                  inorder + left_size + 1, right_size, compareTo);
 
     return branchRoot;
 }
 
 BinaryTree *bitree_build_from_preorder_inorder(void **preorder, int preorder_size, void **inorder, int inorder_size,
                                                void(*destroy)(void *value),
-                                               bool (*equals)(const void *value1, const void *value2)) {
+                                               int (*compareTo)(const void *value1, const void *value2)) {
     BinaryTree *result;
     if ((result = (BinaryTree *) malloc(sizeof(BinaryTree))) == NULL) return NULL;
     bitree_create(result, destroy);
-    result->equals = equals;
+    result->compareTo = compareTo;
     result->root = bitree_build_from_preorder_inorder_branch(preorder, preorder_size, inorder, inorder_size,
-                                                             result->equals);
+                                                             result->compareTo);
     return result;
 }
 
 BinaryTreeNode *bitree_build_from_inorder_postorder_branch(void **inorder, int inorderSize, int **postorder,
                                                            int postorderSize,
-                                                           bool (*equals)(const void *value1, const void *value2)) {
+                                                           int (*compareTo)(const void *value1, const void *value2)) {
     if (postorderSize == 0)
         return NULL;
 
@@ -362,14 +362,14 @@ BinaryTreeNode *bitree_build_from_inorder_postorder_branch(void **inorder, int i
     int index;
 
     for (index = 0; index < inorderSize; index++) {
-        if (equals(inorder[index], branchRoot->value))
+        if (compareTo(inorder[index], branchRoot->value) == 0)
             break;
     }
 
-    branchRoot->left = bitree_build_from_inorder_postorder_branch(inorder, index, postorder, index, equals);
+    branchRoot->left = bitree_build_from_inorder_postorder_branch(inorder, index, postorder, index, compareTo);
     branchRoot->right = bitree_build_from_inorder_postorder_branch(inorder + index + 1, inorderSize - index - 1,
                                                                    postorder + index, postorderSize - index - 1,
-                                                                   equals);
+                                                                   compareTo);
 
     return branchRoot;
 }
@@ -379,12 +379,12 @@ BinaryTree *bitree_build_from_inorder_postorder(void **inorder,
                                                 int **postorder,
                                                 int postorderSize,
                                                 void(*destroy)(void *value),
-                                                bool (*equals)(const void *value1, const void *value2)) {
+                                                int (*compareTo)(const void *value1, const void *value2)) {
     BinaryTree *result;
     if ((result = (BinaryTree *) malloc(sizeof(BinaryTree))) == NULL) return NULL;
     bitree_create(result, destroy);
-    result->equals = equals;
-    result->root = bitree_build_from_inorder_postorder_branch(inorder, 0, postorder, 0, result->equals);
+    result->compareTo = compareTo;
+    result->root = bitree_build_from_inorder_postorder_branch(inorder, 0, postorder, 0, result->compareTo);
     return result;
 }
 
