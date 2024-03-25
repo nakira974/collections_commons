@@ -1,6 +1,6 @@
 /**
  * @file btree.h
- * @brief This file contains the API for B type, binary search tree
+ * @brief This file contains the API for B, balanced search tree
  * @author Maxime Loukhal
  * @date 08/03/2024
  */
@@ -23,11 +23,6 @@ extern "C" {
 #define BTREE_MIN_NODES 2
 
 /**
- * @brief Data structure that defines A B binary search tree
- */
-typedef BinaryTree BTree;
-
-/**
  * @brief Data structure that defines a B tree node
  */
 typedef struct BTreeNode{
@@ -44,6 +39,36 @@ typedef struct BTreeNode{
      */
     struct BTreeNode *link[BTREE_MAX_NODES + 1];
 } BTreeNode;
+
+/**
+ * @brief Data structure that defines A B search tree
+ */
+typedef struct BTree{
+    /**
+    * @brief BTree current size
+    */
+    int size;
+    /**
+     * @brief User compareTo handle for stored values > (-1) , = (0) or < (1)
+     * @param value1 Value 1 to be compared
+     * @param value2 Value 2 to be compared
+     * @return true if values are equal, false otherwise
+     */
+    int (*compareTo)(const void *value1, const void *value2);
+
+    /**
+     * @brief User destroy method to clean node's value
+     * @param value Value to be removed from the tree
+     */
+    void (*destroy)(void *value);
+
+    /**
+     * @brief BTree current root node
+     */
+    BTreeNode *root;
+} BTree;
+
+
 
 /**
  * @brief Creates a BTree with its default values

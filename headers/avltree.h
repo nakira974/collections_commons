@@ -1,6 +1,6 @@
 /**
  * @file avltree.h
- * @brief This file contains the API for AVL type, binary search trees
+ * @brief This file contains the API for AVL, binary search trees
  * @author Maxime Loukhal
  * @date 08/03/2024
  */
