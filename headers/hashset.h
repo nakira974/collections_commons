@@ -145,7 +145,7 @@ bool hashset_isSubset(const HashSet *left, const HashSet *right);
 bool hashset_equals(const HashSet *left, const HashSet *right);
 
 /**
- * @brief Convert the hashset into a list
+ * @brief Converts the hashset into a list
  * @param set Hashset to be converted to list
  * @return Converted hashset to list
  */

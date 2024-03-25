@@ -29,118 +29,129 @@ extern "C" {
 #endif
 
 /**
- * @brief Convert the given list into an array
+ * @brief Converts the given list into an array
  * @param list List to be converted to array
  * @return Converted list to array
  */
-void **list_toArray(LinkedList *list);
+static void **list_toArray(LinkedList *list);
 
 /**
- * @brief Convert the given list into a set
+ * @brief Converts the given list into a set
  * @param list List to be converted to set
  * @return Converted list to set
  */
-Set *list_toSet(LinkedList *list, bool(*equals)(const void *value1, const void *value2));
+static Set *list_toSet(LinkedList *list, bool(*equals)(const void *value1, const void *value2));
 
 
 /**
- * @brief Convert the given list into a double linked list
+ * @brief Converts the given list into a double linked list
  * @param list List to be converted to a double linked list
  * @return Converted list to double linked list
  */
-DLinkedList *list_toDList(LinkedList *list);
+static DLinkedList *list_toDList(LinkedList *list);
 
 /**
- * @brief Convert the given list into a circular list
+ * @brief Converts the given list into a circular list
  * @param list List to be converted to a circular list
  * @return Converted list to circular list
  */
-CLinkedList *list_toCList(LinkedList *list);
+static CLinkedList *list_toCList(LinkedList *list);
 
 /**
- * @brief Convert the given list into an array
+ * @brief Converts the given list into an array
  * @param list List to be converted to array
  * @return Converted list to array
  */
-void **clist_toArray(CLinkedList *list);
+static void **clist_toArray(CLinkedList *list);
 
 /**
- * @brief Convert the given list into a set
+ * @brief Converts the given list into a set
  * @param list List to be converted to set
  * @return Converted list to set
  */
-Set *clist_toSet(CLinkedList *list, bool(*equals)(const void *value1, const void *value2));
+static Set *clist_toSet(CLinkedList *list, bool(*equals)(const void *value1, const void *value2));
 
 /**
- * @brief Convert the given circular list into a list
+ * @brief Converts the given circular list into a list
  * @param list List to be converted to list
  * @return Converted circular list to list
  */
-LinkedList *clist_toList(CLinkedList *list);
+static LinkedList *clist_toList(CLinkedList *list);
 
 /**
- * @brief Convert the given circular list into a double linked list
+ * @brief Converts the given circular list into a double linked list
  * @param list List to be converted to a double linked list
  * @return Converted circular list to double linked list
  */
-DLinkedList *clist_toDList(CLinkedList *list);
+static DLinkedList *clist_toDList(CLinkedList *list);
 
 /**
- * @brief Convert the given list into an array
+ * @brief Converts the given list into an array
  * @param list List to be converted to array
  * @return Converted list to array
  */
-void **dlist_toArray(DLinkedList *list);
+static void **dlist_toArray(DLinkedList *list);
 
 /**
- * @brief Convert the given list into a set
+ * @brief Converts the given list into a set
  * @param list List to be converted to set
  * @return Converted list to set
  */
-Set *dlist_toSet(DLinkedList *list, bool(*equals)(const void *value1, const void *value2));
+static Set *dlist_toSet(DLinkedList *list, bool(*equals)(const void *value1, const void *value2));
 
 /**
- * @brief Convert the double linked list into a list
+ * @brief Converts the double linked list into a list
  * @param list List to be converted to list
  * @return Converted double linked list to list
  */
-LinkedList *dlist_toList(DLinkedList *list);
+static LinkedList *dlist_toList(DLinkedList *list);
 
 /**
- * @brief Convert the double linked list into a circular list
+ * @brief Converts the double linked list into a circular list
  * @param list List to be converted to a circular list
  * @return Converted double linked list to circular list
  */
-CLinkedList *dlist_toCList(DLinkedList *list);
+static CLinkedList *dlist_toCList(DLinkedList *list);
 
 /**
- * @brief Convert the given hash table into an array
+ * @brief Converts the given hash table into an array
  * @param hashTable Hash table to be converted to array
  * @return Converted hash table to array
  */
-void **ohtbl_toArray(OAHashTable *hashTable);
+static void **ohtbl_toArray(OAHashTable *hashTable);
 
 /**
- * @brief Convert the hash table into a list
+ * @brief Converts the hash table into a list
  * @param hashTable Hash table to be converted to list
  * @return Converted hash table to list
  */
-DLinkedList *ohtbl_toList(OAHashTable *hashTable);
+static DLinkedList *ohtbl_toList(OAHashTable *hashTable);
 
 /**
- * @brief Convert the given hash table into an array
+ * @brief Converts the given hash table into an array
  * @param hashTable Hash table to be converted to array
  * @return Converted hash table to array
  */
-void **lhtbl_toArray(LinkedHashTable *hashTable);
+static void **lhtbl_toArray(LinkedHashTable *hashTable);
 
 /**
- * @brief Convert the hash table into a list
+ * @brief Converts the hash table into a list
  * @param hashTable Hash table to be converted to list
  * @return Converted hash table to list
  */
-DLinkedList *lhtbl_toList(LinkedHashTable *hashTable);
+static DLinkedList *lhtbl_toList(LinkedHashTable *hashTable);
 
+/**
+ * Sorts the specified list into ascending order, according to the <b>natural ordering</b> of its elements.
+ * @param collection
+ */
+static void collections_sort(void * collection);
+
+/**
+ * Sorts the specified list into ascending order, according to the <b>natural ordering</b> of its elements.
+ * @param collection
+ */
+static void collections_sortBy(void * collection, int (*compareTo) (void* element1, void* element2));
 #ifdef __cplusplus
 
 /**

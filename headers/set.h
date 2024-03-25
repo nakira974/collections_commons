@@ -120,7 +120,7 @@ bool set_isSubset(const Set *left, const Set *right);
 bool set_equals(const Set *left, const Set *right);
 
 /**
- * @brief Convert the given set into a hashset
+ * @brief Converts the given set into a hashset
  * @param set Set to be converted to hashset
  * @return Converted set to hashset
  */
