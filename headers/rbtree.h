@@ -33,9 +33,14 @@ typedef struct RedBlackTreeNode{
      */
     void * value;
     /**
- * @brief color of the given node
- */
+     * @brief color of the given node
+     */
     enum NodeColor color;
+
+    /**
+     * @brief Parent node of the given node
+     */
+    struct RedBlackTreeNode *parent;
 }RedBlackTreeNode;
 
 /**
