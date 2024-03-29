@@ -133,6 +133,35 @@ bool btree_nodeSetValue(BTreeNode *node, BTreeNode **child , void* value, void *
 void btree_add(BTree *tree, void* value,int *pos);
 
 /**
+ * @brief Returns the longest path length in the given branch
+ * @param root Root node of the given branch to find longest path
+ * @param diameter Pointer to the returned longest path length
+ * @return
+ */
+int btree_height(BTree *root, int *diameter);
+
+/**
+ * @brief Returns the longest path length in the given BTree
+ * @param tree Tree to get the longest path on
+ * @return The longest path length of the given BTree
+ */
+int btree_diameter(BTree *tree);
+
+/**
+ * @brief Count the number of nodes in the given BTree
+ * @param tree BTree to count nodes
+ * @return Node count of the given BTree
+ */
+int btree_nodeCount(BTree *tree);
+
+/**
+ * @brief Count the number of nodes in the given branch
+ * @param node BTree to count nodes
+ * @return Node count of the given branch
+ */
+int btree_branchNodeCount(BTreeNode *node);
+
+/**
  * @brief Tries to remove a value into the given BTree
  * @param tree Tree to remove a value
  * @param value Value to to be removed in the given BTree
