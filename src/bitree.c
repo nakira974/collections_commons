@@ -6,7 +6,50 @@
 #include "bitree.h"
 #include "queue.h"
 
-int bitree_branchNodeCount(BinaryTreeNode *root) {
+/**
+ * @brief Private function that inverts the current branch starting from the given node
+ * @param branchRoot Relative branchRoot where to start to invert the binary tree
+ * @return The reversed branch
+ */
+static BinaryTreeNode *bitree_invertBranch(BinaryTreeNode *branchRoot);
+
+/**
+ * @brief Private function that constructs a binary tree from preorder and inorder traversal.
+ *
+ * @param preorder An array representing the preorder traversal of the tree.
+ * @param preorder_size The size of the preorder array.
+ * @param inorder An array representing the inorder traversal of the tree.
+ * @param inorder_size The size of the inorder array.
+ * @param compareTo Node value compareTo function
+ *
+ * @return A pointer to the root node of the constructed binary tree.
+ */
+static BinaryTreeNode *
+bitree_build_from_preorder_inorder_branch(void **preorder, int preorder_size, void **inorder, int inorder_size,
+                                          int (*compareTo)(const void *value1, const void *value2));
+
+/**
+ * @brief Private function that constructs a binary tree from inorder and postorder traversal.
+ *
+ * @param inorder An array representing the inorder traversal of the tree.
+ * @param inorderSize The size of the inorder array.
+ * @param postorder An array representing the postorder traversal of the tree.
+ * @param postorderSize The size of the postorder array.
+ * @param compareTo Node value equals function
+ * @return A pointer to the root node of the constructed binary tree.
+ */
+static BinaryTreeNode *bitree_build_from_inorder_postorder_branch(void **inorder, int inorderSize, int **postorder,
+                                                           int postorderSize,
+                                                           int (*compareTo)(const void *value1, const void *value2));
+
+/**
+ * @brief Private function that counts the number of nodes in the given branch
+ * @param node Binary tree to count nodes
+ * @return Node count of the given branch
+ */
+static int bitree_branchNodeCount(BinaryTreeNode *node);
+
+static int bitree_branchNodeCount(BinaryTreeNode *root) {
     if (root == NULL)
         return 0;
     int count = 1;
@@ -25,7 +68,7 @@ bitree_isMirror(int (*compareTo)(const void *value1, const void *value2), Binary
             bitree_isMirror(compareTo, left->left, right->right));
 }
 
-BinaryTreeNode *bitree_invertBranch(BinaryTreeNode *branchRoot) {
+static BinaryTreeNode *bitree_invertBranch(BinaryTreeNode *branchRoot) {
     if (branchRoot == NULL)
         return NULL;
     BinaryTreeNode *temp = branchRoot->left;
@@ -301,7 +344,7 @@ void **bitree_levelOrder(BinaryTree *tree, int *returnSize, int **returnColumnSi
 }
 
 
-BinaryTreeNode *
+static BinaryTreeNode *
 bitree_build_from_preorder_inorder_branch(void **preorder, int preorder_size, void **inorder, int inorder_size,
                                           int (*compareTo)(const void *value1, const void *value2)) {
     if (preorder_size == 0) {
@@ -349,7 +392,7 @@ BinaryTree *bitree_build_from_preorder_inorder(void **preorder, int preorder_siz
     return result;
 }
 
-BinaryTreeNode *bitree_build_from_inorder_postorder_branch(void **inorder, int inorderSize, int **postorder,
+static BinaryTreeNode *bitree_build_from_inorder_postorder_branch(void **inorder, int inorderSize, int **postorder,
                                                            int postorderSize,
                                                            int (*compareTo)(const void *value1, const void *value2)) {
     if (postorderSize == 0)

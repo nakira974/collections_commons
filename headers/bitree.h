@@ -154,12 +154,6 @@ bitree_isSameTree(int (*compareTo)(const void *value1, const void *value2), Bina
 bool bitree_invert(BinaryTree *out, BinaryTree *tree);
 
 /**
- * @brief Invert the current branch starting from the given node
- * @param branchRoot Relative branchRoot where to start to invert the binary tree
- * @return The reversed branch
- */
-BinaryTreeNode *bitree_invertBranch(BinaryTreeNode *branchRoot);
-/**
  * @brief Determine if two nodes are symmetric or not
  * @param compareTo Nodes value compare function, usefully used to add some other nodes comparer
  * @param left Left node to be compared
@@ -177,35 +171,6 @@ bitree_isMirror(int (*compareTo)(const void *value1, const void *value2), Binary
  * @return Array of values per level in the given binary tree
  */
 void **bitree_levelOrder(BinaryTree *tree, int *returnSize, int **returnColumnSizes);
-
-/**
- * @brief Construct a binary tree from preorder and inorder traversal.
- *
- * @param preorder An array representing the preorder traversal of the tree.
- * @param preorder_size The size of the preorder array.
- * @param inorder An array representing the inorder traversal of the tree.
- * @param inorder_size The size of the inorder array.
- * @param compareTo Node value compareTo function
- *
- * @return A pointer to the root node of the constructed binary tree.
- */
-BinaryTreeNode *
-bitree_build_from_preorder_inorder_branch(void **preorder, int preorder_size, void **inorder, int inorder_size,
-                                          int (*compareTo)(const void *value1, const void *value2));
-
-/**
- * @brief Construct a binary tree from inorder and postorder traversal.
- *
- * @param inorder An array representing the inorder traversal of the tree.
- * @param inorderSize The size of the inorder array.
- * @param postorder An array representing the postorder traversal of the tree.
- * @param postorderSize The size of the postorder array.
- * @param compareTo Node value equals function
- * @return A pointer to the root node of the constructed binary tree.
- */
-BinaryTreeNode *bitree_build_from_inorder_postorder_branch(void **inorder, int inorderSize, int **postorder,
-                                                           int postorderSize,
-                                                           int (*compareTo)(const void *value1, const void *value2));
 
 /**
  * @brief Construct a binary tree from preorder and inorder traversal.
@@ -262,13 +227,6 @@ int bitree_diameter(BinaryTree *tree);
  * @return Node count of the given binary tree
  */
 int bitree_nodeCount(BinaryTree *tree);
-
-/**
- * @brief Count the number of nodes in the given branch
- * @param node Binary tree to count nodes
- * @return Node count of the given branch
- */
-int bitree_branchNodeCount(BinaryTreeNode *node);
 
 #ifdef __cplusplus
 /**
