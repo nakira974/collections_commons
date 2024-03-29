@@ -44,9 +44,9 @@ typedef struct AvlNode{
      */
     void *value;
     /**
-     * @brief cache of the given node
+     * @brief Evaluates if the given node is hidden or not
      */
-    int cache;
+    bool hidden;
     /**
      * @brief factor of the given node
      */
@@ -88,7 +88,7 @@ bool avltree_remove(AvlTree * tree, const void * value);
  * @param value Double pointer on the value to check and returned reference
  * @return true if the value is present in the given AvlTree, false otherwise
  */
-bool avltree_containsKey(const AvlTree * tree, void ** value);
+bool avltree_containsKey(AvlTree * tree, void ** value);
 
 #ifdef __cpluscplus
 /**
