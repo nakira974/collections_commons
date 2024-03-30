@@ -11,7 +11,7 @@
  * @param value Value to be set in the node
  * @return A new BTreeNode
  */
-static BTreeNode * btree_nodeCreate(BTree tree,BTreeNode *child, void *value);
+static BTreeNode * node_create(BTree tree,BTreeNode *child, void *value);
 
 /**
  * @brief Private function that inserts a child BTreeNode in a given BTreeNode at a specified position
@@ -20,7 +20,7 @@ static BTreeNode * btree_nodeCreate(BTree tree,BTreeNode *child, void *value);
  * @param child Child node
  * @param value Key to be inserted
  */
-static void btree_nodeAdd(int index, BTreeNode *node, BTreeNode *child, void* value);
+static void node_add(int index, BTreeNode *node, BTreeNode *child, void* value);
 
 /**
  * @brief Private function that splits a node to maintain the balance of the tree
@@ -31,7 +31,7 @@ static void btree_nodeAdd(int index, BTreeNode *node, BTreeNode *child, void* va
  * @param value Value to be insert somewhere else
  * @param pValue Pointer to the new value
  */
-static void btree_nodeSplit(int index, BTreeNode *node,
+static void node_split(int index, BTreeNode *node,
                      BTreeNode *child, BTreeNode **newNode, void* value, void **pValue);
 
 
@@ -43,11 +43,11 @@ static void btree_nodeSplit(int index, BTreeNode *node,
  * @param pValue Pointer on the inserted value in case of split
  * @return
  */
-static bool btree_nodeSetValue(BTreeNode *node, BTreeNode **child , void* value, void **pValue);
+static bool node_set_value(BTreeNode *node, BTreeNode **child , void* value, void **pValue);
 
 /**
  * @brief Private function that counts the number of nodes in the given branch
  * @param node BTree to count nodes
  * @return Node count of the given branch
  */
-static int btree_branchNodeCount(BTreeNode *node);
+static int node_count(BTreeNode *node);

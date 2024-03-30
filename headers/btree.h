@@ -29,7 +29,7 @@ typedef struct BTreeNode{
     /**
      * @brief Stored keys
      */
-    void* val[BTREE_MAX_NODES + 1];
+    void* values[BTREE_MAX_NODES + 1];
     /**
      * @brief Current children count
      */
@@ -37,7 +37,12 @@ typedef struct BTreeNode{
     /**
      * @brief Node's children
      */
-    struct BTreeNode *link[BTREE_MAX_NODES + 1];
+    struct BTreeNode *children[BTREE_MAX_NODES + 1];
+
+    /**
+     * @brief Indicate if the node is a leaf or not
+     */
+    bool leaf;
 } BTreeNode;
 
 /**

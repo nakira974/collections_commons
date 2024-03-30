@@ -4,13 +4,30 @@
 #include "hashmap.h"
 
 /**
- * @brief Private method double like double linked list add
+ * @brief Private function double like double linked list add
  * @param map Map to put a new entry in
  * @param last_entry Entry to add before
  * @param new_entry Entry to be added
  * @return true if the entry was added, false otherwise
  */
-bool hashmap_push(HashMap *map, SimpleEntry *entry, SimpleEntry *new_entry) {
+static bool push(HashMap *map, SimpleEntry *entry, SimpleEntry *new_entry);
+
+/**
+* @brief Private function like double linked map remove
+* @param map Hashmap to remove an entry
+* @param entry Entry to be removed from the hashmap
+* @param value Pointer on entry value
+* @return true if the entry was removed from the hashmap, false otherwise
+*/
+static bool pop(HashMap *map, SimpleEntry *entry, void **value);
+
+/**
+ * Private function to compare two entries based on their compareTo method inside a hashset
+ * @return true if entries are equals false otherwise
+ */
+static bool cmp_entry(const void *entry1, const void *entry2);
+
+static bool push(HashMap *map, SimpleEntry *entry, SimpleEntry *new_entry) {
     // Reject null hashtable except if list is empty
     if (entry == NULL && hashmap_size(map) != 0) return false;
 
@@ -35,14 +52,7 @@ bool hashmap_push(HashMap *map, SimpleEntry *entry, SimpleEntry *new_entry) {
     return true;
 }
 
-/**
- * @brief Private method like double linked map remove
- * @param map Hashmap to remove an entry
- * @param entry Entry to be removed from the hashmap
- * @param value Pointer on entry value
- * @return true if the entry was removed from the hashmap, false otherwise
- */
-bool hashmap_pop(HashMap *map, SimpleEntry *entry, void **value) {
+static bool pop(HashMap *map, SimpleEntry *entry, void **value) {
     // Do not authorize a null entry or in an empty map
     if (hashmap_size(map) == 0 || entry == NULL) return false;
 
@@ -69,6 +79,19 @@ bool hashmap_pop(HashMap *map, SimpleEntry *entry, void **value) {
     map->size--;
     return true;
 }
+
+static bool cmp_entry(const void *entry1, const void *entry2) {
+    if (entry1 == NULL || entry2 == NULL) return false;
+    SimpleEntry *a = ((SimpleEntry *) entry1);
+    SimpleEntry *b = ((SimpleEntry *) entry2);
+
+    if (a->compareTo(a->key, b->key)) {
+        return true;
+    } else {
+        return false;
+    }
+
+};
 
 bool hashmap_create(HashMap *map,
                     int containers,
@@ -145,7 +168,7 @@ bool hashmap_put(HashMap *map, void *key, void *value) {
         // Add the current key value pair to the container
         if ((result = list_add(&map->hashTable->hashtable[container], NULL, new_entry))) {
             map->hashTable->size++;
-            result = hashmap_push(map, hashmap_first(map), new_entry);
+            result = push(map, hashmap_first(map), new_entry);
         }
 
     }
@@ -248,7 +271,7 @@ bool hashmap_remove(HashMap *map, void **value) {
     // If a removed operation occurred inside the hashtable, then compute deletion inside the entries collection
     if (result) {
         void *key_value;
-        result = hashmap_pop(map, *value, &key_value);
+        result = pop(map, *value, &key_value);
         *value = key_value;
     }
     return result;
@@ -263,22 +286,7 @@ bool hashmap_removeEntry(HashMap *map, SimpleEntry *entry, void **value) {
     return result;
 }
 
-/**
- * Private function to compare two entries based on their compareTo method inside a hashset
- * @return true if entries are equals false otherwise
- */
-bool cmp_entry(const void *entry1, const void *entry2) {
-    if (entry1 == NULL || entry2 == NULL) return false;
-    SimpleEntry *a = ((SimpleEntry *) entry1);
-    SimpleEntry *b = ((SimpleEntry *) entry2);
 
-    if (a->compareTo(a->key, b->key)) {
-        return true;
-    } else {
-        return false;
-    }
-
-};
 
 HashSet *hashmap_keySet(HashMap *map) {
     if (map == NULL || map->size == 0) return NULL;

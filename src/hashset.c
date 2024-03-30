@@ -4,13 +4,15 @@
 #include "hashset.h"
 
 /**
- * @brief Private method to add an element with a preconfigured value before a list member
+ * @brief Private function to add an element with a preconfigured value before a list member
  * @param list List to add a new element in
  * @param element Element from the list to add before
  * @param new_element Preconfigured element to add in the list
  * @return true if the new element was added before the list element in the given list, false otherwise
  */
-bool hashset_addBefore(DLinkedList *list, DLinkedElement *element, DLinkedElement *new_element) {
+static bool add_before(DLinkedList *list, DLinkedElement *element, DLinkedElement *new_element);
+
+static bool add_before(DLinkedList *list, DLinkedElement *element, DLinkedElement *new_element) {
     // Reject null hashtable except if list is empty
     if (element == NULL && dlist_size(list) != 0) return false;
 
@@ -118,7 +120,7 @@ bool hashset_add(HashSet *hashset, void *value) {
         new_element->previous = NULL;
         // Add the current key value pair to the container
         if ((result = list_add(&hashset->hashTable->hashtable[container], NULL, new_element))) {
-            result = hashset_addBefore(hashset->elements, dlist_first(hashset->elements), new_element);
+            result = add_before(hashset->elements, dlist_first(hashset->elements), new_element);
             if (result) {
                 hashset->hashTable->size++;
                 hashset->size++;
