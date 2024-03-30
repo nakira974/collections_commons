@@ -178,6 +178,7 @@ static bool node_set_value(BTree  *tree, BTreeNode *node, BTreeNode **child , vo
             node_add(pos, node, *child, *pValue);
         } else {
             node_split(pos, node, *child, child, *pValue, pValue);
+            node->size++;
             return true;
         }
     }
@@ -217,17 +218,18 @@ static BTreeNode * remove_helper(BTree* tree, BTreeNode* node, void* value) {
     }
 
     int i = 0;
-    while (i < node->size && value > node->values[i]) {
+    while (i < node->size && tree->compareTo(value , node->values[i]) > 0) {
         i++;
     }
 
-    if (i < node->size && value == node->values[i]) {
+    if (i < node->size && tree->compareTo(value , node->values[i]) == 0) {
         if (node->isLeaf) {
             // Supprimer la clé du nœud s'il est une feuille
             for (int j = i; j < node->size - 1; j++) {
                 node->values[j] = node->values[j + 1];
             }
             node->size--;
+            tree->size--;
 
             return node;
         } else {
@@ -237,7 +239,8 @@ static BTreeNode * remove_helper(BTree* tree, BTreeNode* node, void* value) {
             }
             node->children[node->size] = NULL;
 
-            node->size--; // Décrémenter la taille du nœud
+            node->size--;
+            tree->size--;
 
             // Continuer la recherche récursive dans le bon enfant
             return remove_helper(tree, node->children[i], value);
@@ -289,33 +292,39 @@ void btree_destroy(BTree *tree){
 }
 
 void btree_add(BTree *tree, void* value){
-    int flag;
+    bool created;
     void * pValue;
     BTreeNode *child;
 
-    flag = node_set_value(tree, tree->root, &child, value, &pValue );
-    if (flag)
+    created = node_set_value(tree, tree->root, &child, value, &pValue );
+    if (created){
         tree->root = node_create(tree, child, pValue);
+        tree->size++;
+    }
+
 }
 
-bool btree_remove(BTree* tree, void* value) {
+bool btree_remove(BTree* tree, void** value) {
     if (tree == NULL || tree->root == NULL) {
         return false;
     }
 
     // Call the recursive removal function starting from the root node
-    tree->root = remove_helper(tree, tree->root, value);
+    if(value == NULL) value = &tree->root->values[tree->root->size];
+
+    tree->root = remove_helper(tree, tree->root, *value);
     if(tree->root == NULL) return false;
 
     // Adjust the root node if necessary
     if (tree->root->size == 0) {
         BTreeNode* oldRoot = tree->root;
+        value = oldRoot->values;
         if (oldRoot->size == 1) {
             tree->root = oldRoot->children[0];
         } else {
             tree->root = oldRoot->children[1];
         }
-        free(oldRoot);
+        tree->destroy(oldRoot);
     }
 
     return true;

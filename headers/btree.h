@@ -4,6 +4,7 @@
  * @author Maxime Loukhal
  * @date 08/03/2024
  */
+
 #ifndef COLLECTIONS_COMMONS_BTREE_H
 #define COLLECTIONS_COMMONS_BTREE_H
 
@@ -27,13 +28,15 @@ extern "C" {
  */
 typedef struct BTreeNode{
     /**
-     * @brief Stored keys
-     */
-    void* values[BTREE_MAX_NODES + 1];
-    /**
      * @brief Current children count
      */
     int size;
+
+    /**
+     * @brief Stored keys
+     */
+    void* values[BTREE_MAX_NODES + 1];
+
     /**
      * @brief Node's children
      */
@@ -46,7 +49,7 @@ typedef struct BTreeNode{
 } BTreeNode;
 
 /**
- * @brief Data structure that defines A B search tree
+ * @brief Data structure that defines a B search tree
  */
 typedef struct BTree{
     /**
@@ -113,10 +116,10 @@ int btree_diameter(BTree *tree);
 /**
  * @brief Tries to remove a value into the given BTree
  * @param tree Tree to remove a value
- * @param value Value to be removed in the given BTree
+ * @param value Value to be removed in the given BTree and returned array of values
  * @return true if the value was removed false otherwise
  */
-bool btree_remove(BTree * tree, void * value);
+bool btree_remove(BTree* tree, void** value);
 
 /**
  * @brief Determine if a given value is present or not in the given BTree
