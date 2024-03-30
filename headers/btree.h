@@ -33,16 +33,12 @@ typedef struct BTreeNode{
     /**
      * @brief Current children count
      */
-    int count;
+    int size;
     /**
      * @brief Node's children
      */
     struct BTreeNode *children[BTREE_MAX_NODES + 1];
 
-    /**
-     * @brief Indicate if the node is a leaf or not
-     */
-    bool leaf;
 } BTreeNode;
 
 /**
@@ -94,7 +90,7 @@ void btree_destroy(BTree *tree);
  * @param tree BTree where to insert the value
  * @param value Value to be inserted
  */
-void btree_add(BTree *tree, void* value,int *pos);
+void btree_add(BTree *tree, void* value);
 
 /**
  * @brief Returns the longest path length in the given branch
@@ -112,13 +108,6 @@ int btree_height(BTree *root, int *diameter);
 int btree_diameter(BTree *tree);
 
 /**
- * @brief Count the number of nodes in the given BTree
- * @param tree BTree to count nodes
- * @return Node count of the given BTree
- */
-int btree_nodeCount(BTree *tree);
-
-/**
  * @brief Tries to remove a value into the given BTree
  * @param tree Tree to remove a value
  * @param value Value to to be removed in the given BTree
@@ -132,7 +121,14 @@ bool btree_remove(BTree * tree, const void * value);
  * @param value Value to determine if it's in the given BTree
  * @return true if the value is present in the given BTree, otherwise false
  */
-bool btree_containsKey(BTree tree, void* value);
+bool btree_containsKey(BTree tree, void** value);
+
+/**
+ * @brief Count the number of nodes in the given BTree
+ * @param tree BTree to count nodes
+ * @return Node count of the given BTree
+ */
+int btree_count(BTree *tree);
 
 #ifdef __cpluscplus
 /**

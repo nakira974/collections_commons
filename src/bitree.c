@@ -456,7 +456,7 @@ int bitree_diameter(BinaryTree *tree) {
     return diameter;
 }
 
-int bitree_nodeCount(BinaryTree *tree) {
+int bitree_count(BinaryTree *tree) {
     if (tree == NULL)
         return 0;
     return node_count(tree->root);
