@@ -48,11 +48,54 @@ static void node_split(int index, BTreeNode *node,
 static bool node_set_value(BTree *tree, BTreeNode *node, BTreeNode **child , void* value, void **pValue);
 
 /**
+ * @brief Private function that searches a key in a given node
+ * @param value Value to search
+ * @param pos Position of the searched value
+ * @param node Node to inspect
+ * @param compareTo User compare handle
+ * @return true if the value was found, otherwise false
+ */
+static bool containsKey(void** value, int *pos, BTreeNode *node, int (*compareTo)(const void* key1, const void*key2));
+
+/**
  * @brief Private function that counts the number of nodes in the given branch
  * @param node BTree to count nodes
  * @return Node count of the given branch
  */
 static int node_count(BTreeNode *node);
+
+/**
+ * @brief Private function that return the index of a given value
+ * @param tree Tree where to find the value index
+ * @param node Node where to start the search
+ * @param value Value to search
+ * @return Value's index
+ */
+static int find_index(BTree  *tree, BTreeNode* node, void* value);
+
+/**
+ * @brief Private recursive function to remove a value from the B tree
+ * @param tree BTree structure
+ * @param node Current node being processed
+ * @param value Value to be removed
+ * @return Node after removal
+ */
+static BTreeNode* remove_helper(BTree* tree, BTreeNode* node, void* value);
+
+/**
+ * @brief Private function that returns the height of a given branch
+ * @param node Root of the branch to be inspected
+ * @return Branch's height
+ */
+static int height(BTreeNode *node);
+
+/**
+ * @brief Private function that returns the diameter of a given branch
+ * @param node Root of the branch to be inspected
+ * @param diameter Diameter pointer
+ * @return Diameter of the given branch
+ */
+int diameter_helper(BTreeNode *node, int *diameter);
 
 static BTreeNode * node_create(BTree *tree,BTreeNode *child, void *value){
     BTreeNode *newNode;
@@ -61,19 +104,27 @@ static BTreeNode * node_create(BTree *tree,BTreeNode *child, void *value){
     newNode->size = 1;
     newNode->children[0] = tree->root;
     newNode->children[1] = child;
+    newNode->isLeaf = false;
     return newNode;
 }
 
-static void node_add(int index, BTreeNode *node, BTreeNode *child, void* value){
+static void node_add(int index, BTreeNode *node, BTreeNode *child, void* value) {
     int j = node->size;
     while (j > index) {
         node->values[j + 1] = node->values[j];
-        node->children[j + 1] = node->values[j];
+        node->children[j + 1] = node->children[j];
         j--;
     }
     node->values[j + 1] = value;
     node->children[j + 1] = child;
     node->size++;
+
+    // Vérifier si le nœud est une feuille après l'ajout
+    if (child != NULL) {
+        node->isLeaf = false; // S'il y a un enfant, le nœud n'est plus une feuille
+    } else {
+        node->isLeaf = true; // Sinon, le nœud est une feuille
+    }
 }
 
 static void node_split(int index, BTreeNode *node,
@@ -133,6 +184,95 @@ static bool node_set_value(BTree  *tree, BTreeNode *node, BTreeNode **child , vo
     return false;
 }
 
+static bool containsKey(void** value, int *pos, BTreeNode *node, int (*compareTo)(const void* key1, const void*key2)){
+    if(node == NULL) return false;
+
+    if (compareTo(value, node->values[1]) < 0) {
+        *pos = 0;
+    } else {
+        for (*pos = node->size;
+             (compareTo(value , node->values[*pos]) < 0 && *pos > 1); (*pos)--)
+            ;
+        if (compareTo(value, node->values[*pos]) == 0) {
+            *value = node->values[*pos];
+            return true;
+        }
+    }
+    containsKey(value, pos, node->children[*pos], compareTo);
+
+    return false;
+}
+
+static int find_index(BTree  *tree, BTreeNode* node, void* value) {
+    int index = 0;
+    while (index < node->size && tree->compareTo(node->values[index], value) < 0) {
+        index++;
+    }
+    return index;
+}
+
+static BTreeNode * remove_helper(BTree* tree, BTreeNode* node, void* value) {
+    if (node == NULL) {
+        return NULL;
+    }
+
+    int i = 0;
+    while (i < node->size && value > node->values[i]) {
+        i++;
+    }
+
+    if (i < node->size && value == node->values[i]) {
+        if (node->isLeaf) {
+            // Supprimer la clé du nœud s'il est une feuille
+            for (int j = i; j < node->size - 1; j++) {
+                node->values[j] = node->values[j + 1];
+            }
+            node->size--;
+
+            return node;
+        } else {
+            // Ajuster les pointeurs des enfants s'il y en a
+            for (int k = i; k < node->size; k++) {
+                node->children[k] = node->children[k + 1];
+            }
+            node->children[node->size] = NULL;
+
+            node->size--; // Décrémenter la taille du nœud
+
+            // Continuer la recherche récursive dans le bon enfant
+            return remove_helper(tree, node->children[i], value);
+        }
+    } else {
+        // La valeur n'a pas été trouvée dans le nœud actuel ni dans ses enfants
+        return node;
+    }
+}
+
+static int height(BTreeNode *node) {
+    if (node == NULL) {
+        return 0;
+    }
+    int leftHeight = height(node->children[0]);
+    int rightHeight = height(node->children[node->size]);
+    return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
+}
+
+int btree_diameter_helper(BTreeNode *node, int *diameter) {
+    if (node == NULL) {
+        return 0;
+    }
+
+    int leftHeight = height(node->children[0]);
+    int rightHeight = height(node->children[node->size]);
+
+    int leftDiameter = btree_diameter_helper(node->children[0], diameter);
+    int rightDiameter = btree_diameter_helper(node->children[node->size], diameter);
+
+    *diameter = (*diameter > leftHeight + rightHeight + 1) ? *diameter : leftHeight + rightHeight + 1;
+
+    return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
+}
+
 void btree_create(BTree *tree, int (*compare)(const void* key1, const void* key2), void(*destroy) (void* value)){
     tree->compareTo = compare;
     tree->size = 0;
@@ -158,18 +298,45 @@ void btree_add(BTree *tree, void* value){
         tree->root = node_create(tree, child, pValue);
 }
 
-bool btree_remove(BTree * tree, const void * value){
-    //TODO create remove
+bool btree_remove(BTree* tree, void* value) {
+    if (tree == NULL || tree->root == NULL) {
+        return false;
+    }
+
+    // Call the recursive removal function starting from the root node
+    tree->root = remove_helper(tree, tree->root, value);
+    if(tree->root == NULL) return false;
+
+    // Adjust the root node if necessary
+    if (tree->root->size == 0) {
+        BTreeNode* oldRoot = tree->root;
+        if (oldRoot->size == 1) {
+            tree->root = oldRoot->children[0];
+        } else {
+            tree->root = oldRoot->children[1];
+        }
+        free(oldRoot);
+    }
+
+    return true;
 }
 
-bool btree_containsKey(BTree tree, void** value){
-    //TODO create containsKey
+bool btree_containsKey(BTree *tree, int* pos, void** value){
+    return containsKey(value, pos, tree->root, tree->compareTo);
 }
 
 int btree_diameter(BTree *tree){
-    //TODO create diameter
+    if (tree == NULL || tree->root == NULL) {
+        return 0;
+    }
+
+    int diameter = 0;
+    btree_diameter_helper(tree->root, &diameter);
+
+    return diameter;
 }
 
-int btree_height(BTree *root, int *diameter){
-    //TODO create height
+int btree_height(BTree *tree){
+    return height(tree->root);
 }
+

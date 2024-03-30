@@ -39,6 +39,10 @@ typedef struct BTreeNode{
      */
     struct BTreeNode *children[BTREE_MAX_NODES + 1];
 
+    /**
+     * @brief Node position in the tree
+     */
+    bool isLeaf;
 } BTreeNode;
 
 /**
@@ -95,10 +99,9 @@ void btree_add(BTree *tree, void* value);
 /**
  * @brief Returns the longest path length in the given branch
  * @param root Root node of the given branch to find longest path
- * @param diameter Pointer to the returned longest path length
- * @return
+ * @return Tree's height
  */
-int btree_height(BTree *root, int *diameter);
+int btree_height(BTree *root);
 
 /**
  * @brief Returns the longest path length in the given BTree
@@ -110,18 +113,19 @@ int btree_diameter(BTree *tree);
 /**
  * @brief Tries to remove a value into the given BTree
  * @param tree Tree to remove a value
- * @param value Value to to be removed in the given BTree
+ * @param value Value to be removed in the given BTree
  * @return true if the value was removed false otherwise
  */
-bool btree_remove(BTree * tree, const void * value);
+bool btree_remove(BTree * tree, void * value);
 
 /**
  * @brief Determine if a given value is present or not in the given BTree
  * @param tree BTree to determine if the value is in
+ * @param pos Found node position
  * @param value Value to determine if it's in the given BTree
  * @return true if the value is present in the given BTree, otherwise false
  */
-bool btree_containsKey(BTree tree, void** value);
+bool btree_containsKey(BTree *tree, int* pos, void** value);
 
 /**
  * @brief Count the number of nodes in the given BTree
