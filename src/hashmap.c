@@ -22,7 +22,7 @@ static bool push(HashMap *map, SimpleEntry *entry, SimpleEntry *new_entry);
 static bool pop(HashMap *map, SimpleEntry *entry, void **value);
 
 /**
- * Private function to compare two entries based on their compareTo method inside a hashset
+ * Private function to compare two entries based on their compareBlocks method inside a hashset
  * @return true if entries are equals false otherwise
  */
 static bool cmp_entry(const void *entry1, const void *entry2);

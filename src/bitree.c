@@ -27,7 +27,7 @@ static BinaryTreeNode *invert(BinaryTreeNode *branchRoot);
  * @param preorder_size The size of the preorder array.
  * @param inorder An array representing the inorder traversal of the tree.
  * @param inorder_size The size of the inorder array.
- * @param compareTo Node value compareTo function
+ * @param compareTo Node value compareBlocks function
  *
  * @return A pointer to the root node of the constructed binary tree.
  */

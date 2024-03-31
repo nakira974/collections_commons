@@ -151,12 +151,16 @@ static BTreeNode* find_successor(BTreeNode* node, int position);
  * @brief Private function that removes a value from a given node at a specified index
  * @param node Node where to remove the value
  * @param position Index of the value to remove
+ * @param value Removed value
  */
-static void remove_key(BTreeNode* node, int position);
+static void remove_key(BTreeNode* node, int position, void** value);
 
 static BTreeNode * node_create(BTree *tree,BTreeNode *child, void *value){
     BTreeNode *newNode;
     if((newNode = (BTreeNode *)malloc(sizeof(BTreeNode))) == NULL) return NULL;
+    for(int i=0; i<= BTREE_MAX_NODES; i++) newNode->values[i] = NULL;
+    for(int i=0; i<= BTREE_MAX_NODES; i++) newNode->children[i] = NULL;
+
     newNode->values[1] = value;
     newNode->size = 1;
     newNode->children[0] = tree->root;
@@ -194,6 +198,9 @@ static void node_split(int index, BTreeNode *node,
         median = BTREE_MIN_NODES;
 
     if((*newNode = (BTreeNode *)malloc(sizeof(BTreeNode))) == NULL) return;
+    for(int i=0; i<= BTREE_MAX_NODES; i++) (*newNode)->values[i] = NULL;
+    for(int i=0; i<= BTREE_MAX_NODES; i++) (*newNode)->children[i] = NULL;
+
     j = median + 1;
     while (j <= BTREE_MAX_NODES) {
         (*newNode)->values[j - median] = node->values[j];
@@ -207,7 +214,8 @@ static void node_split(int index, BTreeNode *node,
     else node_add(index - median, *newNode, child, value);
 
     *pValue = node->values[node->size];
-    (*newNode)->children[0] = node->children[node->size];
+    (*newNode)->children[1] = node->children[node->size] == NULL ? node : node->children[node->size];
+    node->values[node->size] = NULL;
     node->size--;
 }
 
@@ -223,7 +231,7 @@ static bool node_set_value(BTree  *tree, BTreeNode *node, BTreeNode **child , vo
         pos = 0;
     } else {
         for (pos = node->size;
-             (value < node->values[pos] && pos > 1); pos--);
+             (tree->compareTo(value, node->values[pos]) < 0 && pos > 1); pos--);
 
         if (tree->compareTo(value, node->values[pos]) == 0) {
             // Duplicates are not permitted
@@ -235,7 +243,6 @@ static bool node_set_value(BTree  *tree, BTreeNode *node, BTreeNode **child , vo
             node_add(pos, node, *child, *pValue);
         } else {
             node_split(pos, node, *child, child, *pValue, pValue);
-            node->size++;
             return true;
         }
     }
@@ -303,8 +310,10 @@ static void merge_nodes(BTreeNode *node, BTreeNode *sibling, BTreeNode *parent) 
     }
 }
 
-static void remove_key(BTreeNode* node, int position) {
+static void remove_key(BTreeNode* node, int position, void** value) {
     // Décaler les clés et les enfants à partir de la position donnée
+    *value = node->values[position];
+
     for (int i = position; i < node->size - 1; i++) {
         node->values[i] = node->values[i + 1];
     }
@@ -372,13 +381,13 @@ static BTreeNode* remove_helper(BTree* tree, BTreeNode* node, void* value) {
         // Si le nœud est une feuille
         if (node->isLeaf) {
             // Supprimer la clé du nœud
-            remove_key(node, position);
+            remove_key(node, position, &value);
         } else {
             // Remplacer la clé par la clé suivante dans le successeur
             BTreeNode* successor = find_successor(node, position);
             node->values[position] = successor->values[0];
             // Supprimer la clé du successeur
-            remove_key(successor, 0);
+            remove_key(successor, 0, &value);
             // Appeler récursivement remove_helper sur le successeur
             node = remove_helper(tree, successor, value);
         }
@@ -522,8 +531,16 @@ void btree_add(BTree *tree, void* value){
     BTreeNode *child;
 
     created = node_set_value(tree, tree->root, &child, value, &pValue );
+    if(child != NULL){
+        for(int i =0; i< BTREE_MAX_NODES; i++){
+            if(child->children[i] != NULL){
+                child->isLeaf = false;
+                break;
+            }
+        }
+    }
     if (created){
-        tree->root = node_create(tree, child, pValue);
+        tree->root = tree->root == NULL ? node_create(tree, child, pValue) : child;
         tree->size++;
     }
 
@@ -538,20 +555,14 @@ bool btree_remove(BTree* tree, void** value) {
     if(value == NULL) value = &tree->root->values[tree->root->size];
 
     tree->root = remove_helper(tree, tree->root, *value);
-    if(tree->root == NULL) return false;
 
-    // Adjust the root node if necessary
-    if (tree->root->size == 0) {
-        BTreeNode* oldRoot = tree->root;
-        value = oldRoot->values;
-        if (oldRoot->size == 1) {
-            tree->root = oldRoot->children[0];
-        } else {
-            tree->root = oldRoot->children[1];
-        }
-        tree->destroy(oldRoot);
+    if(tree->root == NULL){
+        tree->size = 0;
+        return true;
     }
 
+
+    tree->size--;
     return true;
 }
 

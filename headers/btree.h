@@ -57,7 +57,7 @@ typedef struct BTree{
     */
     int size;
     /**
-     * @brief User compareTo handle for stored values > (-1) , = (0) or < (1)
+     * @brief User compareBlocks handle for stored values > (-1) , = (0) or < (1)
      * @param value1 Value 1 to be compared
      * @param value2 Value 2 to be compared
      * @return true if values are equal, false otherwise

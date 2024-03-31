@@ -311,15 +311,13 @@ static bool hide(AvlTree *tree, BinaryTreeNode *node, const void* value){
 
     cmp_value = tree->compareTo(value, ((AvlNode*) bitree_value(node))->value);
 
-    if(cmp_value < 0){
+    if(cmp_value < 0)
         // Start from the left
-
         result = hide(tree, bitree_left(node), value);
-    }else if(cmp_value > 0){
+    else if(cmp_value > 0)
         // Start from the right
-
         result = hide(tree, bitree_right(node), value);
-    }else{
+    else{
         ((AvlNode*) bitree_value(node))->hidden = true;
         result = false;
     }
@@ -335,19 +333,17 @@ static bool containsKey(AvlTree *tree, BinaryTreeNode *node, void **value){
 
     cmp_value = tree->compareTo(*value, ((AvlNode*) bitree_value(node))->value);
 
-    if(cmp_value < 0){
+    if(cmp_value < 0)
         // Start from the left
         result = containsKey(tree, bitree_left(node), value);
-    }else if(cmp_value > 0){
+    else if(cmp_value > 0)
         // Start from the right
         result = containsKey(tree, bitree_right(node), value);
-    }else{
+    else{
         if(!((AvlNode*) bitree_value(node))->hidden){
             *value = ((AvlNode*) bitree_value(node))->value;
             result = true;
-        }else{
-            return false;
-        }
+        }else return false;
     }
 
     return result;

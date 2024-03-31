@@ -49,7 +49,7 @@ typedef struct BinaryTree {
      */
     int size;
     /**
-     * @brief User compareTo handle for stored values > (-1) , = (0) or < (1)
+     * @brief User compareBlocks handle for stored values > (-1) , = (0) or < (1)
      * @param value1 Value 1 to be compared
      * @param value2 Value 2 to be compared
      * @return true if values are equal, false otherwise
@@ -180,7 +180,7 @@ void **bitree_levelOrder(BinaryTree *tree, int *returnSize, int **returnColumnSi
  * @param inorder An array representing the inorder traversal of the tree.
  * @param inorder_size The size of the inorder array.
  * @param destroy The destroy function of the created BinaryTree
- * @param compareTo Node value compareTo function
+ * @param compareTo Node value compareBlocks function
  *
  * @return A pointer to the constructed BinaryTree.
  */
@@ -196,7 +196,7 @@ BinaryTree *bitree_build_from_preorder_inorder(void **preorder, int preorder_siz
 * @param postorder An array representing the postorder traversal of the tree.
 * @param postorderSize The size of the postorder array.
 * @param destroy The destroy function of the created BinaryTree
-* @param compareTo Node value compareTo function
+* @param compareTo Node value compareBlocks function
 * @return A pointer to the root node of the constructed BinaryTree.
 */
 BinaryTree *bitree_build_from_inorder_postorder(void **inorder,
@@ -295,13 +295,13 @@ static inline BinaryTreeNode  *bitree_left(BinaryTreeNode *node){
 /**
  * @brief Inline function that evaluates if the given tree is symmetric or not
  */
-static inline bool bitree_isSymmetric(BinaryTree * tree) { return bitree_isMirror((tree)->root, (tree)->root); }
+static inline bool bitree_isSymmetric(BinaryTree * tree) { return bitree_isMirror((tree)->compareTo, (tree)->root, (tree)->root); }
 #else
 
 /**
  * @brief Macro that evaluates if the given tree is symmetric or not
  */
-#define bitree_isSymmetric(tree) (bitree_isMirror((tree)->root, (tree)->root))
+#define bitree_isSymmetric(tree) (bitree_isMirror((tree)->compareTo, (tree)->root, (tree)->root))
 
 /**
  * @brief Macro that evaluates the size of the given BinaryTree

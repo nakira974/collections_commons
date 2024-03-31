@@ -15,7 +15,7 @@
 #include "HashSet_Test.h"
 #include "OAHashTable_Test.h"
 #include "Deque_Test.h"
-
+#include "BTree_Test.h"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

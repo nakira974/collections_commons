@@ -28,7 +28,7 @@ typedef Heap PriorityQueue;
  * @param destroy User destroy function
  */
 static inline void pqueue_create(PriorityQueue * pqueue, int (*compareTo) (const void*key1, const void*key2), void (*destroy) (void *key)){
-    heap_create(pqueue, compareTo, destroy);
+    heap_create(pqueue, compareBlocks, destroy);
 }
 
 /**
