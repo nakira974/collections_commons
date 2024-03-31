@@ -26,7 +26,7 @@ typedef struct BPlusTreeNode {
     /**
      * @brief Keys of the node
      */
-    void *keys[BPLUSTREE_MAX_KEYS]; // Tableau des clés du nœud
+    void *keys[BPLUSTREE_MAX_KEYS];
     /**
      * @brief Values of the node
      */
@@ -34,11 +34,11 @@ typedef struct BPlusTreeNode {
     /**
      * @brief Child node of the current node
      */
-    struct BPlusTreeNode *next[BPLUSTREE_MAX_KEYS + 1]; // Tableau des pointeurs vers les enfants du nœud
+    struct BPlusTreeNode *next;
     /**
      * @brief Parent node of the current node
      */
-    struct BPlusTreeNode *last; // Pointeur vers le parent du nœud
+    struct BPlusTreeNode *last;
 } BPlusTreeNode;
 
 /**
