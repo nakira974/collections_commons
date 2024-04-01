@@ -394,7 +394,7 @@ static void remove_helper(BTree* tree, BTreeNode* node, void* value) {
                         }
                     }
                 }
-                free(node);
+                tree->destroy(node);
                 node = NULL;
                 tree->size--;
             }
@@ -415,7 +415,7 @@ static void remove_helper(BTree* tree, BTreeNode* node, void* value) {
                     // Remove the successor
                     for(int i = 0; i< BTREE_MAX_NODES; i++){
                         if(node->children[i] == successor){
-                            free(successor);
+                            tree->destroy(successor);
                             successor = NULL;
                             node->children[i] = NULL;
                             tree->size--;
@@ -479,10 +479,10 @@ static void redistribute_keys_right(BTreeNode* node, BTreeNode* right_sibling, i
     node->size++;
 
     // Déplacer la clé du voisin de droite vers le parent
-    tree->root->values[parent_index] = right_sibling->values[0];
+    tree->root->values[parent_index] = right_sibling->values[right_sibling->size];
 
     // Déplacer le premier enfant du voisin de droite vers le nœud actuel
-    node->children[node->size] = right_sibling->children[0];
+    node->children[node->size] = right_sibling->children[right_sibling->size];
 
     // Réorganiser les clés et les enfants du voisin de droite
     for (int i = 0; i < right_sibling->size - 1; i++) {
@@ -501,7 +501,7 @@ static void redistribute_keys_left(BTreeNode* node, BTreeNode* left_sibling, int
     node->size++;
 
     // Déplacer la clé du voisin de gauche vers le parent
-    tree->root->values[parent_index] = left_sibling->values[left_sibling->size - 1];
+    tree->root->values[parent_index] = left_sibling->values[left_sibling->size];
 
     // Déplacer le dernier enfant du voisin de gauche vers le nœud actuel
     node->children[node->size] = left_sibling->children[left_sibling->size];

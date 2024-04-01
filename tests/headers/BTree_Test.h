@@ -8,24 +8,6 @@
 #include "gtest/gtest.h"
 #include "btree.h"
 
-int compareBlocks(const void *key1, const void *key2) {
-    Block *b1 = (Block*)key1;
-    Block *b2 = (Block*)key2;
-    if(b1 == NULL && b2 == NULL) return 0;
-    else if(b1 == NULL && b2 != NULL) return -1;
-    else if(b1 != NULL && b2 == NULL) return 1;
-
-    if (b1->chunk->data == b2->chunk->data) {
-        if (b1->type == b2->type) {
-            return 0; // Les blocks sont égaux s'ils ont le même type dans le même chunk
-        } else {
-            return (b1->type < b2->type) ? -1 : 1; // Comparaison des types si dans le même chunk
-        }
-    } else {
-        return -1; // Les blocks sont dans des chunks différents
-    }
-}
-
 class BTreeTest : public testing::Test {
 protected:
     BTree *tree{};
