@@ -80,7 +80,7 @@ static int find_index(BTree  *tree, BTreeNode* node, void* value);
  * @param value Value to be removed
  * @return Node after removal
  */
-static BTreeNode* remove_helper(BTree* tree, BTreeNode* node, void* value);
+static void remove_helper(BTree* tree, BTreeNode* node, void* value);
 
 /**
  * @brief Private function that returns the height of a given branch
@@ -163,7 +163,6 @@ static BTreeNode * node_create(BTree *tree,BTreeNode *child, void *value){
 
     newNode->values[1] = value;
     newNode->size = 1;
-    newNode->children[0] = tree->root;
     newNode->children[1] = child;
     newNode->isLeaf = false;
     return newNode;
@@ -243,6 +242,7 @@ static bool node_set_value(BTree  *tree, BTreeNode *node, BTreeNode **child , vo
             node_add(pos, node, *child, *pValue);
         } else {
             node_split(pos, node, *child, child, *pValue, pValue);
+            tree->size++;
             return true;
         }
     }
@@ -252,26 +252,25 @@ static bool node_set_value(BTree  *tree, BTreeNode *node, BTreeNode **child , vo
 static bool containsKey(void** value, int *pos, BTreeNode *node, int (*compareTo)(const void* key1, const void*key2)){
     if(node == NULL) return false;
 
-    if (compareTo(value, node->values[1]) < 0) {
-        *pos = 0;
+    if (compareTo(*value, node->values[1]) < 0) {
+        *pos = 1;
     } else {
         for (*pos = node->size;
-             (compareTo(value , node->values[*pos]) < 0 && *pos > 1); (*pos)--)
+             (compareTo(*value , node->values[*pos]) < 0 && *pos > 1); (*pos)--)
             ;
-        if (compareTo(value, node->values[*pos]) == 0) {
+        if (compareTo(*value, node->values[*pos]) == 0) {
             *value = node->values[*pos];
             return true;
         }
     }
-    containsKey(value, pos, node->children[*pos], compareTo);
 
-    return false;
+    return containsKey(value, pos, node->children[*pos], compareTo);
 }
 
 static int find_index(BTree  *tree, BTreeNode* node, void* value) {
-    int index = 0;
-    while (index < node->size && tree->compareTo(node->values[index], value) < 0) {
-        index++;
+    int index = node->size;
+    while (index > 0 && tree->compareTo(node->values[index], value) < 0) {
+        index--;
     }
     return index;
 }
@@ -314,13 +313,13 @@ static void remove_key(BTreeNode* node, int position, void** value) {
     // Décaler les clés et les enfants à partir de la position donnée
     *value = node->values[position];
 
-    for (int i = position; i < node->size - 1; i++) {
+    for (int i = position; i <= node->size; i++) {
         node->values[i] = node->values[i + 1];
     }
 
     // Décaler les enfants si le nœud n'est pas une feuille
     if (!node->isLeaf) {
-        for (int i = position + 1; i < node->size; i++) {
+        for (int i = position + 1; i <= node->size; i++) {
             node->children[i] = node->children[i + 1];
         }
     }
@@ -330,8 +329,9 @@ static void remove_key(BTreeNode* node, int position, void** value) {
 }
 
 static BTreeNode* find_successor(BTreeNode* node, int position) {
-    BTreeNode* current = node->children[position + 1];
+    BTreeNode* current = node->children[position];
 
+    if(current == NULL) return NULL;
     // Trouver le nœud le plus à gauche à partir du nœud actuel
     while (!current->isLeaf) {
         current = current->children[0];
@@ -341,6 +341,7 @@ static BTreeNode* find_successor(BTreeNode* node, int position) {
 }
 
 static BTreeNode* find_parent(BTreeNode* root, BTreeNode* child) {
+    if(root == NULL) return NULL;
     // Si le nœud donné est la racine, il n'a pas de parent
     if (root == child) {
         return NULL;
@@ -352,7 +353,7 @@ static BTreeNode* find_parent(BTreeNode* root, BTreeNode* child) {
     int i = 0;
 
     while (current != NULL && !current->isLeaf) {
-        for (i = 0; i < current->size; i++) {
+        for (i = 0; i < BTREE_MAX_NODES; i++) {
             if (current->children[i] == child) {
                 parent = current;
                 break;
@@ -367,48 +368,84 @@ static BTreeNode* find_parent(BTreeNode* root, BTreeNode* child) {
     return parent;
 }
 
-static BTreeNode* remove_helper(BTree* tree, BTreeNode* node, void* value) {
+static void remove_helper(BTree* tree, BTreeNode* node, void* value) {
     // Vérifier si le nœud est NULL
     if (node == NULL) {
-        return NULL;
+        return;
     }
 
     // Trouver la position de la clé dans le nœud
-    int position = find_index(tree, node, value);
+    int position = 0;
+    btree_containsKey(tree, &position, &value);
 
     // Si la clé est présente dans le nœud actuel
-    if (position < node->size && tree->compareTo(node->values[position], value) == 0) {
+    if (tree->compareTo(node->values[position], value) == 0) {
         // Si le nœud est une feuille
         if (node->isLeaf) {
             // Supprimer la clé du nœud
             remove_key(node, position, &value);
+            if(node->size ==0){
+                BTreeNode *parent = find_parent(tree->root, node);
+                if(parent != NULL){
+                    for(int i =1; i<BTREE_MAX_NODES; i++){
+                        if(parent->children[i] == node){
+                            parent->children[i] = NULL;
+                            break;
+                        }
+                    }
+                }
+                free(node);
+                node = NULL;
+                tree->size--;
+            }
         } else {
             // Remplacer la clé par la clé suivante dans le successeur
             BTreeNode* successor = find_successor(node, position);
-            node->values[position] = successor->values[0];
-            // Supprimer la clé du successeur
-            remove_key(successor, 0, &value);
-            // Appeler récursivement remove_helper sur le successeur
-            node = remove_helper(tree, successor, value);
+            if(successor == NULL){
+                remove_key(node, position, &value);
+                int count = 0;
+                for(int i = 1; i<= BTREE_MAX_NODES;i++) if(node->children[i] == NULL) count++;
+                if(count == BTREE_MAX_NODES) node->isLeaf = true;
+            }else{
+                node->values[position] = successor->values[1];
+                // Supprimer la clé du successeur
+                remove_key(successor, 1, &value);
+                // Appeler récursivement remove_helper sur le successeur
+                if(successor->size == 0){
+                    // Remove the successor
+                    for(int i = 0; i< BTREE_MAX_NODES; i++){
+                        if(node->children[i] == successor){
+                            free(successor);
+                            successor = NULL;
+                            node->children[i] = NULL;
+                            tree->size--;
+                            break;
+                        }
+                    }
+                    int count = 0;
+                    for(int i = 1; i<= BTREE_MAX_NODES;i++) if(node->children[i] == NULL) count++;
+                    if(count == BTREE_MAX_NODES) node->isLeaf = true;
+                }
+                remove_helper(tree, successor, value);
+            }
         }
     } else {
         // Appeler récursivement remove_helper sur le nœud approprié
-        node = remove_helper(tree, node->children[position], value);
+        remove_helper(tree, node->children[position], value);
     }
 
     // Appeler node_balance pour équilibrer les nœuds
-    if (node != NULL && node != tree->root) {
+    if (node != tree->root) {
         node_balance(node, find_parent(tree->root, node), tree);
     }
 
     // Gérer le cas du nœud racine
-    if (node != NULL && node == tree->root && node->size == 0) {
+    if (node == tree->root && node->size == 0) {
         // Si le nœud racine est vide, le remplacer par son unique enfant
         tree->root = node->children[0];
         tree->destroy(node);
     }
 
-    return node;
 }
 
 static int height(BTreeNode *node) {
@@ -475,13 +512,14 @@ static void redistribute_keys_left(BTreeNode* node, BTreeNode* left_sibling, int
 }
 
 static void node_balance(BTreeNode* node, BTreeNode* parent, BTree* tree) {
+    if(node == NULL) return;
     if (node->size < BTREE_MIN_NODES) {
         // Trouver les frères gauche et droit du nœud
         BTreeNode* left_sibling = NULL;
         BTreeNode* right_sibling = NULL;
         int position = -1;
 
-        for (int i = 0; i <= parent->size; i++) {
+        for (int i = 1; i <= parent->size; i++) {
             if (parent->children[i] == node) {
                 position = i;
                 if (i > 0) {
@@ -503,9 +541,11 @@ static void node_balance(BTreeNode* node, BTreeNode* parent, BTree* tree) {
         } else if (left_sibling) {
             // Fusionner avec le frère gauche
             merge_nodes(node, left_sibling, parent);
+            tree->size--;
         } else if (right_sibling) {
             // Fusionner avec le frère droit
             merge_nodes(node, right_sibling, parent);
+            tree->size--;
         }
     }
 }
@@ -540,7 +580,7 @@ void btree_add(BTree *tree, void* value){
         }
     }
     if (created){
-        tree->root = tree->root == NULL ? node_create(tree, child, pValue) : child;
+        tree->root =  node_create(tree, child, pValue);
         tree->size++;
     }
 
@@ -554,15 +594,13 @@ bool btree_remove(BTree* tree, void** value) {
     // Call the recursive removal function starting from the root node
     if(value == NULL) value = &tree->root->values[tree->root->size];
 
-    tree->root = remove_helper(tree, tree->root, *value);
+    remove_helper(tree, tree->root, *value);
 
     if(tree->root == NULL){
         tree->size = 0;
         return true;
     }
 
-
-    tree->size--;
     return true;
 }
 

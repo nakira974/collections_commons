@@ -13,6 +13,7 @@ struct Chunk {
 };
 
 typedef struct Block {
+    char id[2];
     struct Chunk *chunk;
     int type;
 } Block;

@@ -11,6 +11,9 @@
 int compareBlocks(const void *key1, const void *key2) {
     Block *b1 = (Block*)key1;
     Block *b2 = (Block*)key2;
+    if(b1 == NULL && b2 == NULL) return 0;
+    else if(b1 == NULL && b2 != NULL) return -1;
+    else if(b1 != NULL && b2 == NULL) return 1;
 
     if (b1->chunk->data == b2->chunk->data) {
         if (b1->type == b2->type) {
@@ -57,6 +60,11 @@ TEST_F(BTreeTest, BasicTest) {
     b3->chunk = chunk1;
     b4->type = 2;
     b4->chunk = chunk1;
+    sprintf(b1->id, "%s", "b1");
+    sprintf(b2->id, "%s", "b2");
+    sprintf(b3->id, "%s", "b3");
+    sprintf(b4->id, "%s", "b4");
+
     btree_add(tree, b1);
     btree_add(tree, b2);
     btree_add(tree, b3);
@@ -64,8 +72,8 @@ TEST_F(BTreeTest, BasicTest) {
 
     int pos = 0;
     void* value = b4;
-    ASSERT_FALSE(btree_containsKey(tree, &pos, &value));
-    ASSERT_FALSE(btree_remove(tree, &value));
+    ASSERT_TRUE(btree_containsKey(tree, &pos, &value));
+    ASSERT_TRUE(btree_remove(tree, &value));
     free(b4);
     value = b3;
     ASSERT_TRUE(btree_remove(tree, &value));
