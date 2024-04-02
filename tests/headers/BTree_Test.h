@@ -33,6 +33,7 @@ TEST_F(BTreeTest, BasicTest) {
         }
     }
 
+    int count =0;
     for(int i =1; i<=chunks;i++){
         for(int j = 1; j<=types;j++){
             int pos = 0;
@@ -41,6 +42,7 @@ TEST_F(BTreeTest, BasicTest) {
             ASSERT_TRUE(btree_remove(tree, &value));
             Block *block = (Block*)value;
             block = nullptr;
+            count++;
         }
     }
 
