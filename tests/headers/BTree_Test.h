@@ -24,55 +24,27 @@ protected:
 };
 
 TEST_F(BTreeTest, BasicTest) {
-    Chunk *chunk1, *chunk2;
-    Block *b1, *b2, *b3, *b4;
-    chunk1 = (Chunk *) malloc(sizeof(Chunk));
-    chunk2 = (Chunk *) malloc(sizeof(Chunk));
-    chunk1->data = 1;
-    chunk2->data = 2;
-    b1 = (Block *) malloc(sizeof(Block));
-    b2 = (Block *) malloc(sizeof(Block));
-    b3 = (Block *) malloc(sizeof(Block));
-    b4 = (Block *) malloc(sizeof(Block));
-    b1->type = 1;
-    b1->chunk = chunk1;
-    b2->type = 1;
-    b2->chunk = chunk2;
-    b3->type = 2;
-    b3->chunk = chunk1;
-    b4->type = 2;
-    b4->chunk = chunk1;
-    sprintf(b1->id, "%s", "b1");
-    sprintf(b2->id, "%s", "b2");
-    sprintf(b3->id, "%s", "b3");
-    sprintf(b4->id, "%s", "b4");
+    int chunks = 2;
+    int types = 9;
+    Block **blocks = generateBlocks(chunks, types);
+    for(int i =1; i<=chunks;i++){
+        for(int j = 1; j<=types;j++){
+            btree_add(tree, &blocks[i][j]);
+        }
+    }
 
-    btree_add(tree, b1);
-    btree_add(tree, b2);
-    btree_add(tree, b3);
-    btree_add(tree, b4);
+    for(int i =1; i<=chunks;i++){
+        for(int j = 1; j<=types;j++){
+            int pos = 0;
+            void* value = &blocks[i][j];
+            ASSERT_TRUE(btree_containsKey(tree, &pos, &value));
+            ASSERT_TRUE(btree_remove(tree, &value));
+            Block *block = (Block*)value;
+            block = nullptr;
+        }
+    }
 
-    int pos = 0;
-    void* value = b4;
-    ASSERT_TRUE(btree_containsKey(tree, &pos, &value));
-    ASSERT_TRUE(btree_remove(tree, &value));
-    free(b4);
-    value = b3;
-    ASSERT_TRUE(btree_remove(tree, &value));
-    free(b3);
-    value = b2;
-    ASSERT_TRUE(btree_remove(tree, &value));
-    free(b2);
-    value = b1;
-    ASSERT_TRUE(btree_containsKey(tree, &pos, &value));
-    ASSERT_TRUE(btree_remove(tree, &value));
-    free(b1);
+    free(blocks);
 
-
-    value = b4;
-    ASSERT_FALSE(btree_containsKey(tree, &pos, &value));
-
-    free(chunk1);
-    free(chunk2);
 }
 #endif //COLLECTIONS_COMMONS_BTREE_TEST_H
