@@ -55,8 +55,7 @@ static bool node_set_value(BTree *tree, BTreeNode *node, BTreeNode **child , voi
  * @param compareTo User compare handle
  * @return true if the value was found, otherwise false
  */
-static bool containsKey(void** value, int *pos, BTreeNode **node, int (*compareTo)(const void* key1, const void*key2));
-
+static bool containsKey(void** value, int *pos, BTreeNode **node, BTreeNode **pNode, int (*compareTo)(const void* key1, const void* key2));
 /**
  * @brief Private function that counts the number of nodes in the given branch
  * @param node BTree to count nodes
@@ -68,10 +67,10 @@ static int node_count(BTreeNode *node);
  * @brief Private function that return the index of a given value
  * @param tree Tree where to find the value index
  * @param node Node where to start the search
- * @param value Value to search
+ * @param child Value to search
  * @return Value's index
  */
-static int find_index(BTree  *tree, BTreeNode* node, void* value);
+static int find_index(BTree  *tree, BTreeNode* node, BTreeNode * child);
 
 /**
  * @brief Private recursive function to remove a value from the B tree
@@ -133,11 +132,12 @@ static void merge_nodes(BTreeNode *node, BTreeNode *sibling, BTreeNode *parent);
 
 /**
  * @brief Private function that finds the parent of a given node
+ * @param tree BTree where to find the parent of the given node
  * @param root Root node to find the parent
  * @param child Child node of the root node
  * @return Parent node of the root node
  */
-static BTreeNode* find_parent(BTreeNode* root, BTreeNode* child);
+static BTreeNode* find_parent(BTree *tree, BTreeNode* root, BTreeNode* child);
 
 /**
  * @brief Private function that finds the child of a given node
@@ -145,7 +145,7 @@ static BTreeNode* find_parent(BTreeNode* root, BTreeNode* child);
  * @param position Position of the given node
  * @return Node's child
  */
-static BTreeNode* find_successor(BTreeNode* node, int position);
+static BTreeNode* find_successor(BTreeNode* node, int* position);
 
 /**
  * @brief Private function that removes a value from a given node at a specified index
@@ -154,6 +154,13 @@ static BTreeNode* find_successor(BTreeNode* node, int position);
  * @param value Removed value
  */
 static void remove_key(BTreeNode* node, int position, void** value);
+
+/**
+ * @brief Private function that reorder void** arrays
+ * @param values Array to be ordered
+ * @param start Start index
+ */
+static void reorderValues(void **values, int start);
 
 static BTreeNode * node_create(BTree *tree,BTreeNode *child, void *value){
     BTreeNode *newNode;
@@ -252,7 +259,7 @@ static bool node_set_value(BTree  *tree, BTreeNode *node, BTreeNode **child , vo
     return false;
 }
 
-static bool containsKey(void** value, int *pos, BTreeNode **node, int (*compareTo)(const void* key1, const void* key2)) {
+static bool containsKey(void** value, int *pos, BTreeNode **node, BTreeNode **pNode, int (*compareTo)(const void* key1, const void* key2)) {
     if (*node == NULL) {
         return false;
     }
@@ -266,26 +273,27 @@ static bool containsKey(void** value, int *pos, BTreeNode **node, int (*compareT
 
     if (position <= (*node)->size && compareTo(*value, (*node)->values[position]) == 0) {
         *pos = position;
+        if(pNode == NULL || *pNode == NULL){
+            if((pNode=(BTreeNode**) malloc(1* sizeof (BTreeNode*))) == NULL) return false;
+        }
+        *pNode = *node;
         return true;
     }
 
     for (int i = 0; i <=  BTREE_MAX_NODES; i++) {
         if ((*node)->children[i] != NULL) {
-            BTreeNode **pNode = &(*node)->children[i];
-            found = containsKey(value, pos,pNode , compareTo);
-            if (found) {
-                *node = *pNode;
-                break;
-            }
+            BTreeNode ** newNode = &(*node)->children[i];
+            found = containsKey(value, pos,newNode, pNode , compareTo);
+            if (found) break;
         }
     }
 
     return found;
 }
 
-static int find_index(BTree  *tree, BTreeNode* node, void* value) {
-    int index = node->size;
-    while (index > 0 && tree->compareTo(node->values[index], value) < 0) {
+static int find_index(BTree  *tree, BTreeNode* node, BTreeNode * child) {
+    int index = BTREE_MAX_NODES;
+    while (index > 0 && child != node->children[index]) {
         index--;
     }
     return index;
@@ -295,49 +303,71 @@ static void merge_nodes(BTreeNode *node, BTreeNode *sibling, BTreeNode *parent) 
     // Fusionner les clés et les enfants du nœud avec le frère
     int index = 1;
 
-    node->children[0] = parent;
     // Ajouter la clé du parent au nœud actuel
-    node->values[node->size] = parent->values[index];
-    node->size++;
+
+    bool added = false;
+    for (int i = 1; i <= BTREE_MAX_NODES; i++) {
+        if(node->values[i] != NULL){
+            node->values[node->size+1] = parent->values[index];
+            node->size++;
+            added=true;
+        }
+    }
+
+    if(!added) return;
 
     // Déplacer les clés du frère vers le nœud actuel
-    for (int i = 1; i <= sibling->size; i++) {
-        node->values[node->size] = sibling->values[i];
-        node->size++;
+    for (int i = 1; i <= BTREE_MAX_NODES; i++) {
+        for(int j = 1; j<= BTREE_MAX_NODES; j++){
+            if(node->values[i] == NULL && sibling->values[j] != NULL){
+                node->values[i] = sibling->values[j];
+                sibling->values[i] = NULL;
+                sibling->size--;
+                node->size++;
+                break;
+            }
+        }
     }
 
     // Déplacer les enfants du frère vers le nœud actuel
-    for (int i = 1; i < BTREE_MAX_NODES; i++) {
-        node->children[i] = sibling->children[i];
+    for (int i = 0; i <= BTREE_MAX_NODES; i++) {
+        for(int j =0; j<= BTREE_MAX_NODES; j++){
+            if(node->children[i] == NULL && node->children[j] != NULL){
+                node->children[i] = sibling->children[j];
+                sibling->children[i] = NULL;
+                break;
+            };
+        }
     }
 
-    // Mettre à jour le parent en retirant la clé fusionnée
-    for (int i = index; i <= parent->size - 1; i++) {
-        parent->values[i] = parent->values[i + 1];
-    }
+    reorderValues(parent->values,1);
     parent->size--;
 
     // Supprimer le frère fusionné
+    for(int i=0; i<=BTREE_MAX_NODES; i++){
+        if(parent->children[i] == sibling){
+            parent->children[i]=NULL;
+            break;
+        }
+    }
     free(sibling);
 
-    // Mettre à jour les liens dans le parent
-    for (int i = index; i <= BTREE_MAX_NODES; i++) {
-        parent->children[i] = parent->children[i + 1];
-    }
+    void *temp =&parent->children;
+    reorderValues(&temp,0);
 }
 
 static void remove_key(BTreeNode* node, int position, void** value) {
     // Décaler les clés et les enfants à partir de la position donnée
     *value = node->values[position];
+    node->values[position] = NULL;
+    reorderValues(node->values,1);
 
-    for (int i = position; i <= node->size; i++) {
-        node->values[i] = node->values[i + 1];
-    }
 
     // Décaler les enfants si le nœud n'est pas une feuille
     if (!node->isLeaf) {
-        for (int i = position + 1; i <= node->size; i++) {
+        for (int i = position; i < BTREE_MAX_NODES; i++) {
             node->children[i] = node->children[i + 1];
+            node->children[i + 1] = NULL;
         }
     }
 
@@ -345,44 +375,62 @@ static void remove_key(BTreeNode* node, int position, void** value) {
     node->size--;
 }
 
-static BTreeNode* find_successor(BTreeNode* node, int position) {
-    BTreeNode* current = node->children[position];
+static BTreeNode* find_successor(BTreeNode* node, int* position) {
+    BTreeNode* current = node->children[*position];
 
     if(current == NULL) return NULL;
     // Trouver le nœud le plus à gauche à partir du nœud actuel
     while (!current->isLeaf) {
-        current = current->children[0];
+        current = current->children[*position++];
     }
 
     return current;
 }
 
-static BTreeNode* find_parent(BTreeNode* root, BTreeNode* child) {
-    if(root == NULL) return NULL;
-    // Si le nœud donné est la racine, il n'a pas de parent
-    if (root == child) {
+static BTreeNode* find_parent_recursive(BTree* tree, BTreeNode* root, BTreeNode* child, BTreeNode* parent) {
+    // Check if the root or child node is NULL
+    if (root == NULL || child == NULL) {
         return NULL;
     }
 
-    // Parcourir l'arbre pour trouver le parent du nœud donné
-    BTreeNode* parent = NULL;
-    BTreeNode* current = root;
-    int i = 0;
-
-    while (current != NULL && !current->isLeaf) {
-        for (i = 1; i <= BTREE_MAX_NODES; i++) {
-            if (current->children[i] == child) {
-                parent = current;
-                break;
-            }
-            if (current->values[i] > child->values[0]) {
-                break;
-            }
-        }
-        current = current->children[i];
+    // If the given child node is the root, it has no parent
+    if (root == child) {
+        return root;
     }
 
-    return parent;
+    BTreeNode * result = NULL;
+
+    // Check each child of the current node
+    for (int i = 0; i <= BTREE_MAX_NODES; i++) {
+        // If the child is found in the current node's children, return the current node
+        if (root->children[i] == child) {
+            return root;
+        }else if(root->children[i] != NULL)
+            result =  find_parent_recursive(tree, root->children[i], child, root);
+            if(result != NULL) break;
+    }
+
+    // If the child is not found in the current node's children, return NULL
+    return result;
+}
+
+static BTreeNode* find_parent(BTree* tree, BTreeNode* root, BTreeNode* child) {
+    return find_parent_recursive(tree, root, child, NULL);
+}
+
+static void reorderValues(void **values, int start) {
+    int nonNullIndex = start;
+    int nullIndex = BTREE_MAX_NODES;
+
+    for (int i = start; i <= BTREE_MAX_NODES; i++) {
+        if (values[i] != NULL) {
+            values[nonNullIndex++] = values[i];
+        }
+    }
+
+    while (nonNullIndex <= nullIndex) {
+        values[nonNullIndex++] = NULL;
+    }
 }
 
 static void remove_helper(BTree* tree, BTreeNode* node, void* value) {
@@ -392,75 +440,77 @@ static void remove_helper(BTree* tree, BTreeNode* node, void* value) {
     }
 
     // Trouver la position de la clé dans le nœud
-    int position = 0;
-    BTreeNode ** pNode =  &node;
-    containsKey(&value, &position, pNode, tree->compareTo);
-
+    int position = 1;
+    BTreeNode *pNode;
+    containsKey(&value, &position, &node, &pNode, tree->compareTo);
     // Si la clé est présente dans le nœud actuel
-    if (tree->compareTo((*pNode)->values[position], value) == 0) {
+    if (tree->compareTo((pNode)->values[position], value) == 0) {
         // Si le nœud est une feuille
-        if ((*pNode)->isLeaf) {
+        if ((pNode)->isLeaf) {
             // Supprimer la clé du nœud
-            remove_key((*pNode), position, &value);
-            // Si après la suppression le nœud est vide, trouver son parent pour l'enlever de la liste
-            if((*pNode)->size ==0){
-                BTreeNode *parent = find_parent(tree->root, (*pNode));
-                if(parent != NULL){
-                    for(int i =1; i<BTREE_MAX_NODES; i++){
-                        if(parent->children[i] == (*pNode)){
-                            parent->children[i] = NULL;
-                            break;
-                        }
-                    }
+            (pNode)->values[position] = NULL;
+            (pNode)->size--;
+            reorderValues((pNode)->values,1);
+            if(pNode->size == 0){
+                // Remove the successor
+                BTreeNode *parent = find_parent(tree, tree->root, pNode);
+                if(parent!=NULL ){
+                    int pos = find_index(tree, parent,pNode);
+                    tree->destroy(pNode);
+                    pNode = NULL;
+                    (parent)->children[pos] = NULL;
+                    void *tmp = &(parent)->children;
+                    reorderValues(&tmp,0);
+                    tree->size--;
+                    node_balance((parent), tree->root, tree);
                 }
-                tree->destroy((*pNode));
-                (*pNode) = NULL;
-                tree->size--;
+                return;
             }
         } else {
             // Remplacer la clé par la clé suivante dans le successeur
-            BTreeNode* successor = find_successor((*pNode), position);
-            if(successor == NULL){
-                remove_key((*pNode), position, &value);
-                int count = 0;
-                for(int i = 1; i<= BTREE_MAX_NODES;i++) if((*pNode)->children[i] == NULL) count++;
-                if(count == BTREE_MAX_NODES) (*pNode)->isLeaf = true;
-            }else{
-                (*pNode)->values[position] = successor->values[1];
-                // Supprimer la clé du successeur
-                remove_key(successor, 1, &value);
-                // Appeler récursivement remove_helper sur le successeur
-                if(successor->size == 0){
-                    // Remove the successor
-                    for(int i = 0; i<= BTREE_MAX_NODES; i++){
-                        if((*pNode)->children[i] == successor){
-                            tree->destroy(successor);
-                            successor = NULL;
-                            (*pNode)->children[i] = NULL;
-                            tree->size--;
-                            break;
-                        }
-                    }
-                    int count = 0;
-                    for(int i = 1; i<= BTREE_MAX_NODES;i++) if((*pNode)->children[i] == NULL) count++;
-                    if(count == BTREE_MAX_NODES) (*pNode)->isLeaf = true;
-                }
-                remove_helper(tree, successor, value);
+            int successorIndex = 0;
+            BTreeNode* successor = find_successor((pNode), &successorIndex);
+            // Supprimer la clé du nœud
+            (pNode)->values[position] = successor == NULL ? NULL : successor->values[1];
+            if(successor != NULL && successor->values[1] == NULL){
+                (pNode)->size--;
+                reorderValues((pNode)->values,1);
+            }
+            else if(successor != NULL){
+                // Supprimer la clé du succésseur
+                successor->values[1] = NULL;
+                successor->size--;
+                reorderValues(successor->values,1);
+            }
+            // Appeler récursivement remove_helper sur le successeur
+            if(successor != NULL && successor->size == 0){
+                // Remove the successor
+                tree->destroy(successor);
+                successor = NULL;
+                (pNode)->children[successorIndex] = NULL;
+                void *tmp = &(pNode)->children;
+                reorderValues(&tmp,0);
+                tree->size--;
+            }else if(successor != NULL){
+                node_balance(successor, (pNode), tree);
             }
         }
     } else {
         // Appeler récursivement remove_helper sur le nœud approprié
-        remove_helper(tree, (*pNode)->children[position], value);
+        remove_helper(tree, (pNode)->children[position], value);
     }
 
     // Appeler node_balance pour équilibrer les nœuds
-    node_balance((*pNode), find_parent(tree->root, (*pNode)), tree);
+    BTreeNode *parent = find_parent(tree, tree->root, (pNode));
+
+    node_balance((pNode), parent, tree);
+
 
     // Gérer le cas du nœud racine
-    if ((*pNode) == tree->root && (*pNode)->size == 0) {
+    if ((pNode) == tree->root && (pNode)->size == 0) {
         // Si le nœud racine est vide, le remplacer par son unique enfant
         tree->root = node->children[0];
-        tree->destroy((*pNode));
+        tree->destroy((pNode));
     }
 
 }
@@ -492,31 +542,22 @@ static int diameter_helper(BTreeNode *node, int *diameter) {
 
 static void redistribute_keys_right(BTreeNode* node, BTreeNode* right_sibling, int parent_index, BTree* tree) {
     // Déplacer la clé du parent vers le nœud actuel
-    node->values[node->size] = tree->root->values[parent_index];
+    node->values[node->size+1] = tree->root->values[parent_index];
     node->size++;
 
     // Déplacer la clé du voisin de droite vers le parent
-    tree->root->values[parent_index] = right_sibling->values[right_sibling->size];
-
+    tree->root->values[parent_index+1] = right_sibling->values[right_sibling->size];
+    tree->root->size++;
+    right_sibling->values[right_sibling->size] = NULL;
     // Déplacer le premier enfant du voisin de droite vers le nœud actuel
-    node->children[node->size] = right_sibling->children[right_sibling->size];
+    node->children[node->size+1] = right_sibling->children[right_sibling->size];
+    right_sibling->children[right_sibling->size] = NULL;
 
-    // Réorganiser les clés et les enfants du voisin de droite
-    for (int i = 0; i < right_sibling->size - 1; i++) {
-        right_sibling->values[i] = right_sibling->values[i + 1];
-        right_sibling->children[i] = right_sibling->children[i + 1];
-    }
-
-    // Réorganiser les clés du voisin de gauche
-    for (int i = 1; i <= right_sibling->size; i++) {
-        if(right_sibling->values[i+1] != NULL) right_sibling->values[i] = right_sibling->values[i+1];
-
-    }
-
-// Réorganiser les enfants du voisin de gauche
-    for (int i = 1; i <= BTREE_MAX_NODES; i++) {
-        right_sibling->children[i] = right_sibling->children[i+1];
-    }
+    // Réorganiser les clés du voisin de droite
+    reorderValues(right_sibling->values,1);
+    // Réorganiser les enfants du voisin de droite
+    void *temp = &right_sibling->children;
+    reorderValues(&temp,0);
 
     // Mettre à jour les tailles des nœuds
     right_sibling->size--;
@@ -525,25 +566,19 @@ static void redistribute_keys_right(BTreeNode* node, BTreeNode* right_sibling, i
 
 static void redistribute_keys_left(BTreeNode* node, BTreeNode* left_sibling, int parent_index, BTree* tree) {
     // Déplacer la clé du parent vers le nœud actuel
-    node->values[node->size] = tree->root->values[parent_index];
+    node->values[node->size+1] = tree->root->values[parent_index];
     node->size++;
 
     // Déplacer la clé du voisin de gauche vers le parent
-    tree->root->values[parent_index] = left_sibling->values[left_sibling->size];
-
+    tree->root->values[parent_index+1] = left_sibling->values[left_sibling->size];
+    tree->root->size++;
+    left_sibling->values[left_sibling->size] = NULL;
     // Déplacer le dernier enfant du voisin de gauche vers le nœud actuel
-    node->children[node->size] = left_sibling->children[left_sibling->size];
-
-    // Réorganiser les clés du voisin de gauche
-    for (int i = 1; i <= left_sibling->size; i++) {
-        if(left_sibling->values[i+1] != NULL) left_sibling->values[i] = left_sibling->values[i+1];
-
-    }
-
-    // Réorganiser les enfants du voisin de gauche
-    for (int i = 1; i <= BTREE_MAX_NODES; i++) {
-        left_sibling->children[i] = left_sibling->children[i+1];
-    }
+    node->children[node->size+1] = left_sibling->children[left_sibling->size];
+    left_sibling->children[left_sibling->size] = NULL;
+    reorderValues(left_sibling->values,1);
+    void* temp = &left_sibling->children;
+    reorderValues(&temp, 0);
 
     // Mettre à jour les tailles des nœuds
     left_sibling->size--;
@@ -552,6 +587,8 @@ static void redistribute_keys_left(BTreeNode* node, BTreeNode* left_sibling, int
 
 static void node_balance(BTreeNode* node, BTreeNode* parent, BTree* tree) {
     if(node == NULL || parent == NULL) return;
+
+    reorderValues(node->values, 1);
     if (node->size < BTREE_MIN_NODES) {
         // Trouver les frères gauche et droit du nœud
         BTreeNode* left_sibling = NULL;
@@ -574,9 +611,19 @@ static void node_balance(BTreeNode* node, BTreeNode* parent, BTree* tree) {
         if (left_sibling && left_sibling->size > BTREE_MIN_NODES) {
             // Redistribution des clés avec le frère gauche
             redistribute_keys_left(node, left_sibling, position, tree);
+            int count = 0;
+            for(int i =1; i<=BTREE_MAX_NODES; i++){
+                if(left_sibling->values[i] != NULL) count++;
+            }
+            left_sibling->size = count;
         } else if (right_sibling && right_sibling->size > BTREE_MIN_NODES) {
             // Redistribution des clés avec le frère droit
             redistribute_keys_right(node, right_sibling, position, tree);
+            int count = 0;
+            for(int i =1; i<=BTREE_MAX_NODES; i++){
+                if(right_sibling->values[i] != NULL) count++;
+            }
+            right_sibling->size = count;
         } else if (left_sibling) {
             // Fusionner avec le frère gauche
             merge_nodes(node, left_sibling, parent);
@@ -587,6 +634,17 @@ static void node_balance(BTreeNode* node, BTreeNode* parent, BTree* tree) {
             tree->size--;
         }
     }
+
+    int count = 0;
+    for(int i =1; i<=BTREE_MAX_NODES; i++){
+        if(node->values[i] != NULL) count++;
+    }
+    node->size = count;
+    count = 0;
+    for(int i =1; i<=BTREE_MAX_NODES; i++){
+        if(parent->values[i] != NULL) count++;
+    }
+    parent->size = count;
 }
 
 void btree_create(BTree *tree, int (*compare)(const void* key1, const void* key2), void(*destroy) (void* value)){
@@ -645,8 +703,7 @@ bool btree_remove(BTree* tree, void** value) {
 }
 
 bool btree_containsKey(BTree *tree, int* pos, void** value){
-    BTreeNode ** pNode =  &tree->root;
-    return containsKey(value, pos, pNode, tree->compareTo);
+    return containsKey(value, pos, &tree->root, NULL, tree->compareTo);
 }
 
 int btree_diameter(BTree *tree){

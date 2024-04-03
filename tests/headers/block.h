@@ -39,9 +39,9 @@ bool cmp_block(const void *arg1, const void *arg2) {
 Block** generateBlocks(int size, int types) {
     Block** blocks = (Block**)malloc(size * sizeof(Block*));
     for (int i = 1; i <= size; i++) {
-        Chunk* currentCHunk = (Chunk*)malloc(size * sizeof(Chunk));
+        Chunk* currentCHunk = (Chunk*)malloc(sizeof(Chunk));
         currentCHunk->data = i;
-        blocks[i] = (Block*)malloc((types + 1) * sizeof(Block));
+        blocks[i] = (Block*)malloc((types) * sizeof(Block));
         for (int j = 1; j <= types; j++) {
             blocks[i][j].type = j;
             blocks[i][j].chunk =
