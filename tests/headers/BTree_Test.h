@@ -26,10 +26,12 @@ protected:
 TEST_F(BTreeTest, BasicTest) {
     int chunks = 2;
     int types = 9;
+    int inserted = 0;
     Block **blocks = generateBlocks(chunks, types);
     for(int i =1; i<=chunks;i++){
         for(int j = 1; j<=types;j++){
             btree_add(tree, &blocks[i][j]);
+            inserted++;
         }
     }
 
@@ -40,8 +42,6 @@ TEST_F(BTreeTest, BasicTest) {
             void* value = &blocks[i][j];
             ASSERT_TRUE(btree_containsKey(tree, &pos, &value));
             ASSERT_TRUE(btree_remove(tree, &value));
-            Block *block = (Block*)value;
-            block = nullptr;
             count++;
         }
     }
