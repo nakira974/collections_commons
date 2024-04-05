@@ -361,9 +361,17 @@ static bool merge_nodes(BTreeNode *node, BTreeNode *sibling, BTreeNode **parent,
 
     if((*parent)->size == 0) {
         redistribute_children(parent, node, tree, &node);
-        BTreeNode  *grand_parent = find_parent(tree, tree->root, *parent);
-        int parentIndex = find_index(tree, grand_parent, *parent);
-        grand_parent->children[parentIndex] = node;
+        BTreeNode  *grand_parent = NULL;
+        if(*parent == tree->root){
+            tree->root = node;
+            grand_parent = tree->root;
+        }
+        else{
+            BTreeNode  *grand_parent = find_parent(tree, tree->root, *parent);
+            int parentIndex = find_index(tree, grand_parent, *parent);
+            grand_parent->children[parentIndex] = node;
+        }
+
         tree->destroy(*parent);
         *parent = grand_parent;
     }else {
