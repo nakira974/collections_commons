@@ -24,13 +24,14 @@ protected:
 };
 
 TEST_F(BTreeTest, BasicTest) {
-    int chunks = 2;
+    int chunks = 3;
     int types = 9;
     int inserted = 0;
     Block **blocks = generateBlocks(chunks, types);
     for(int i =1; i<=chunks;i++){
         for(int j = 1; j<=types;j++){
-            btree_add(tree, &blocks[i][j]);
+            void* value = &blocks[i][j];
+            btree_add(tree, value);
             inserted++;
         }
     }
@@ -44,9 +45,8 @@ TEST_F(BTreeTest, BasicTest) {
             ASSERT_TRUE(btree_remove(tree, &value));
             count++;
         }
+        blocks[i] = nullptr;
     }
-
-    free(blocks);
-
+    blocks = nullptr;
 }
 #endif //COLLECTIONS_COMMONS_BTREE_TEST_H
