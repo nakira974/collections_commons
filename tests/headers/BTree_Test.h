@@ -24,14 +24,13 @@ protected:
 };
 
 TEST_F(BTreeTest, BasicTest) {
-    int chunks = 3;
+    int chunks = 5;
     int types = 9;
     int inserted = 0;
     Block **blocks = generateBlocks(chunks, types);
     for(int i =1; i<=chunks;i++){
         for(int j = 1; j<=types;j++){
-            void* value = &blocks[i][j];
-            btree_add(tree, value);
+            btree_add(tree,  &blocks[i][j]);
             inserted++;
         }
     }

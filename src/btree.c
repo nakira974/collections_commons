@@ -130,7 +130,7 @@ static void redistribute_keys_right(BTreeNode* node, BTreeNode* right_sibling, i
  * @param tree BTree where to merge nodes
  * @return true if the sibling was destroy, otherwise false
  */
-static bool merge_nodes(BTreeNode *node, BTreeNode *sibling, BTreeNode **parent, BTree *tree) ;
+static bool merge_nodes(BTreeNode *node_left, BTreeNode *node_right, BTreeNode **parent, int parent_key_index, BTree *tree);
 
 /**
  * @brief Private function that finds the parent of a given node
@@ -327,74 +327,34 @@ static int find_index(BTree  *tree, BTreeNode* node, BTreeNode * child) {
     return index;
 }
 
-static bool merge_nodes(BTreeNode *node, BTreeNode *sibling, BTreeNode **parent, BTree *tree) {
-    // Fusionner les clés et les enfants du nœud avec le frère
-    int index = 1;
+static bool merge_nodes(BTreeNode *node_left, BTreeNode *node_right, BTreeNode **parent, int parent_key_index, BTree *tree) {
+    // Insérer la clé du parent dans le nœud de gauche
+    node_left->values[node_left->size + 1] = (*parent)->values[parent_key_index];
+    node_left->size += 1;
 
-    // Ajouter la clé du parent au nœud actuel
-    bool added = false;
-    for (int i = 1; i <= BTREE_MAX_NODES; i++) {
-        if(node->values[i] == NULL){
-            node->values[i] = (*parent)->values[index];
-            (*parent)->values[index] = NULL;
-            (*parent)->size--;
-            node->size++;
-            added=true;
-            break;
-        }
+    // Copier tous les enfants du nœud de droite dans le nœud de gauche
+    for (int i = 1; i <= node_right->size; i++) {
+        node_left->values[node_left->size + 1] = node_right->values[i];
+        node_left->children[node_left->size + 1] = node_right->children[i];
+        node_left->size += 1;
     }
+    node_left->children[node_left->size + 1] = node_right->children[node_right->size + 1];
 
-    if(!added) return false;
-
-    // Déplacer les clés du frère vers le nœud actuel
-    for (int i = 1; i <= BTREE_MAX_NODES; i++) {
-        for(int j = 1; j<= sibling->size; j++){
-            if(node->values[i] == NULL && sibling->values[j] != NULL){
-                node->values[i] = sibling->values[j];
-                sibling->values[j] = NULL;
-                sibling->size--;
-                node->size++;
-                break;
-            }
-        }
+    // Supprimer la clé du parent et le nœud de droite
+    (*parent)->values[parent_key_index+1] = (*parent)->values[parent_key_index + 1];
+    (*parent)->children[parent_key_index] = (*parent)->children[parent_key_index + 1];
+    for (int i = parent_key_index + 1; i <= (*parent)->size; i++) {
+        (*parent)->values[i] = (*parent)->values[i + 1];
+        (*parent)->children[i] = (*parent)->children[i + 1];
     }
+    (*parent)->size -= 1;
 
-    if((*parent)->size == 0) {
-        redistribute_children(parent, node, tree, &node);
-        BTreeNode  *grand_parent = NULL;
-        if(*parent == tree->root){
-            tree->root = node;
-            grand_parent = tree->root;
-        }
-        else{
-            BTreeNode  *grand_parent = find_parent(tree, tree->root, *parent);
-            int parentIndex = find_index(tree, grand_parent, *parent);
-            grand_parent->children[parentIndex] = node;
-        }
+    // Libérer le nœud de droite
+    tree->destroy(node_right);
 
-        tree->destroy(*parent);
-        *parent = grand_parent;
-    }else {
-        reorderValues((void**) (*parent)->children,0);
-        reorderValues((void**) (*parent)->values,1);
-    }
-
-    // Déplacer les enfants du frère vers le nœud actuel
-    if(sibling->size == 0) {
-        if (!sibling->isLeaf) {
-            int siblingIndex = find_index(tree, *parent, sibling);
-            (*parent)->children[siblingIndex] = NULL;
-            reorderValues((void**) (*parent)->children, 0);
-            redistribute_children(&sibling, *parent, tree, parent);
-        }
-        return true;
-    }
-
-    reorderValues(node->values,1);
-    reorderValues(sibling->values,1);
-    reorderValues((*parent)->values,1);
-
-    return false;
+    reorderValues(node_left->values, 1);
+    reorderValues((void**)node_left->children, 0);
+    return true;
 }
 
 static void remove_key(BTreeNode* node, int position, void** value) {
@@ -633,21 +593,26 @@ static void redistribute_children(BTreeNode** pParent, BTreeNode* pChild, BTree 
             }else if(remain <= 0) break;
         }
     }
-    if(remain>0){
+    if(remain > 0){
+
         reorderValues((void**) (pChild)->children, 0);
         redistribute_children(pParent, pChild->children[0], tree, childPtr);
         return;
-    } else{
+    }
 
-        BTreeNode * grand_parent = find_parent(tree, tree->root, *pParent);
-        // Is root
-        if(grand_parent == *pParent){
-            tree->root = *childPtr;
-        }
-            // Remove the pParent from the grandparent
+    BTreeNode * grand_parent = find_parent(tree, tree->root, *pParent);
 
-        tree->destroy(*pParent);
-        tree->size--;
+    // Is root
+    if(grand_parent == *pParent){
+        tree->root = *childPtr;
+    }
+
+    // Remove the pParent from the grandparent
+    tree->destroy(*pParent);
+    tree->size--;
+    (*pParent) = NULL; // ensure that we won't accidentally use pParent
+
+    if (*childPtr != NULL){
         (*childPtr)->isLeaf = true;
         for(int i=0;i<=BTREE_MAX_NODES; i++){
             if((*childPtr)->children[i] != NULL){
@@ -657,6 +622,7 @@ static void redistribute_children(BTreeNode** pParent, BTreeNode* pChild, BTree 
         }
     }
 }
+
 
 static void node_balance(BTreeNode* node, BTreeNode* parent, BTree* tree) {
     if(node == NULL || parent == NULL || node->isLeaf) return;
@@ -699,11 +665,11 @@ static void node_balance(BTreeNode* node, BTreeNode* parent, BTree* tree) {
             right_sibling->size = count;
         } else if (left_sibling) {
             // Fusionner avec le frère gauche
-            merge_nodes(node, left_sibling, &parent, tree);
+            merge_nodes(node, left_sibling, &parent, find_index(tree, node, parent), tree);
 
         } else if (right_sibling) {
             // Fusionner avec le frère droit
-            merge_nodes(node, right_sibling, &parent, tree);
+            merge_nodes(node, right_sibling, &parent, find_index(tree, node, parent), tree);
         }
 
     }
