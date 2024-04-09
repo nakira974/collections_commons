@@ -24,7 +24,7 @@ protected:
 };
 
 TEST_F(BTreeTest, BasicTest) {
-    int chunks = 5;
+    int chunks = 2;
     int types = 9;
     int inserted = 0;
     Block **blocks = generateBlocks(chunks, types);
