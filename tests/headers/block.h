@@ -26,14 +26,14 @@ int hash_block(const void *block) {
     return result;
 }
 
-bool cmp_block(const void *arg1, const void *arg2) {
+int cmp_block(const void *arg1, const void *arg2) {
     if (arg1 == nullptr || arg2 == nullptr) return false;
     Block *b1 = ((Block *) arg1);
     Block *b2 = ((Block *) arg2);
     if (cmp_int(&b1->chunk->data, &b2->chunk->data) && cmp_int(&b1->type, &b2->type)) {
-        return true;
+        return 0;
     }
-    return false;
+    return -1;
 }
 
 Block** generateBlocks(int size, int types) {

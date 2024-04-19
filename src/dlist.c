@@ -174,11 +174,11 @@ void **dlist_toArray(DLinkedList *list) {
 }
 
 
-Set *dlist_toSet(DLinkedList *list, bool(*equals)(const void *value1, const void *value2)) {
+Set *dlist_toSet(DLinkedList *list, int(*compareTo)(const void *value1, const void *value2)) {
     if (list == NULL || list->size == 0) return NULL;
     Set *result;
     if ((result = (Set *) malloc(sizeof(Set))) == NULL) return NULL;
-    set_create(result, equals, list->destroy);
+    set_create(result, compareTo, list->destroy);
     DLinkedElement *current_element;
     for (current_element = dlist_first(list); current_element != NULL; current_element = dlist_next(current_element)) {
         set_add(result, current_element->value);

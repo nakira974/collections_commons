@@ -112,11 +112,11 @@ void **clist_toArray(CLinkedList *list) {
 }
 
 
-Set *clist_toSet(CLinkedList *list, bool(*equals)(const void *value1, const void *value2)) {
+Set *clist_toSet(CLinkedList *list, int(*compareTo)(const void *value1, const void *value2)) {
     if (list == NULL || list->size == 0) return NULL;
     Set *result;
     if ((result = (Set *) malloc(sizeof(Set))) == NULL) return NULL;
-    set_create(result, equals, list->destroy);
+    set_create(result, compareTo, list->destroy);
     CLinkedElement *current_element;
     int count = 0;
     for (current_element = clist_first(list); count < list->size - 1; current_element = clist_next(current_element)) {

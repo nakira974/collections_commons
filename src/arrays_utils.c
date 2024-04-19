@@ -45,11 +45,11 @@ CLinkedList *array_toCList(void **array, void( *destroy)(void *value)){
     return result;
 }
 
-Set *array_toSet(void **array, void( *destroy)(void *value), bool(*equals)(const void *value1, const void *value2)){
+Set *array_toSet(void **array, void( *destroy)(void *value), int(*compareTo)(const void *value1, const void *value2)){
     if(array == NULL) return NULL;
     Set * result;
     if((result = (Set*) malloc(sizeof(Set))) == NULL) return NULL;
-    set_create(result, equals, destroy);
+    set_create(result, compareTo, destroy);
     for(size_t i= 0; i < array_size(array); i++){
         if(!set_add(result, array[i])){
             continue;

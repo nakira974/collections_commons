@@ -23,9 +23,9 @@ static bool pop(HashMap *map, SimpleEntry *entry, void **value);
 
 /**
  * Private function to compare two entries based on their compareBlocks method inside a hashset
- * @return true if entries are equals false otherwise
+ * @return true if entries are compareTo false otherwise
  */
-static bool cmp_entry(const void *entry1, const void *entry2);
+static int cmp_entry(const void *entry1, const void *entry2);
 
 static bool push(HashMap *map, SimpleEntry *entry, SimpleEntry *new_entry) {
     // Reject null hashtable except if list is empty
@@ -58,7 +58,7 @@ static bool pop(HashMap *map, SimpleEntry *entry, void **value) {
 
     // Remove the entry from the map
     *value = entry->value;
-    if (map->equals(entry->key, map->head->key)) {
+    if (map->compareTo(entry->key, map->head->key) == 0) {
         // The map become after deletion empty case
         map->head = entry->next;
         if (map->head == NULL)
@@ -80,15 +80,15 @@ static bool pop(HashMap *map, SimpleEntry *entry, void **value) {
     return true;
 }
 
-static bool cmp_entry(const void *entry1, const void *entry2) {
+static int cmp_entry(const void *entry1, const void *entry2) {
     if (entry1 == NULL || entry2 == NULL) return false;
     SimpleEntry *a = ((SimpleEntry *) entry1);
     SimpleEntry *b = ((SimpleEntry *) entry2);
 
-    if (a->compareTo(a->key, b->key)) {
-        return true;
+    if (a->compareTo(a->key, b->key) == 0) {
+        return 0;
     } else {
-        return false;
+        return -1;
     }
 
 };
@@ -96,16 +96,16 @@ static bool cmp_entry(const void *entry1, const void *entry2) {
 bool hashmap_create(HashMap *map,
                     int containers,
                     int (*hash)(const void *key),
-                    bool (*equals)(const void *key1, const void *key2),
+                    int (*compareTo)(const void *key1, const void *key2),
                     void(*destroy)(void *value)) {
 
     // Try To Allocate memory space for the linked hash table
     if (map == NULL) return false;
     if ((map->hashTable = (LinkedHashTable *) malloc(sizeof(LinkedHashTable))) == NULL) return false;
-    if (!lhtbl_create(map->hashTable, containers, hash, equals, destroy)) return false;
+    if (!lhtbl_create(map->hashTable, containers, hash, compareTo, destroy)) return false;
     // Init the map
     map->size = 0;
-    map->equals = equals;
+    map->compareTo = compareTo;
     map->destroy = destroy;
     map->tail = NULL;
     map->head = NULL;
@@ -137,7 +137,7 @@ bool hashmap_containsKey(HashMap *map, void **value) {
     for (current_element = list_first(&map->hashTable->hashtable[current_container]);
          current_element != NULL; current_element = list_next(current_element)) {
         SimpleEntry *current_entry = (SimpleEntry *) list_value(current_element);
-        if (map->hashTable->equals(*value, current_entry->key)) {
+        if (map->hashTable->compareTo(*value, current_entry->key) == 0) {
             *value = ((SimpleEntry *) list_value(current_element))->value;
             return true;
         }
@@ -164,7 +164,7 @@ bool hashmap_put(HashMap *map, void *key, void *value) {
         SimpleEntry *new_entry = (SimpleEntry *) malloc(sizeof(SimpleEntry));
         new_entry->key = key;
         new_entry->value = value;
-        new_entry->compareTo = map->equals;
+        new_entry->compareTo = map->compareTo;
         // Add the current key value pair to the container
         if ((result = list_add(&map->hashTable->hashtable[container], NULL, new_entry))) {
             map->hashTable->size++;
@@ -226,7 +226,7 @@ bool hashmap_replace(HashMap *map, void *key, void **value) {
     for (current_element = list_first(&map->hashTable->hashtable[container])->value;
          current_element != NULL; current_element = list_next(current_element)) {
         current_entry = (SimpleEntry *) current_element->value;
-        if (map->equals(current_entry->key, key)) {
+        if (map->compareTo(current_entry->key, key) == 0) {
             void *temp = current_entry->value;
             current_entry->value = *value;
             value = temp;
@@ -252,9 +252,9 @@ bool hashmap_remove(HashMap *map, void **value) {
     last_element = NULL;
     for (current_element = list_first(&map->hashTable->hashtable[current_container]);
          current_element != NULL; current_element = list_next(current_element)) {
-        // If the target value if equals to the current container element, then remove it
+        // If the target value if compareTo to the current container element, then remove it
         SimpleEntry *current_entry = (SimpleEntry *) list_value(current_element);
-        if (map->hashTable->equals(*value, current_entry->key)) {
+        if (map->hashTable->compareTo(*value, current_entry->key) == 0) {
             // Remove the value from the current container
             if (list_remove(&map->hashTable->hashtable[current_container], last_element, value)) {
                 map->hashTable->size--;
@@ -292,7 +292,7 @@ HashSet *hashmap_keySet(HashMap *map) {
     if (map == NULL || map->size == 0) return NULL;
     HashSet *result;
     if ((result = (HashSet *) malloc(sizeof(HashSet))) == NULL) return NULL;
-    if (!hashset_create(result, map->hashTable->containers, map->hashTable->hash, map->equals, map->destroy)) {
+    if (!hashset_create(result, map->hashTable->containers, map->hashTable->hash, map->compareTo, map->destroy)) {
         hashset_destroy(result);
         return NULL;
     }

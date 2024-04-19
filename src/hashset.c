@@ -49,16 +49,16 @@ static bool add_before(DLinkedList *list, DLinkedElement *element, DLinkedElemen
 bool hashset_create(HashSet *hashset,
                     int containers,
                     int (*hash)(const void *key),
-                    bool (*equals)(const void *key1, const void *key2),
+                    int (*compareTo)(const void *key1, const void *key2),
                     void(*destroy)(void *value)) {
 
     // Try To Allocate memory space for the linked hash table
     if (hashset == NULL) return false;
     if ((hashset->hashTable = (LinkedHashTable *) malloc(sizeof(LinkedHashTable))) == NULL) return false;
-    if (!lhtbl_create(hashset->hashTable, containers, hash, equals, destroy)) return false;
+    if (!lhtbl_create(hashset->hashTable, containers, hash, compareTo, destroy)) return false;
     // Init the hashset
     hashset->size = 0;
-    hashset->equals = equals;
+    hashset->compareTo = compareTo;
     hashset->destroy = destroy;
     if ((hashset->elements = (DLinkedList *) malloc(sizeof(DLinkedList))) == NULL) {
         // Destroy the hashtable before leaving
@@ -90,9 +90,9 @@ bool hashset_contains(const HashSet *hashset, void **value) {
     // Search the value inside the current container
     for (current_element = list_first(&hashset->hashTable->hashtable[current_container]);
          current_element != NULL; current_element = list_next(current_element)) {
-        // If the target value if equals to the current container element, then remove it
+        // If the target value if compareTo to the current container element, then remove it
         DLinkedElement *current_setElement = ((DLinkedElement *) list_value(current_element));
-        if (hashset->hashTable->equals(*value, current_setElement->value)) {
+        if (hashset->hashTable->compareTo(*value, current_setElement->value) == 0) {
             *value = dlist_value(current_setElement);
             return true;
         }
@@ -146,9 +146,9 @@ bool hashset_remove(HashSet *hashset, void **value) {
 
     for (current_element = list_first(&hashset->hashTable->hashtable[current_container]);
          current_element != NULL; current_element = list_next(current_element)) {
-        // If the target value if equals to the current container element, then remove it
+        // If the target value if compareTo to the current container element, then remove it
         DLinkedElement *current_setElement = ((DLinkedElement *) list_value(current_element));
-        if (hashset->hashTable->equals(*value, current_setElement->value)) {
+        if (hashset->hashTable->compareTo(*value, current_setElement->value) == 0) {
             // Remove the value from the current container
             if (list_remove(&hashset->hashTable->hashtable[current_container], last_element, value)) {
                 dlist_remove(hashset->elements, *value, value);
@@ -172,7 +172,7 @@ bool hashset_union(HashSet *union_result, const HashSet *left, const HashSet *ri
     void *value;
 
     // Create the union hashset
-    hashset_create(union_result, left->hashTable->containers, left->hashTable->hash, left->equals, left->destroy);
+    hashset_create(union_result, left->hashTable->containers, left->hashTable->hash, left->compareTo, left->destroy);
 
     // Insertion of left hashset elements
     for (current_element = hashset_first(left);
@@ -207,7 +207,7 @@ bool hashset_intersection(HashSet *intersection_result, const HashSet *left, con
 
     // Create the intersection HashSet
 
-    hashset_create(intersection_result, left->hashTable->containers, left->hashTable->hash, left->equals,
+    hashset_create(intersection_result, left->hashTable->containers, left->hashTable->hash, left->compareTo,
                    left->destroy);
 
     // intersection of elements in left and right hashset
@@ -231,7 +231,7 @@ bool hashset_difference(HashSet *difference_result, const HashSet *left, const H
     void *value;
 
     // Creation of the difference HashSet
-    hashset_create(difference_result, left->hashTable->containers, left->hashTable->hash, left->equals, left->destroy);
+    hashset_create(difference_result, left->hashTable->containers, left->hashTable->hash, left->compareTo, left->destroy);
 
     // Insert elements of left non present in right
     for (current_element = hashset_first(left);

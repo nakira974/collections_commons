@@ -55,10 +55,10 @@ CLinkedList *array_toCList(void **array, void( *destroy)(void *value));
  * @brief Converts the given array into a set
  * @param array Array to be converted to set
  * @param destroy User destroy function
- * @param equals User equals function
+ * @param compareTo User compareTo function
  * @return Converted array to set
  */
-Set *array_toSet(void **array,  void( *destroy)(void *value), bool(*equals)(const void *value1, const void *value2));
+Set *array_toSet(void **array,  void( *destroy)(void *value), int(*compareTo)(const void *value1, const void *value2));
 
 #ifdef __cpluscplus
 /**

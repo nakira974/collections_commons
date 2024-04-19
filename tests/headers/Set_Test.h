@@ -88,7 +88,7 @@ TEST_F(SetTest, UnionTest) {
     set_add(set1, b4);
     ASSERT_TRUE(set_union(union_result, set, set1));
 
-    // 3 and not 4, Because b4 and b3 are equals one of them will be skipped
+    // 3 and not 4, Because b4 and b3 are compareTo one of them will be skipped
     ASSERT_EQ(set_size(union_result), 3);
     set_destroy(set1);
     free(set1);

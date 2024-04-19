@@ -36,16 +36,33 @@ typedef struct OAHashTable {
      * @brief Vacant position inside the hash table
      */
     void *vacant;
+    /**
+     * @brief Hash function n°1
+     */
 
     int (*h1)(const void *key);
+    /**
+     * @brief Hash function n°2
+     */
 
     int (*h2)(const void *key);
+    /**
+     * @brief Values compareTo function
+     */
 
-    bool (*equals)(const void *key1, const void *key2);
+    int (*compareTo)(const void *key1, const void *key2);
+    /**
+     * @brief Values destroy function
+     */
 
     void (*destroy)(void *value);
-
+    /**
+     * @brief Number of elements inside the hash table
+     */
     int size;
+    /**
+     * @brief Internal Hash table
+     */
     void **hashtable;
 } OAHashTable;
 
@@ -55,14 +72,14 @@ typedef struct OAHashTable {
  * @param postions Number of positions inside the hash table
  * @param h1 Hash function n°1
  * @param h2 Hash function n°2
- * @param equals Values equals function
+ * @param compareTo Values compareTo function
  * @param destroy Values destroy function
  * @return true if the hash table was created, false otherwise
  */
 bool ohtbl_create(OAHashTable *hashTable, int postions,
                   int (*h1)(const void *key),
                   int (*h2)(const void *key),
-                  bool (*equals)(const void *key1, const void *key2),
+                  int (*compareTo)(const void *key1, const void *key2),
                   void (*destroy)(void *value));
 
 /**

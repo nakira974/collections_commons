@@ -40,7 +40,7 @@ static void **list_toArray(LinkedList *list);
  * @param list List to be converted to set
  * @return Converted list to set
  */
-static Set *list_toSet(LinkedList *list, bool(*equals)(const void *value1, const void *value2));
+static Set *list_toSet(LinkedList *list, int(*compareTo)(const void *value1, const void *value2));
 
 
 /**
@@ -69,7 +69,7 @@ static void **clist_toArray(CLinkedList *list);
  * @param list List to be converted to set
  * @return Converted list to set
  */
-static Set *clist_toSet(CLinkedList *list, bool(*equals)(const void *value1, const void *value2));
+static Set *clist_toSet(CLinkedList *list, int(*compareTo)(const void *value1, const void *value2));
 
 /**
  * @brief Converts the given circular list into a list
@@ -97,7 +97,7 @@ static void **dlist_toArray(DLinkedList *list);
  * @param list List to be converted to set
  * @return Converted list to set
  */
-static Set *dlist_toSet(DLinkedList *list, bool(*equals)(const void *value1, const void *value2));
+static Set *dlist_toSet(DLinkedList *list, int(*compareTo)(const void *value1, const void *value2));
 
 /**
  * @brief Converts the double linked list into a list

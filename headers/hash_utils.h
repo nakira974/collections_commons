@@ -50,9 +50,9 @@ int hashint(const void *integer);
  * Inline assembly implementation of integer comparison.
  * @param a Pointer to the first value
  * @param b Pointer to the second value
- * @return true if two numbers are stricly equals, false otherwise
+ * @return true if two numbers are stricly compareTo, false otherwise
  */
-bool cmp_int(const void *a, const void *b);
+int cmp_int(const void *a, const void *b);
 #ifdef __cplusplus
 }
 #endif

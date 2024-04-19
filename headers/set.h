@@ -27,22 +27,22 @@ typedef struct KeySetEntry {
 } KeySetEntry;
 
 /**
- * @brief Determine if sets from hashtable to equals are covering ALL hashtable, if true return the best solution
+ * @brief Determine if sets from hashtable to compareTo are covering ALL hashtable, if true return the best solution
  * @param elements Elements to be covered
  * @param elements_to_equals Sub sets to determine if they can cover ALL hashtable
- * @param equalsed_elements Shortest list of hashtable that equals ALL hashtable
- * @return True if hashtable to equals are covering ALL hashtable, false otherwise
+ * @param equalsed_elements Shortest list of hashtable that compareTo ALL hashtable
+ * @return True if hashtable to compareTo are covering ALL hashtable, false otherwise
  */
 bool set_equals_entries(Set *elements, Set *elements_to_equals, Set *equalsed_elements);
 
 /**
  * @brief Create a Set
  * @param set Set reference to create
- * @param equals User equals function to determine if hashtable are equals or not
+ * @param compareTo User compareTo function to determine if hashtable are compareTo or not
  * @param destroy User destroy function to clean set hashtable on remove
  * @complexity O(1)
  */
-void set_create(Set *set, bool (*equals)(const void *left, const void *right), void (*destroy)(void *value));
+void set_create(Set *set, int (*compareTo)(const void *left, const void *right), void (*destroy)(void *value));
 
 /**
  * @biref Try to insert a value in the given set
@@ -54,7 +54,7 @@ void set_create(Set *set, bool (*equals)(const void *left, const void *right), v
 bool set_add(Set *set, const void *value);
 
 /**
- * @brief Remove from the set a value that equals the value parameter then return a pointer to the removed value
+ * @brief Remove from the set a value that compareTo the value parameter then return a pointer to the removed value
  * @param set Set to remove a value in
  * @param value Reference to the delete value in the given set
  * @return True if the value was correctly removed, otherwise

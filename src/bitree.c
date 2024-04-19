@@ -42,7 +42,7 @@ build_from_preorder_inorder(void **preorder, int preorder_size, void **inorder, 
  * @param inorderSize The size of the inorder array.
  * @param postorder An array representing the postorder traversal of the tree.
  * @param postorderSize The size of the postorder array.
- * @param compareTo Node value equals function
+ * @param compareTo Node value compareTo function
  * @return A pointer to the root node of the constructed binary tree.
  */
 static BinaryTreeNode *build_from_inorder_postorder(void **inorder, int inorderSize, int **postorder,

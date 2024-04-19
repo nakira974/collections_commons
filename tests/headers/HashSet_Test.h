@@ -104,7 +104,7 @@ TEST_F(HashSetTest, UnionTest) {
 
     ASSERT_TRUE(hashset_union(union_result, set, set1));
 
-    // 3 and not 4, Because b4 and b3 are equals one of them will be skipped
+    // 3 and not 4, Because b4 and b3 are compareTo one of them will be skipped
     ASSERT_EQ(hashset_size(union_result), 3);
     hashset_destroy(set1);
     free(union_result);

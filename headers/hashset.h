@@ -34,12 +34,12 @@ typedef struct HashSet {
     int size;
 
     /**
-     * @brief Pointer to the User Keys equals function for hashset
+     * @brief Pointer to the User Keys compareTo function for hashset
      * @param key1 The first key to be compared
      * @param key2 The second key to be compared
-     * @return true if the keys equals, false otherwise
+     * @return true if the keys compareTo, false otherwise
      */
-    bool (*equals)(const void *key1, const void *key2);
+    int (*compareTo)(const void *key1, const void *key2);
 
     /**
      * @brief Pointer to the destroy function for hashset
@@ -53,14 +53,14 @@ typedef struct HashSet {
  * @param set hashset to be created
  * @param containers The number of containers in the internal hashtable of the hashset
  * @param hash Key hash function
- * @param equals Key equals function
+ * @param compareTo Key compareTo function
  * @param destroy Entry destroy function
  * @return true if the hashset was created successfully, false otherwise
  */
 bool hashset_create(HashSet *set,
                     int containers,
                     int (*hash)(const void *key),
-                    bool (*equals)(const void *key1, const void *key2),
+                    int (*compareTo)(const void *key1, const void *key2),
                     void(*destroy)(void *value));
 
 /**
@@ -88,7 +88,7 @@ bool hashset_add(HashSet *set, void *value);
 bool hashset_remove(HashSet *set, void **value);
 
 /**
- * @brief Test if the given value is present in the hashset, if a equals occurs value will contain the pointer on the equalsed value
+ * @brief Test if the given value is present in the hashset, if a compareTo occurs value will contain the pointer on the equalsed value
  * @param set Hashmap to lookup in
  * @param value Double pointer to remove the key in the given hashset, if a delete occurs returns the pointer on it
  * @return true if the data table is present in the given hashset, false otherwise
@@ -208,9 +208,9 @@ static inline DLinkedElement *hashset_next(DLinkedElement *entry) {
 }
 
 /**
- * @brief Inline function that check if the given value is present in the hashset, if a equals occurs value will contain the pointer on the equalsed value
+ * @brief Inline function that check if the given value is present in the hashset, if a compareTo occurs value will contain the pointer on the equalsed value
  * @param set Hashmap to lookup in
- * @param value Double pointer to remove the key in the given hashset, if a equals occurs returns the pointer on it
+ * @param value Double pointer to remove the key in the given hashset, if a compareTo occurs returns the pointer on it
  * @return true if the data table is present in the given hashset, false otherwise
  */
 static inline bool hashset_get(HashSet *set, void **value) {
@@ -255,9 +255,9 @@ static inline bool hashset_get(HashSet *set, void **value) {
 #define hashset_next(entry) dlist_next(entry)
 
 /**
- * @brief  Macro that evaluates if the given value is present in the hashset, if a equals occurs value will contain the pointer on the equalsed value
+ * @brief  Macro that evaluates if the given value is present in the hashset, if a compareTo occurs value will contain the pointer on the equalsed value
  * @param set Hashmap to lookup in
- * @param value Double pointer to remove the key in the given hashset, if a equals occurs returns the pointer on it
+ * @param value Double pointer to remove the key in the given hashset, if a compareTo occurs returns the pointer on it
  * @return true if the data table is present in the given hashset, false otherwise
  */
 #define hashset_get(set,value) hashset_contains

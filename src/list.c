@@ -132,11 +132,11 @@ void **list_toArray(LinkedList *list) {
     return result;
 }
 
-Set *list_toSet(LinkedList *list, bool(*equals)(const void *value1, const void *value2)) {
+Set *list_toSet(LinkedList *list, int(*compareTo)(const void *value1, const void *value2)) {
     if (list == NULL || list->size == 0) return NULL;
     Set *result;
     if ((result = (Set *) malloc(sizeof(Set))) == NULL) return NULL;
-    set_create(result, equals, list->destroy);
+    set_create(result, compareTo, list->destroy);
     LinkedElement *current_element;
     for (current_element = list_first(list); current_element != NULL; current_element = list_next(current_element)) {
         set_add(result, current_element->value);

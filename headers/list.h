@@ -48,9 +48,9 @@ typedef struct LinkedList {
      * @brief Match handle
      * @param left Left value to compare
      * @param right Right value to compare
-     * @return true if left is equals to right, false otherwise
+     * @return true if left is compareTo to right, false otherwise
      */
-    bool (*equals)(const void *left, const void *right);
+    int (*compareTo)(const void *left, const void *right);
 
     /**
      * @brief Destroy handle

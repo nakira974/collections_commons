@@ -51,9 +51,9 @@ typedef struct CLinkedList {
     *
     * @param val1 Left value to compare
     * @param val2 Right value to compare
-    * @return true if left is equals to right, false otherwise
+    * @return true if left is compareTo to right, false otherwise
     */
-    bool (*equals)(const void *val1, const void *val2);
+    int (*compareTo)(const void *val1, const void *val2);
 
     /**
      * @brief Destroy handle

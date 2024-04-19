@@ -11,7 +11,7 @@ static char vacant;
 bool ohtbl_create(OAHashTable *hashTable, int postions,
                   int (*h1)(const void *key),
                   int (*h2)(const void *key),
-                  bool (*equals)(const void *key1, const void *key2),
+                  int (*compareTo)(const void *key1, const void *key2),
                   void (*destroy)(void *value)) {
     int i;
     if ((hashTable->hashtable = (void **) malloc(postions * sizeof(void *))) == NULL) return false;
@@ -21,7 +21,7 @@ bool ohtbl_create(OAHashTable *hashTable, int postions,
 
     hashTable->h1 = h1;
     hashTable->h2 = h2;
-    hashTable->equals = equals;
+    hashTable->compareTo = compareTo;
     hashTable->destroy = destroy;
     hashTable->size = 0;
 
@@ -75,7 +75,7 @@ bool ohtbl_remove(OAHashTable *hashTable, void **value) {
         if (hashTable->hashtable[position] == NULL) return false;
 
         else if (hashTable->hashtable[position] == hashTable->vacant) continue;
-        else if (hashTable->equals(hashTable->hashtable[position], *value)) {
+        else if (hashTable->compareTo(hashTable->hashtable[position], *value) == 0) {
             // Return the deleted value
             *value = hashTable->hashtable[position];
             hashTable->hashtable[position] = hashTable->vacant;
@@ -97,7 +97,7 @@ bool ohtbl_contains(OAHashTable *hashTable, void **value) {
 
         // If no value is present at this position return false
         if (hashTable->hashtable[position] == NULL) return false;
-        else if (hashTable->equals(hashTable->hashtable[position], *value)) {
+        else if (hashTable->compareTo(hashTable->hashtable[position], *value) == 0) {
             // Return the deleted value
             *value = hashTable->hashtable[position];
             return true;

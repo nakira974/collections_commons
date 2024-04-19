@@ -7,9 +7,9 @@
 bool lhtbl_create(LinkedHashTable *lhtbl,
                   int containers,
                   int (*hash)(const void *key),
-                  bool (*equals)(const void *key1, const void *key2),
+                  int (*compareTo)(const void *key1, const void *key2),
                   void(*destroy)(void *value)) {
-    if (hash == NULL || equals == NULL || destroy == NULL) return false;
+    if (hash == NULL || compareTo == NULL || destroy == NULL) return false;
 
     int i;
 
@@ -24,7 +24,7 @@ bool lhtbl_create(LinkedHashTable *lhtbl,
         list_create(&lhtbl->hashtable[i], destroy);
 
     lhtbl->hash = hash;
-    lhtbl->equals = equals;
+    lhtbl->compareTo = compareTo;
     lhtbl->destroy = destroy;
     lhtbl->size = 0;
 
@@ -74,8 +74,8 @@ bool lhtbl_remove(LinkedHashTable *lhtbl, void **value) {
 
     for (current_element = list_first(&lhtbl->hashtable[current_container]);
          current_element != NULL; current_element = list_next(current_element)) {
-        // If the target value if equals to the current container element, then remove it
-        if (lhtbl->equals(*value, list_value(current_element))) {
+        // If the target value if compareTo to the current container element, then remove it
+        if (lhtbl->compareTo(*value, list_value(current_element)) == 0) {
             // Remove the value from the current container
             if (list_remove(&lhtbl->hashtable[current_container], last_element, value)) {
                 lhtbl->size--;
@@ -101,7 +101,7 @@ bool lhtbl_contains(const LinkedHashTable *lhtbl, void **value) {
 
     for (current_element = list_first(&lhtbl->hashtable[current_container]);
          current_element != NULL; current_element = list_next(current_element)) {
-        if (lhtbl->equals(*value, list_value(current_element))) {
+        if (lhtbl->compareTo(*value, list_value(current_element)) == 0) {
             *value = list_value(current_element);
             return true;
         }
