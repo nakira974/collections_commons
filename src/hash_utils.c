@@ -4,15 +4,16 @@
 #include "hash_utils.h"
 #include <stddef.h>
 
-int cmp_int(const void *a, const void *b) {
-    if (a == NULL || b == NULL) return false;
-    int intA = *((int *) a);
-    int intB = *((int *) b);
+int cmp_int(const void* a, const void* b) {
+    int int1 = *((int*)a);
+    int int2 = *((int*)b);
 
-    if (intA == intB) {
+    if (int1 == int2) {
         return 0;
-    } else {
+    } else if (int1 < int2) {
         return -1;
+    } else {
+        return 1;
     }
 }
 
