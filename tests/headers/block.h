@@ -5,7 +5,7 @@
 #ifndef COLLECTIONS_COMMONS_BLOCK_H
 #define COLLECTIONS_COMMONS_BLOCK_H
 
-#include <stdbool.h>
+
 #include "hash_utils.h"
 
 struct Chunk {
@@ -30,7 +30,7 @@ int cmp_block(const void *arg1, const void *arg2) {
     if (arg1 == nullptr || arg2 == nullptr) return false;
     Block *b1 = ((Block *) arg1);
     Block *b2 = ((Block *) arg2);
-    if (cmp_int(&b1->chunk->data, &b2->chunk->data) && cmp_int(&b1->type, &b2->type)) {
+    if (cmp_int(&b1->chunk->data, &b2->chunk->data) == 0 && cmp_int(&b1->type, &b2->type) == 0) {
         return 0;
     }
     return -1;
