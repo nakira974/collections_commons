@@ -24,7 +24,7 @@ protected:
 };
 
 TEST_F(BTreeTest, BasicTest) {
-    int chunks = 2;
+    int chunks = 256;
     int types = 9;
     int inserted = 0;
     Block **blocks = generateBlocks(chunks, types);
@@ -40,7 +40,6 @@ TEST_F(BTreeTest, BasicTest) {
         for(int j = 1; j<=types;j++){
             int pos = 0;
             void* value = &blocks[i][j];
-            void* test = &blocks[1][7];
             ASSERT_TRUE(btree_containsKey(tree, &pos, &value));
             ASSERT_TRUE(btree_remove(tree, &value));
             count++;

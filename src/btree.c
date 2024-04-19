@@ -515,7 +515,7 @@ bool delValFromNode(BTree *tree, void **key, BTreeNode *node) {
             pos = 0;
             flag = false;
         } else {
-            for (pos = node->size; (tree->compareTo(*key,node->values[pos]) < 0 && pos > 1); pos--)
+            for (pos = 1; (tree->compareTo(*key,node->values[pos]) < 0 && pos <= BTREE_MAX_NODES); pos++)
                 ;
             if (tree->compareTo(*key,node->values[pos]) == 0) {
                 flag = true;
