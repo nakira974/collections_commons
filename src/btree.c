@@ -164,22 +164,6 @@ static void remove_key(BTreeNode* node, int position, void** value);
  */
 static void reorderValues(void **values, int start);
 
-/**
- * @brief Private function that get the non null elements count of an object
- * @param obj Object to be inspected
- * @param count Result pointer
- */
-static void node_remain(void** obj, int* count);
-
-/**
- * @brief Private function that redistribute the children of an empty node to its pChild before being destroyed
- * @param pParent Parent to be destroyed
- * @param pChild Child node from where redistribute the children of the pParent
- * @param tree Tree where to redistribute the children
- * @param childPtr Base pChild pointer
- */
-static void redistribute_children(BTreeNode** pParent, BTreeNode* pChild, BTree * tree, BTreeNode** childPtr);
-
 static BTreeNode * node_create(BTree *tree,BTreeNode *child, void *value){
     BTreeNode *newNode;
     if((newNode = (BTreeNode *)malloc(sizeof(BTreeNode))) == NULL) return NULL;
@@ -250,9 +234,9 @@ static void node_split(int index, BTreeNode *node,
 
     *pValue = node->values[node->size];
     node->values[node->size]=NULL;
-    node->size--;
     (*newNode)->children[0] =  node->children[node->size];
     node->children[node->size] = NULL;
+    node->size--;
     reorderValues((void**) node->children, 0);
 }
 
@@ -329,57 +313,6 @@ static int find_index(BTree  *tree, BTreeNode* node, BTreeNode * child) {
     return index;
 }
 
-// Trouve le frère gauche d'un nœud
-static BTreeNode* find_left_sibling(BTreeNode* node, BTree* tree) {
-    BTreeNode* parent = find_parent(tree, tree->root, node); // utilise votre fonction find_parent
-    int index;
-    for (index = 0; index <= BTREE_MAX_NODES; ++index) {
-        if (parent->children[index] == node) {
-            break;
-        }
-    }
-    // si le nœud est le premier enfant, il n'a pas de frère gauche
-    if (index == 0) {
-        return NULL;
-    } else {
-        return parent->children[index - 1];
-    }
-}
-
-// Trouve le frère droit d'un nœud
-static BTreeNode* find_right_sibling(BTreeNode* node, BTree* tree) {
-    BTreeNode* parent = find_parent(tree, tree->root, node); // utilise votre fonction find_parent
-    int index;
-    for (index = 0; index <= parent->size; ++index) {
-        if (parent->children[index] == node) {
-            break;
-        }
-    }
-    // si le nœud est le dernier enfant, il n'a pas de frère droit
-    if (index == parent->size) {
-        return NULL;
-    } else {
-        return parent->children[index + 1];
-    }
-}
-
-
-
-
-
-static BTreeNode* find_successor(BTreeNode* node, int* position) {
-    BTreeNode* current = node->children[*position];
-
-    if(current == NULL) return NULL;
-    // Trouver le nœud le plus à gauche à partir du nœud actuel
-    while (!current->isLeaf) {
-        current = current->children[*position];
-        *position = *position+1;
-    }
-
-    return current;
-}
-
 static BTreeNode* find_parent_recursive(BTree* tree, BTreeNode* root, BTreeNode** pChild) {
     // Check if the root or child node is NULL
     if (root == NULL || *pChild == NULL) {
@@ -425,16 +358,20 @@ static void reorderValues(void **values, int start) {
     }
 }
 
-static bool copySuccessor(BTreeNode *node, int pos) {
+static void copySuccessor(BTreeNode *node, int pos, BTreeNode **successor) {
     BTreeNode *copy = node->children[pos];
+    if(copy == NULL){
+        copy=node->children[pos-1];
+        if(copy == NULL) return;
+    }
 
-    while (copy->children[1] != NULL) {
-        copy = copy->children[1];
+    while (copy->children[0] != NULL) {
+        copy = copy->children[0];
     }
 
     // Assuming node->values[1] was the spot to clear
     node->values[pos] = copy->values[1];
-    return true;
+    *successor = copy;
 }
 
 
@@ -451,110 +388,117 @@ void removeVal(BTreeNode *node, int pos) {
     node->size--;
 }
 
-static bool leftShift(BTreeNode *node, int pos) {
-    if(pos < 1 || pos > node->size)
-        return false;
+static void leftShift(BTreeNode *node, int pos) {
+    int j = 1;
+    BTreeNode *x = node->children[pos - 1];
 
-    for(int i = pos; i < node->size; i++) {
-        node->values[i] = node->values[i+1];
-        node->values[i+1] = NULL;
-        node->children[i] = node->children[i+1];
-        node->children[i+1] = NULL;
+    x->size++;
+    x->values[x->size] = node->values[pos];
+    x->children[x->size] = node->children[pos]->children[0];
+
+    x = node->children[pos];
+    node->values[pos] = x->values[1];
+    x->children[0] = x->children[1];
+    x->size--;
+
+    while (j <= x->size) {
+        x->values[j] = x->values[j + 1];
+        x->children[j] = x->children[j + 1];
+        j++;
     }
-    node->values[node->size] = NULL;
-    node->children[node->size] = NULL;
-    node->size--;
-
-    return true;
 }
 
-static bool rightShift(BTree *bTree, BTreeNode *node, int pos) {
-    // Cannot adjust first element of array, or an empty node
-    if(pos < 2 || pos > node->size) {
-        return false;
-    }
-
+static void rightShift(BTree *bTree, BTreeNode *node, int pos) {
     BTreeNode *x = node->children[pos];
+    int j = x->size;
 
-    // Ensure shifting within bounds
-    if(x->size == BTREE_MAX_NODES)
-        return false;
-
-    // Do right shift
-    for(int j = x->size; j > 0; j--) {
-        x->values[j+2] = x->values[j+1];
-        x->values[j+1] = NULL;
-        x->children[j+2] = x->children[j+1];
-        x->children[j+1] = NULL;
+    while (j > 0) {
+        x->values[j + 1] = x->values[j];
+        x->children[j + 1] = x->children[j];
     }
-
-    x->children[2] = x->children[1];
-    x->values[2] = node->values[pos];
+    x->values[1] = node->values[pos];
+    x->children[1] = x->children[0];
     x->size++;
 
-    BTreeNode *y = node->children[pos-1];
-    node->children[pos] = y->children[y->size];
-    node->values[pos] = y->values[y->size+1];
-    y->values[y->size+1] = NULL;
-    y->children[y->size+1] = NULL;
-    y->size--;
-
-    return true;
+    x = node->children[pos - 1];
+    node->values[pos] = x->values[x->size];
+    node->children[pos] = x->children[x->size];
+    x->size--;
 }
 
 
 
-static bool mergeNodes(BTree *bTree, BTreeNode *node, int pos) {
-    if(pos < 2 || pos > node->size)
-        return false;
+static void mergeNodes(BTree *bTree, BTreeNode *node, int pos) {
 
-    BTreeNode *child1 = node->children[pos];
-    BTreeNode *child2 = node->children[pos-1];
+    int j = 1;
+    BTreeNode *x1 = node->children[pos], *x2 = node->children[pos - 1];
 
-    if(child2->size + child1->size >= BTREE_MAX_NODES + 1)
-        return false;
-
-    child2->values[child2->size+2] = node->values[pos];
-
-    for(int i = 1; i <= child1->size; i++) {
-        child2->values[child2->size + i + 2] = child1->values[i];
-        child1->values[i] = NULL;
-        child2->children[child2->size + i + 2] = child1->children[i];
-        child1->children[i] = NULL;
+    x2->size++;
+    x2->values[x2->size] = node->values[pos];
+    x2->children[x2->size] = node->children[0];
+    if(x2 ==  node->children[0]) x2->children[x2->size] = NULL;
+    while (j < x1->size) {
+        x2->size++;
+        x2->values[x2->size] = x1->values[j];
+        x1->values[j]=NULL;
+        x2->children[x2->size] = x1->children[j];
+        x1->size--;
+        j++;
     }
 
-    child2->children[child2->size + child1->size + 2] = child1->children[child1->size + 1];
-    child2->size = child2->size + child1->size + 1;
-
-    // shift left node values and children to fill deleted spot
-    leftShift(node, pos);
-
-    bTree->destroy(child1);
+    j = pos;
+    while (j < node->size) {
+        node->values[j] = node->values[j + 1];
+        node->values[j + 1] = NULL;
+        node->children[j] = node->children[j + 1];
+        node->children[j + 1]=NULL;
+        j++;
+    }
+    node->size--;
+    if(x1->size > 0){
+        j=x1->size;
+        while(j<=BTREE_MAX_NODES){
+            if(x1->values[j] != NULL){
+                node->size++;
+                node->values[node->size] = x1->values[j];
+                x1->values[j] = NULL;
+                node->children[node->size] = x1->children[j];
+                x1->children[j] = NULL;
+                x1->size--;
+            }
+            j++;
+        }
+    }
+    BTreeNode *x1Parent =((BTreeNode*) find_parent(bTree, bTree->root, x1));
+    if(x1Parent != NULL){
+        x1Parent->children[find_index(bTree, x1Parent, x1)] = NULL;
+        reorderValues((void**)x1Parent->children, 0);
+    }
+    bTree->destroy(x1);
     bTree->size--;
-
-    return true;
+    reorderValues((void**)node->children, 0);
 }
 
 void adjustNode(BTree *tree, BTreeNode *node, int pos) {
-    if (pos == 1) {
-        if (node->children[2]->size > BTREE_MIN_NODES) {
-            leftShift(node, 2);
+    if (!pos) {
+        if (node->children[1]->size > BTREE_MIN_NODES) {
+            leftShift(node, 1);
         } else {
-            mergeNodes(tree, node, 2);
+            mergeNodes(tree, node, 1);
         }
     } else {
         if (pos != node->size) {
-            if (node->children[pos - 1]->size > BTREE_MIN_NODES) {
+            if (node->children[pos - 1] != NULL && node->children[pos - 1]->size > BTREE_MIN_NODES) {
                 rightShift(tree, node, pos);
             } else {
-                if (pos != node->size && node->children[pos + 1]->size > BTREE_MIN_NODES) {
+                if (node->children[pos + 1] != NULL && pos != node->size && node->children[pos + 1]->size > BTREE_MIN_NODES) {
                     leftShift(node, pos + 1);
                 } else {
                     mergeNodes(tree, node, pos);
                 }
             }
         } else {
-            if (node->children[pos - 1]->size > BTREE_MIN_NODES) {
+            if (node->children[pos - 1] != NULL && node->children[pos - 1]->size > BTREE_MIN_NODES) {
                 rightShift(tree, node, pos);
             } else {
                 mergeNodes(tree, node, pos);
@@ -581,8 +525,9 @@ bool delValFromNode(BTree *tree, void **key, BTreeNode *node) {
         }
         if (flag) {
             if (node->children[pos - 1]) {
-                copySuccessor(node, pos);
-                flag = delValFromNode(tree, &node->values[pos], node->children[pos]);
+                BTreeNode *child = NULL;
+                copySuccessor(node, pos, &child);
+                flag = delValFromNode(tree, &node->values[pos], child);
                 if (flag == false) {
                     return false;
                 }
@@ -592,9 +537,17 @@ bool delValFromNode(BTree *tree, void **key, BTreeNode *node) {
         } else {
             flag = delValFromNode(tree, key, node->children[pos]);
         }
-        if (node->children[pos]) {
+        if (node->children[pos] != NULL) {
             if (node->children[pos]->size < BTREE_MIN_NODES)
                 adjustNode(tree, node, pos);
+        }
+        else if (node->size == 0) {
+            BTreeNode * parent = find_parent(tree, tree->root, node);
+            parent->children[find_index(tree, parent, node)] = NULL;
+            reorderValues((void**)parent->children, 0);
+            tree->destroy(node);
+            tree->size--;
+            node = NULL;
         }
     }
     return flag;
@@ -675,16 +628,11 @@ bool btree_remove(BTree *tree, void **key) {
     BTreeNode *pNode = (BTreeNode*)malloc(sizeof (BTreeNode));
     if(pNode == NULL) return false;
     int pos = 0;
-    containsKey(key, &pos, &tree->root, &pNode, tree->compareTo);
-    bool result = delValFromNode(tree, key, pNode);
-    if(result && tree->root->size == 0 && !tree->root->isLeaf) {
-        BTreeNode *old_root = tree->root;
-        tree->root = tree->root->children[1];
-        tree->destroy(old_root);
-        tree->size--;
+    if(containsKey(key, &pos, &tree->root, &pNode, tree->compareTo)){
+        return delValFromNode(tree, key, pNode);
     }
 
-    return result;
+    return false;
 }
 
 bool btree_containsKey(BTree *tree, int* pos, void** value){

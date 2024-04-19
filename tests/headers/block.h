@@ -67,7 +67,7 @@ int compareBlocks(const void *key1, const void *key2) {
             return (b1->type < b2->type) ? -1 : 1; // Comparaison des types si dans le même chunk
         }
     } else {
-        return -1; // Les blocks sont dans des chunks différents
+        return (b1->chunk->data < b2->chunk->data) ? -1 : 1; // Les blocks sont dans des chunks différents
     }
 }
 
